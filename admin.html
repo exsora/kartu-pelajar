@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Kartu Pelajar Generator</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 15px 30px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        .navbar h1 {
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar-info {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Login Panel */
+        .login-panel {
+            max-width: 400px;
+            margin: 50px auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .login-panel h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+
+        .login-icon {
+            text-align: center;
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #4facfe;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(56, 239, 125, 0.4);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        /* Control Panel */
+        .control-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .control-panel h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .stat-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* Cards Grid */
+        .cards-section {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .cards-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 25px;
+        }
+
+        /* Print Card */
+        .print-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
+        }
+
+        .print-card-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: white;
+        }
+
+        .print-logo {
+            width: 55px;
+            height: 55px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .print-school-info h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .print-school-info p {
+            font-size: 11px;
+            opacity: 0.9;
+        }
+
+        .print-card-body {
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .print-photo {
+            width: 100px;
+            height: 130px;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 11px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .print-photo-icon {
+            font-size: 30px;
+            margin-bottom: 5px;
+        }
+
+        .print-info {
+            flex: 1;
+        }
+
+        .print-info-row {
+            margin-bottom: 10px;
+        }
+
+        .print-info-label {
+            font-size: 10px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .print-info-value {
+            font-size: 14px;
+            color: #333;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .print-card-footer {
+            background: #f8f9fa;
+            padding: 18px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eee;
+        }
+
+        .print-qr {
+            text-align: center;
+        }
+
+        .print-qr img {
+            width: 85px;
+            height: 85px;
+            border-radius: 8px;
+        }
+
+        .print-qr-text {
+            font-size: 9px;
+            color: #666;
+            margin-top: 6px;
+        }
+
+        .print-valid {
+            text-align: right;
+        }
+
+        .print-valid-title {
+            font-size: 13px;
+            color: #333;
+            font-weight: 700;
+        }
+
+        .print-valid-year {
+            font-size: 11px;
+            color: #666;
+            margin-top: 3px;
+        }
+
+        .print-valid-date {
+            font-size: 12px;
+            color: #1e3c72;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        .print-note {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeeba 100%);
+            padding: 12px 15px;
+            font-size: 11px;
+            color: #856404;
+            text-align: center;
+            border-top: 1px solid #ffc107;
+        }
+
+        /* Message Box */
+        .message-box {
+            padding: 18px 25px;
+            border-radius: 14px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .message-success {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border: 1px solid #28a745;
+            color: #155724;
+        }
+
+        .message-error {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            border: 1px solid #dc3545;
+            color: #721c24;
+        }
+
+        .message-info {
+            background: linear-gradient(135deg, #cce5ff 0%, #b8daff 100%);
+            border: 1px solid #007bff;
+            color: #004085;
+        }
+
+        .message-icon {
+            font-size: 28px;
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .loading-content {
+            background: white;
+            padding: 40px 60px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid #e0e0e0;
+            border-top-color: #4facfe;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .navbar, .control-panel, .stats-grid, .cards-section > h2, .message-box, .login-panel {
+                display: none !important;
+            }
+
+            .main-content {
+                padding: 0;
+            }
+
+            .cards-section {
+                box-shadow: none;
+                padding: 0;
+            }
+
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .print-card {
+                break-inside: avoid;
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 2px solid #333;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p id="loadingText">Memproses...</p>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <h1>⚙️ Admin Panel - Kartu Pelajar</h1>
+        <span class="navbar-info" id="loginStatus">Belum Login</span>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Login Panel -->
+        <div class="login-panel" id="loginPanel">
+            <div class="login-icon">🔐</div>
+            <h2>Login Admin</h2>
+            <div class="form-group">
+                <label for="adminPassword">Password Admin</label>
+                <input type="password" id="adminPassword" placeholder="Masukkan password admin..." onkeypress="if(event.key==='Enter') login()">
+            </div>
+            <button class="btn btn-primary" onclick="login()">
+                🚀 Login
+            </button>
+            <p style="text-align: center; margin-top: 20px; color: #999; font-size: 13px;">
+                Hubungi administrator jika lupa password
+            </p>
+        </div>
+
+        <!-- Admin Dashboard (hidden by default) -->
+        <div id="adminDashboard" style="display: none;">
+            <!-- Message Box -->
+            <div id="messageBox" style="display: none;"></div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-value" id="totalStudents">0</div>
+                    <div class="stat-label">Total Siswa</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🔑</div>
+                    <div class="stat-value" id="withToken">0</div>
+                    <div class="stat-label">Sudah Ada Token</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⏳</div>
+                    <div class="stat-value" id="withoutToken">0</div>
+                    <div class="stat-label">Belum Ada Token</div>
+                </div>
+            </div>
+
+            <!-- Control Panel -->
+            <div class="control-panel">
+                <h2>🎛️ Kontrol Panel</h2>
+                <div class="button-group">
+                    <button class="btn btn-success" onclick="generateTokens()">
+                        🔑 Generate Token
+                    </button>
+                    <button class="btn btn-info" onclick="loadStudents()">
+                        🔄 Refresh Data
+                    </button>
+                    <button class="btn btn-warning" onclick="printCards()">
+                        🖨️ Cetak Kartu
+                    </button>
+                    <button class="btn btn-secondary" onclick="logout()">
+                        🚪 Logout
+                    </button>
+                </div>
+            </div>
+
+            <!-- Cards Section -->
+            <div class="cards-section">
+                <h2>🎴 Preview Kartu Pelajar</h2>
+                <div class="cards-grid" id="cardsContainer">
+                    <p style="color: #999; text-align: center; padding: 40px;">
+                        Klik "Refresh Data" untuk memuat data siswa
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =============================================
+        // KONFIGURASI - GANTI DENGAN URL ANDA
+        // =============================================
+        const API_URL = 'GANTI_DENGAN_URL_API_ANDA';
+        const WEB_URL = 'GANTI_DENGAN_URL_WEBSITE_ANDA'; // contoh: https://username.github.io/kartu-pelajar
+        const SCHOOL_NAME = 'SMA NEGERI 1 CONTOH';
+        const SCHOOL_ADDRESS = 'Jl. Pendidikan No. 1, Kota Contoh';
+        const VALID_UNTIL = '30 Juni 2025';
+        const SCHOOL_YEAR = 'Tahun Ajaran 2024/2025';
+        
+        // =============================================
+        // JANGAN UBAH KODE DI BAWAH INI
+        // =============================================
+        
+        let adminPassword = '';
+        let studentsData = [];
+
+        // Login
+        async function login() {
+            const password = document.getElementById('adminPassword').value;
+            
+            if (!password) {
+                showMessage('error', 'Password tidak boleh kosong!');
+                return;
+            }
+
+            showLoading('Memverifikasi...');
+
+            try {
+                // Test dengan memanggil API
+                const response = await fetch(`${API_URL}?action=getAllStudents&adminPass=${encodeURIComponent(password)}`);
+                const result = await response.json();
+
+                hideLoading();
+
+                if (result.success) {
+                    adminPassword = password;
+                    document.getElementById('loginPanel').style.display = 'none';
+                    document.getElementById('adminDashboard').style.display = 'block';
+                    document.getElementById('loginStatus').textContent = '✅ Login sebagai Admin';
+                    
+                    studentsData = result.data || [];
+                    updateStats();
+                    renderCards();
+                    
+                    showMessage('success', `Berhasil login! Ditemukan ${result.count} data siswa.`);
+                } else {
+                    showMessage('error', result.message || 'Password salah!');
+                }
+            } catch (error) {
+                hideLoading();
+                showMessage('error', 'Gagal terhubung ke server. Periksa koneksi internet dan URL API.');
+                console.error(error);
+            }
+        }
+
+        // Logout
+        function logout() {
+            adminPassword = '';
+            studentsData = [];
+            document.getElementById('loginPanel').style.display = 'block';
+            document.getElementById('adminDashboard').style.display = 'none';
+            document.getElementById('loginStatus').textContent = 'Belum Login';
+            document.getElementById('adminPassword').value = '';
+        }
+
+        // Generate Tokens
+        async function generateTokens() {
+            showLoading('Generating tokens...');
+
+            try {
+                const response = await fetch(`${API_URL}?action=generateTokens&adminPass=${encodeURIComponent(adminPassword)}`);
+                const result = await response.json();
+
+                hideLoading();
+
+                if (result.success) {
+                    showMessage('success', result.message);
+                    loadStudents(); // Refresh data
+                } else {
+                    showMessage('error', result.message);
+                }
+            } catch (error) {
+                hideLoading();
+                showMessage('error', 'Gagal generate token: ' + error.message);
+            }
+        }
+
+        // Load Students
+        async function loadStudents() {
+            showLoading('Memuat data siswa...');
+
+            try {
+                const response = await fetch(`${API_URL}?action=getAllStudents&adminPass=${encodeURIComponent(adminPassword)}`);
+                const result = await response.json();
+
+                hideLoading();
+
+                if (result.success) {
+                    studentsData = result.data || [];
+                    updateStats();
+                    renderCards();
+                    showMessage('success', `Data berhasil dimuat! Total ${result.count} siswa.`);
+                } else {
+                    showMessage('error', result.message);
+                }
+            } catch (error) {
+                hideLoading();
+                showMessage('error', 'Gagal memuat data: ' + error.message);
+            }
+        }
+
+        // Update Stats
+        function updateStats() {
+            const total = studentsData.length;
+            const withToken = studentsData.filter(s => s.token && s.token.trim() !== '').length;
+            const withoutToken = total - withToken;
+
+            document.getElementById('totalStudents').textContent = total;
+            document.getElementById('withToken').textContent = withToken;
+            document.getElementById('withoutToken').textContent = withoutToken;
+        }
+
+        // Render Cards
+        function renderCards() {
+            const container = document.getElementById('cardsContainer');
+
+            if (studentsData.length === 0) {
+                container.innerHTML = '<p style="color: #999; text-align: center; padding: 40px;">Tidak ada data siswa</p>';
+                return;
+            }
+
+            container.innerHTML = studentsData.map(student => createCardHTML(student)).join('');
+        }
+
+        // Create Card HTML
+        function createCardHTML(student) {
+            const hasToken = student.token && student.token.trim() !== '';
+            const qrURL = hasToken ? `${WEB_URL}/index.html?token=${student.token}` : '';
+            const qrImageURL = hasToken 
+                ? `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrURL)}`
+                : '';
+
+            return `
+                <div class="print-card">
+                    <div class="print-card-header">
+                        <div class="print-logo">🏫</div>
+                        <div class="print-school-info">
+                            <h3>${SCHOOL_NAME}</h3>
+                            <p>${SCHOOL_ADDRESS}</p>
+                        </div>
+                    </div>
+                    <div class="print-card-body">
+                        <div class="print-photo">
+                            ${student.foto ? `<img src="${student.foto}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;" onerror="this.parentElement.innerHTML='<div class=\\'print-photo-icon\\'>📷</div>Pas Foto<br>3x4'">` : '<div class="print-photo-icon">📷</div>Pas Foto<br>3x4'}
+                        </div>
+                        <div class="print-info">
+                            <div class="print-info-row">
+                                <div class="print-info-label">Nama Lengkap</div>
+                                <div class="print-info-value">${student.nama || '-'}</div>
+                            </div>
+                            <div class="print-info-row">
+                                <div class="print-info-label">NISN</div>
+                                <div class="print-info-value">${student.nisn || '-'}</div>
+                            </div>
+                            <div class="print-info-row">
+                                <div class="print-info-label">Kelas</div>
+                                <div class="print-info-value">${student.kelas || '-'}</div>
+                            </div>
+                            <div class="print-info-row">
+                                <div class="print-info-label">TTL</div>
+                                <div class="print-info-value">${student.ttl || '-'}</div>
+                            </div>
+                            <div class="print-info-row">
+                                <div class="print-info-label">Email</div>
+                                <div class="print-info-value" style="font-size: 12px;">${student.email || '-'}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="print-card-footer">
+                        <div class="print-qr">
+                            ${hasToken 
+                                ? `<img src="${qrImageURL}" alt="QR Code">
+                                   <div class="print-qr-text">Scan untuk<br>lihat password</div>`
+                                : `<div style="width:85px;height:85px;background:#f0f0f0;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#999;font-size:11px;">No Token</div>
+                                   <div class="print-qr-text">Token belum<br>digenerate</div>`
+                            }
+                        </div>
+                        <div class="print-valid">
+                            <div class="print-valid-title">KARTU PELAJAR</div>
+                            <div class="print-valid-year">${SCHOOL_YEAR}</div>
+                            <div class="print-valid-date">Valid s/d ${VALID_UNTIL}</div>
+                        </div>
+                    </div>
+                    <div class="print-note">
+                        ⚠️ Scan QR Code untuk melihat password. Jaga kerahasiaan data Anda!
+                    </div>
+                </div>
+            `;
+        }
+
+        // Print Cards
+        function printCards() {
+            const cardsWithToken = studentsData.filter(s => s.token && s.token.trim() !== '');
+            
+            if (cardsWithToken.length === 0) {
+                showMessage('error', 'Tidak ada kartu dengan token. Generate token terlebih dahulu!');
+                return;
+            }
+
+            window.print();
+        }
+
+        // Show Loading
+        function showLoading(text) {
+            document.getElementById('loadingText').textContent = text || 'Memproses...';
+            document.getElementById('loadingOverlay').style.display = 'flex';
+        }
+
+        // Hide Loading
+        function hideLoading() {
+            document.getElementById('loadingOverlay').style.display = 'none';
+        }
+
+        // Show Message
+        function showMessage(type, message) {
+            const messageBox = document.getElementById('messageBox');
+            const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+            
+            messageBox.className = `message-box message-${type}`;
+            messageBox.innerHTML = `
+                <span class="message-icon">${icons[type] || 'ℹ️'}</span>
+                <span>${message}</span>
+            `;
+            messageBox.style.display = 'flex';
+
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                messageBox.style.display = 'none';
+            }, 5000);
+        }
+
+        // Check for Enter key on password field
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordField = document.getElementById('adminPassword');
+            if (passwordField) {
+                passwordField.focus();
+            }
+        });
+    </script>
+</body>
+</html>
