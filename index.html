@@ -87,7 +87,7 @@
         /* ==================== */
         .id-card {
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             aspect-ratio: 85.6 / 53.98;
             margin: 0 auto;
             border-radius: 12px;
@@ -109,13 +109,13 @@
             z-index: 0;
         }
 
-        /* Header Kop - BIRU */
+        /* Header Kop - BIRU - FONT LEBIH BESAR */
         .card-header-kop {
             background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
-            padding: 10px 15px;
+            padding: 8px 12px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             position: relative;
             z-index: 1;
         }
@@ -127,8 +127,8 @@
         }
 
         .logo-img {
-            width: 38px;
-            height: 38px;
+            width: 42px;
+            height: 42px;
             object-fit: contain;
         }
 
@@ -138,30 +138,34 @@
             color: white;
         }
 
+        /* FONT HEADER LEBIH BESAR */
         .kop-text .kop-line1 {
-            font-size: 8px;
-            font-weight: 700;
-            letter-spacing: 1px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
         }
 
         .kop-text .kop-line2 {
-            font-size: 6.5px;
-            font-weight: 500;
+            font-size: 8px;
+            font-weight: 600;
             margin-top: 1px;
+            text-transform: uppercase;
         }
 
         .kop-text .kop-line3 {
-            font-size: 11px;
-            font-weight: 800;
+            font-size: 13px;
+            font-weight: 900;
             margin: 3px 0;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         .kop-text .kop-line4 {
-            font-size: 5px;
-            opacity: 0.9;
+            font-size: 6px;
+            opacity: 0.95;
             letter-spacing: 0.3px;
+            font-weight: 500;
         }
 
         /* Title Bar - KUNING/GOLD */
@@ -170,9 +174,9 @@
             color: #1e3a5f;
             text-align: center;
             padding: 4px;
-            font-size: 9px;
-            font-weight: 800;
-            letter-spacing: 3px;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 4px;
             text-transform: uppercase;
             position: relative;
             z-index: 1;
@@ -180,23 +184,23 @@
 
         /* Card Body */
         .card-body-content {
-            padding: 12px 15px 10px;
+            padding: 10px 12px 8px;
             display: flex;
-            gap: 12px;
+            gap: 10px;
             position: relative;
             z-index: 1;
         }
 
         .photo-frame {
-            width: 70px;
-            height: 90px;
+            width: 65px;
+            height: 82px;
             background: linear-gradient(135deg, #e2e8f0, #f1f5f9);
             border: 2.5px solid #1e3a5f;
             border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 35px;
+            font-size: 32px;
             color: #94a3b8;
             flex-shrink: 0;
             overflow: hidden;
@@ -217,13 +221,13 @@
 
         .info-row {
             display: flex;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             line-height: 1.4;
             align-items: flex-start;
         }
 
         .info-label {
-            width: 50px;
+            width: 48px;
             color: #475569;
             font-weight: 700;
             flex-shrink: 0;
@@ -231,7 +235,7 @@
         }
 
         .info-separator {
-            width: 12px;
+            width: 10px;
             text-align: center;
             color: #475569;
             font-weight: 600;
@@ -246,14 +250,14 @@
 
         .qr-section {
             position: absolute;
-            bottom: 10px;
-            right: 12px;
+            bottom: 8px;
+            right: 10px;
             text-align: center;
         }
 
         .qr-code {
-            width: 50px;
-            height: 50px;
+            width: 48px;
+            height: 48px;
             background: white;
             padding: 3px;
             border-radius: 5px;
@@ -274,11 +278,11 @@
         }
 
         /* ========================= */
-        /* ID CARD BACK STYLES - NEW */
+        /* ID CARD BACK STYLES       */
         /* ========================= */
         .id-card-back {
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             aspect-ratio: 85.6 / 53.98;
             margin: 0 auto;
             border-radius: 12px;
@@ -293,25 +297,25 @@
             background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
             color: white;
             text-align: center;
-            padding: 8px;
-            font-size: 12px;
-            font-weight: 800;
-            letter-spacing: 2px;
+            padding: 7px;
+            font-size: 13px;
+            font-weight: 900;
+            letter-spacing: 3px;
             text-transform: uppercase;
         }
 
-        /* Janji Content - LEBIH BESAR */
+        /* Janji Content */
         .janji-content {
-            padding: 8px 15px 5px;
+            padding: 6px 14px 4px;
             position: relative;
             z-index: 1;
         }
 
         .janji-item {
             display: flex;
-            gap: 6px;
-            margin-bottom: 4px;
-            line-height: 1.4;
+            gap: 5px;
+            margin-bottom: 3px;
+            line-height: 1.35;
         }
 
         .janji-number {
@@ -327,47 +331,48 @@
             font-size: 7.5px;
         }
 
-        /* TTD Section - BARU */
+        /* TTD Section - FONT LEBIH BESAR */
         .ttd-section {
             display: flex;
             justify-content: flex-end;
-            padding: 0 15px;
+            padding: 0 14px;
             margin-top: 2px;
         }
 
         .ttd-box {
             text-align: center;
-            width: 120px;
+            width: 140px;
         }
 
         .ttd-title {
-            font-size: 6px;
-            color: #475569;
-            font-weight: 600;
+            font-size: 8px;
+            color: #1e3a5f;
+            font-weight: 700;
         }
 
         .ttd-space {
-            height: 20px;
+            height: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .ttd-line {
-            width: 80%;
+            width: 85%;
             border-bottom: 1px solid #1e3a5f;
         }
 
         .ttd-name {
-            font-size: 7px;
+            font-size: 9px;
             color: #1e293b;
-            font-weight: 700;
+            font-weight: 800;
             margin-top: 2px;
         }
 
         .ttd-nip {
-            font-size: 5.5px;
-            color: #64748b;
+            font-size: 7px;
+            color: #475569;
+            font-weight: 600;
         }
 
         /* Back Footer - BIRU */
@@ -377,22 +382,22 @@
             left: 0;
             right: 0;
             background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
-            padding: 6px 12px;
+            padding: 5px 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .validity-text {
-            font-size: 5.5px;
+            font-size: 6px;
             color: white;
             max-width: 60%;
             line-height: 1.4;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .barcode-img {
-            height: 22px;
+            height: 20px;
             border-radius: 3px;
         }
 
@@ -617,15 +622,13 @@
                 </div>
             </div>
 
-            <!-- Card Back - UPDATED -->
+            <!-- Card Back -->
             <div class="card-container">
                 <div class="id-card-back" id="cardBack">
                     <img src="" class="card-watermark" id="watermarkLogoBack" alt="">
                     
-                    <!-- Header BIRU -->
                     <div class="back-header">Janji Siswa</div>
                     
-                    <!-- Janji Content - LEBIH BESAR -->
                     <div class="janji-content">
                         <div class="janji-item">
                             <span class="janji-number">1.</span>
@@ -653,19 +656,18 @@
                         </div>
                     </div>
 
-                    <!-- TTD Kepala Sekolah - BARU -->
+                    <!-- TTD Kepala Sekolah -->
                     <div class="ttd-section">
                         <div class="ttd-box">
                             <div class="ttd-title">Kepala SMP Negeri 9 Palu</div>
                             <div class="ttd-space">
                                 <div class="ttd-line"></div>
                             </div>
-                            <div class="ttd-name">Dra. Harlina, M.Si</div>
-                            <div class="ttd-nip">NIP. 196510101995022001</div>
+                            <div class="ttd-name">Drs. Nama Kepala Sekolah, M.Pd</div>
+                            <div class="ttd-nip">NIP. 19670101 199203 1 001</div>
                         </div>
                     </div>
 
-                    <!-- Footer BIRU -->
                     <div class="back-footer">
                         <div class="validity-text">
                             *Kartu ini berlaku selama masih menjadi siswa SMP Negeri 9 Palu
@@ -695,7 +697,7 @@
                     <span class="warning-icon">⚠️</span>
                     <span class="warning-text">
                         <strong>RAHASIA!</strong> Jangan bagikan password kepada siapapun. 
-                        Amankan password setelah login pertama.
+                        Segera ganti password setelah login pertama.
                     </span>
                 </div>
             </div>
@@ -715,12 +717,10 @@
         // =============================================
         const API_URL = 'https://script.google.com/macros/s/AKfycbwi1ikRotMYRgWruBZka8Siq1VkllpY3tpbxjlL7v36Hl08bk7NRHN6-rfsmi3BsrxF/exec';
         
-        // URL Logo - GANTI dengan URL logo sekolah Anda
         const LOGO_SEKOLAH_URL = 'https://exsora.github.io/kartu-pelajar/logo-sekolah.png';
         const LOGO_PALU_URL = 'https://exsora.github.io/kartu-pelajar/logo-palu.png';
         const BARCODE_URL = 'https://exsora.github.io/kartu-pelajar/barcode.png';
         
-        // =============================================
         let studentPassword = '';
         let isPasswordVisible = false;
         let studentData = null;
@@ -732,7 +732,6 @@
 
         async function loadStudentData() {
             const token = getTokenFromURL();
-            
             if (!token) {
                 showError('Token tidak ditemukan. Silakan scan ulang QR Code pada kartu pelajar Anda.');
                 return;
@@ -766,9 +765,7 @@
             
             studentPassword = data.password || '';
             document.getElementById('passwordValue').textContent = studentPassword || 'Tidak tersedia';
-            if (!studentPassword) {
-                document.getElementById('passwordHidden').textContent = 'N/A';
-            }
+            if (!studentPassword) document.getElementById('passwordHidden').textContent = 'N/A';
 
             if (data.foto && data.foto.trim() !== '') {
                 document.getElementById('photoContainer').innerHTML = 
@@ -794,7 +791,6 @@
 
         function togglePassword() {
             if (!studentPassword) { alert('Password tidak tersedia!'); return; }
-            
             isPasswordVisible = !isPasswordVisible;
             const passwordValue = document.getElementById('passwordValue');
             const passwordHidden = document.getElementById('passwordHidden');
@@ -813,7 +809,6 @@
 
         async function copyPassword() {
             if (!studentPassword) { alert('Password tidak tersedia!'); return; }
-            
             try {
                 await navigator.clipboard.writeText(studentPassword);
                 showCopySuccess();
@@ -850,13 +845,13 @@
 
                 const combined = document.createElement('canvas');
                 combined.width = Math.max(canvasFront.width, canvasBack.width);
-                combined.height = canvasFront.height + canvasBack.height + 40;
+                combined.height = canvasFront.height + canvasBack.height + 50;
 
                 const ctx = combined.getContext('2d');
                 ctx.fillStyle = '#ffffff';
                 ctx.fillRect(0, 0, combined.width, combined.height);
                 ctx.drawImage(canvasFront, 0, 0);
-                ctx.drawImage(canvasBack, 0, canvasFront.height + 40);
+                ctx.drawImage(canvasBack, 0, canvasFront.height + 50);
 
                 const link = document.createElement('a');
                 const nama = studentData?.nama?.replace(/\s+/g, '_') || 'siswa';
