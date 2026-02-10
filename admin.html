@@ -181,7 +181,7 @@
 
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
             gap: 35px;
         }
 
@@ -205,10 +205,11 @@
 
         /* ================================ */
         /* ID CARD PRINT - FRONT           */
+        /* FONT HEADER LEBIH BESAR         */
         /* ================================ */
         .id-card-print {
-            width: 354px;
-            height: 223px;
+            width: 380px;
+            height: 240px;
             margin: 0 auto;
             border-radius: 12px;
             position: relative;
@@ -231,7 +232,7 @@
 
         .card-header-print {
             background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
-            padding: 8px 12px;
+            padding: 8px 10px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -240,8 +241,8 @@
         }
 
         .logo-print {
-            width: 32px;
-            height: 32px;
+            width: 38px;
+            height: 38px;
             object-fit: contain;
         }
 
@@ -251,40 +252,61 @@
             color: white;
         }
 
-        .kop-print .line1 { font-size: 7px; font-weight: 700; letter-spacing: 0.8px; }
-        .kop-print .line2 { font-size: 6px; font-weight: 500; margin-top: 1px; }
-        .kop-print .line3 { font-size: 10px; font-weight: 800; margin: 2px 0; }
-        .kop-print .line4 { font-size: 4.5px; opacity: 0.9; }
+        /* FONT HEADER LEBIH BESAR */
+        .kop-print .line1 { 
+            font-size: 9px; 
+            font-weight: 800; 
+            letter-spacing: 1.2px; 
+            text-transform: uppercase;
+        }
+        .kop-print .line2 { 
+            font-size: 7.5px; 
+            font-weight: 600; 
+            margin-top: 1px; 
+            text-transform: uppercase;
+        }
+        .kop-print .line3 { 
+            font-size: 12px; 
+            font-weight: 900; 
+            margin: 2px 0; 
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+        .kop-print .line4 { 
+            font-size: 5.5px; 
+            opacity: 0.95;
+            font-weight: 500;
+        }
 
         .title-bar-print {
             background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
             color: #1e3a5f;
             text-align: center;
-            padding: 3px;
-            font-size: 8px;
-            font-weight: 800;
-            letter-spacing: 2px;
+            padding: 4px;
+            font-size: 9px;
+            font-weight: 900;
+            letter-spacing: 3px;
             text-transform: uppercase;
         }
 
         .card-body-print {
-            padding: 12px 14px 10px;
+            padding: 10px 12px 8px;
             display: flex;
-            gap: 12px;
+            gap: 10px;
             position: relative;
             z-index: 1;
         }
 
         .photo-print {
-            width: 62px;
-            height: 80px;
+            width: 60px;
+            height: 78px;
             background: linear-gradient(135deg, #e2e8f0, #f1f5f9);
             border: 2px solid #1e3a5f;
             border-radius: 5px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
+            font-size: 26px;
             color: #94a3b8;
             flex-shrink: 0;
             overflow: hidden;
@@ -298,8 +320,8 @@
 
         .info-print {
             flex: 1;
-            font-size: 8.5px;
-            padding-top: 3px;
+            font-size: 9px;
+            padding-top: 2px;
         }
 
         .info-row-print {
@@ -309,10 +331,10 @@
         }
 
         .info-label-print {
-            width: 42px;
+            width: 45px;
             color: #475569;
             font-weight: 700;
-            font-size: 8px;
+            font-size: 8.5px;
         }
 
         .info-sep-print {
@@ -325,7 +347,7 @@
             flex: 1;
             color: #1e293b;
             font-weight: 600;
-            font-size: 8.5px;
+            font-size: 9px;
         }
 
         .qr-section-print {
@@ -336,8 +358,8 @@
         }
 
         .qr-print {
-            width: 42px;
-            height: 42px;
+            width: 45px;
+            height: 45px;
             background: white;
             padding: 2px;
             border-radius: 4px;
@@ -350,17 +372,19 @@
         }
 
         .qr-text-print {
-            font-size: 4.5px;
+            font-size: 5px;
             color: #64748b;
             margin-top: 2px;
+            font-weight: 500;
         }
 
         /* ================================ */
-        /* ID CARD PRINT - BACK (UPDATED)  */
+        /* ID CARD PRINT - BACK            */
+        /* FONT TTD LEBIH BESAR            */
         /* ================================ */
         .id-card-back-print {
-            width: 354px;
-            height: 223px;
+            width: 380px;
+            height: 240px;
             margin: 12px auto 0;
             border-radius: 12px;
             position: relative;
@@ -375,16 +399,15 @@
             background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
             color: white;
             text-align: center;
-            padding: 8px;
-            font-size: 11px;
-            font-weight: 800;
-            letter-spacing: 2px;
+            padding: 7px;
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 2.5px;
             text-transform: uppercase;
         }
 
-        /* Janji Content - LEBIH BESAR */
         .janji-print {
-            padding: 8px 14px 5px;
+            padding: 6px 14px 4px;
             position: relative;
             z-index: 1;
         }
@@ -399,17 +422,17 @@
         .janji-num-print {
             font-weight: 800;
             color: #1e3a5f;
-            min-width: 12px;
-            font-size: 7.5px;
+            min-width: 14px;
+            font-size: 8px;
         }
 
         .janji-txt-print {
             color: #334155;
             font-weight: 600;
-            font-size: 7px;
+            font-size: 7.5px;
         }
 
-        /* TTD Section - BARU */
+        /* TTD Section - FONT LEBIH BESAR */
         .ttd-section-print {
             display: flex;
             justify-content: flex-end;
@@ -418,37 +441,38 @@
 
         .ttd-box-print {
             text-align: center;
-            width: 100px;
+            width: 150px;
         }
 
         .ttd-title-print {
-            font-size: 5.5px;
-            color: #475569;
-            font-weight: 600;
+            font-size: 8px;
+            color: #1e3a5f;
+            font-weight: 700;
         }
 
         .ttd-space-print {
-            height: 18px;
+            height: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .ttd-line-print {
-            width: 75%;
-            border-bottom: 0.8px solid #1e3a5f;
+            width: 80%;
+            border-bottom: 1px solid #1e3a5f;
         }
 
         .ttd-name-print {
-            font-size: 6px;
+            font-size: 9px;
             color: #1e293b;
-            font-weight: 700;
-            margin-top: 1px;
+            font-weight: 800;
+            margin-top: 2px;
         }
 
         .ttd-nip-print {
-            font-size: 5px;
-            color: #64748b;
+            font-size: 7px;
+            color: #475569;
+            font-weight: 600;
         }
 
         /* Back Footer - BIRU */
@@ -458,22 +482,22 @@
             left: 0;
             right: 0;
             background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
-            padding: 5px 10px;
+            padding: 5px 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .validity-print {
-            font-size: 5px;
+            font-size: 5.5px;
             color: white;
             max-width: 58%;
-            line-height: 1.3;
-            font-weight: 500;
+            line-height: 1.35;
+            font-weight: 600;
         }
 
         .barcode-print {
-            height: 18px;
+            height: 20px;
             border-radius: 2px;
         }
 
@@ -528,7 +552,12 @@
             .cards-section { box-shadow: none !important; padding: 0 !important; background: transparent !important; }
             .cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8mm; }
             .student-card-wrapper { background: transparent !important; padding: 0 !important; page-break-inside: avoid; }
-            .id-card-print, .id-card-back-print { box-shadow: none !important; border: 1.5px solid #1e3a5f; width: 85.6mm !important; height: 53.98mm !important; }
+            .id-card-print, .id-card-back-print { 
+                box-shadow: none !important; 
+                border: 1.5px solid #1e3a5f; 
+                width: 85.6mm !important; 
+                height: 53.98mm !important; 
+            }
         }
 
         @media (max-width: 768px) {
@@ -613,14 +642,13 @@
         const API_URL = 'https://script.google.com/macros/s/AKfycbwi1ikRotMYRgWruBZka8Siq1VkllpY3tpbxjlL7v36Hl08bk7NRHN6-rfsmi3BsrxF/exec';
         const WEB_URL = 'https://exsora.github.io/kartu-pelajar';
         
-        // Logo URLs
         const LOGO_SEKOLAH = 'https://exsora.github.io/kartu-pelajar/logo-sekolah.png';
         const LOGO_PALU = 'https://exsora.github.io/kartu-pelajar/logo-palu.png';
         const BARCODE_IMG = 'https://exsora.github.io/kartu-pelajar/barcode.png';
 
         // Info Kepala Sekolah - GANTI SESUAI DATA ASLI
         const KEPALA_SEKOLAH = 'Drs. Harlina,M.Si';
-        const NIP_KEPALA = 'NIP. 196510101995022001';
+        const NIP_KEPALA = 'NIP. 19651010199502 2 001';
 
         let adminPassword = '';
         let studentsData = [];
@@ -708,7 +736,7 @@
         function createCardHTML(student, index) {
             const hasToken = student.token && student.token.trim() !== '';
             const qrURL = hasToken ? `${WEB_URL}/index.html?token=${student.token}` : '';
-            const qrImage = hasToken ? `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(qrURL)}` : '';
+            const qrImage = hasToken ? `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(qrURL)}` : '';
 
             return `
                 <div class="student-card-wrapper">
@@ -754,7 +782,7 @@
                                 <div class="info-row-print">
                                     <span class="info-label-print">Email</span>
                                     <span class="info-sep-print">:</span>
-                                    <span class="info-val-print" style="font-size:7px;">${student.email || '-'}</span>
+                                    <span class="info-val-print" style="font-size:7.5px;">${student.email || '-'}</span>
                                 </div>
                             </div>
                             ${hasToken ? `
@@ -765,14 +793,12 @@
                         </div>
                     </div>
 
-                    <!-- KARTU BELAKANG - UPDATED -->
+                    <!-- KARTU BELAKANG -->
                     <div class="id-card-back-print" id="cardBack${index}">
                         <img src="${LOGO_SEKOLAH}" class="card-watermark-print" alt="">
                         
-                        <!-- Header BIRU -->
                         <div class="back-header-print">Janji Siswa</div>
                         
-                        <!-- Janji Content - LEBIH BESAR -->
                         <div class="janji-print">
                             <div class="janji-item-print"><span class="janji-num-print">1.</span><span class="janji-txt-print">Beriman dan bertaqwa kepada Allah SWT.</span></div>
                             <div class="janji-item-print"><span class="janji-num-print">2.</span><span class="janji-txt-print">Hormat dan patuh pada orangtua dan guru.</span></div>
@@ -782,7 +808,7 @@
                             <div class="janji-item-print"><span class="janji-num-print">6.</span><span class="janji-txt-print">Sanggup mematuhi tata tertib dan menerima sanksi bila melanggar.</span></div>
                         </div>
                         
-                        <!-- TTD Kepala Sekolah - BARU -->
+                        <!-- TTD Kepala Sekolah - FONT LEBIH BESAR -->
                         <div class="ttd-section-print">
                             <div class="ttd-box-print">
                                 <div class="ttd-title-print">Kepala SMP Negeri 9 Palu</div>
@@ -794,7 +820,6 @@
                             </div>
                         </div>
                         
-                        <!-- Footer BIRU -->
                         <div class="back-footer-print">
                             <div class="validity-print">*Kartu ini berlaku selama masih menjadi siswa SMP Negeri 9 Palu</div>
                             <img src="${BARCODE_IMG}" class="barcode-print" alt="">
@@ -818,12 +843,12 @@
 
                 const combined = document.createElement('canvas');
                 combined.width = Math.max(canvasFront.width, canvasBack.width);
-                combined.height = canvasFront.height + canvasBack.height + 40;
+                combined.height = canvasFront.height + canvasBack.height + 50;
                 const ctx = combined.getContext('2d');
                 ctx.fillStyle = '#ffffff';
                 ctx.fillRect(0, 0, combined.width, combined.height);
                 ctx.drawImage(canvasFront, 0, 0);
-                ctx.drawImage(canvasBack, 0, canvasFront.height + 40);
+                ctx.drawImage(canvasBack, 0, canvasFront.height + 50);
 
                 const link = document.createElement('a');
                 link.download = `Kartu_${nama?.replace(/\s+/g, '_') || index}.png`;
