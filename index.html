@@ -2,8 +2,8 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Data Siswa - SMP Negeri 9 Palu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Siswa - Kartu Pelajar Digital</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
     <style>
         * {
@@ -12,675 +12,369 @@
             box-sizing: border-box;
         }
 
-        html {
-            font-size: 16px;
-        }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0c1929 0%, #1a365d 50%, #234e82 100%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             min-height: 100vh;
-            min-height: 100dvh; /* Dynamic viewport height untuk mobile */
-            padding: clamp(10px, 3vw, 30px);
             display: flex;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center;
+            padding: 20px;
         }
 
         .container {
             width: 100%;
             max-width: 500px;
-            margin: 0 auto;
         }
 
         /* Loading State */
         .loading {
             text-align: center;
             color: white;
-            padding: clamp(30px, 8vw, 60px) clamp(15px, 4vw, 30px);
+            padding: 60px 20px;
         }
 
         .spinner {
-            width: clamp(40px, 10vw, 60px);
-            height: clamp(40px, 10vw, 60px);
-            border: 4px solid rgba(255,255,255,0.2);
-            border-top-color: #60a5fa;
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(255,255,255,0.2);
+            border-top-color: #4facfe;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto clamp(15px, 4vw, 25px);
-        }
-
-        .loading p {
-            font-size: clamp(14px, 3.5vw, 18px);
+            margin: 0 auto 25px;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
 
-        /* Error State */
-        .error-card {
-            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-            border-radius: clamp(15px, 4vw, 20px);
-            padding: clamp(30px, 8vw, 50px) clamp(20px, 5vw, 30px);
-            text-align: center;
-            color: white;
-            box-shadow: 0 15px 40px rgba(185, 28, 28, 0.4);
-        }
-
-        .error-icon {
-            font-size: clamp(50px, 15vw, 70px);
-            margin-bottom: clamp(15px, 4vw, 20px);
-        }
-
-        .error-card h2 {
-            font-size: clamp(18px, 5vw, 24px);
-            margin-bottom: 10px;
-        }
-
-        .error-card p {
-            font-size: clamp(13px, 3.5vw, 16px);
+        .loading p {
+            font-size: 18px;
             opacity: 0.9;
         }
 
-        /* Page Title */
-        .page-title {
+        /* Error State */
+        .error-card {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+            border-radius: 24px;
+            padding: 50px 30px;
             text-align: center;
             color: white;
-            margin-bottom: clamp(15px, 4vw, 25px);
+            box-shadow: 0 20px 60px rgba(238, 90, 90, 0.4);
         }
 
-        .page-title h1 {
-            font-size: clamp(18px, 5vw, 24px);
-            margin-bottom: 5px;
+        .error-icon {
+            font-size: 70px;
+            margin-bottom: 20px;
         }
 
-        .page-title p {
-            opacity: 0.8;
-            font-size: clamp(12px, 3vw, 14px);
+        .error-card h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
         }
 
-        /* Card Container */
-        .card-container {
-            margin-bottom: clamp(15px, 4vw, 25px);
-            width: 100%;
+        .error-card p {
+            opacity: 0.9;
+            line-height: 1.6;
         }
 
-        /* ==================== */
-        /* ID CARD - RESPONSIVE */
-        /* ==================== */
-        .id-card, .id-card-back {
-            width: 100%;
-            max-width: 420px;
-            aspect-ratio: 85.6 / 53.98; /* Rasio kartu ID standar */
+        /* Main Card */
+        .main-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 25px 80px rgba(102, 126, 234, 0.4);
+        }
+
+        .card-header {
+            background: rgba(255,255,255,0.15);
+            padding: 25px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .school-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255,255,255,0.1);
+            padding: 12px 25px;
+            border-radius: 50px;
+        }
+
+        .school-logo {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .school-name {
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .card-body {
+            padding: 35px 30px;
+        }
+
+        .student-photo-container {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .student-photo {
+            width: 110px;
+            height: 140px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 15px;
             margin: 0 auto;
-            border-radius: clamp(8px, 2vw, 12px);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-        }
-
-        /* Watermark */
-        .card-watermark {
-            position: absolute;
-            top: 55%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 55%;
-            opacity: 0.06;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* Header Kop - BIRU */
-        .card-header-kop {
-            background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
-            padding: 2.5% 3%;
-            display: flex;
-            align-items: center;
-            gap: 2%;
-            position: relative;
-            z-index: 1;
-        }
-
-        .logo-container {
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .logo-img {
-            width: 10%;
-            min-width: 30px;
-            max-width: 45px;
-            aspect-ratio: 1;
-            object-fit: contain;
-        }
-
-        .kop-text {
-            flex: 1;
-            text-align: center;
+            font-size: 50px;
             color: white;
-        }
-
-        .kop-text .kop-line1 {
-            font-size: clamp(6px, 2.2vw, 10px);
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        .kop-text .kop-line2 {
-            font-size: clamp(5px, 1.8vw, 8px);
-            font-weight: 600;
-            margin-top: 1px;
-            text-transform: uppercase;
-        }
-
-        .kop-text .kop-line3 {
-            font-size: clamp(8px, 2.8vw, 13px);
-            font-weight: 900;
-            margin: 1px 0;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        .kop-text .kop-line4 {
-            font-size: clamp(4px, 1.3vw, 6px);
-            opacity: 0.95;
-            letter-spacing: 0.2px;
-            font-weight: 500;
-        }
-
-        /* Title Bar - KUNING/GOLD */
-        .card-title-bar {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            color: #1e3a5f;
-            text-align: center;
-            padding: 1.2%;
-            font-size: clamp(6px, 2.2vw, 10px);
-            font-weight: 900;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Card Body */
-        .card-body-content {
-            padding: 3% 3.5% 2.5%;
-            display: flex;
-            gap: 3%;
-            position: relative;
-            z-index: 1;
-            height: calc(100% - 28%); /* Sisa tinggi setelah header */
-        }
-
-        .photo-frame {
-            width: 22%;
-            aspect-ratio: 3/4;
-            background: linear-gradient(135deg, #e2e8f0, #f1f5f9);
-            border: 2px solid #1e3a5f;
-            border-radius: clamp(4px, 1vw, 6px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: clamp(20px, 6vw, 35px);
-            color: #94a3b8;
-            flex-shrink: 0;
+            border: 3px solid rgba(255,255,255,0.3);
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
-        .photo-frame img {
+        .student-photo img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .info-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: clamp(2px, 0.8vw, 5px);
+        .student-name {
+            color: white;
+            font-size: 26px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
-        .info-row {
+        .student-class-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .info-section {
             display: flex;
-            line-height: 1.3;
-            align-items: flex-start;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .info-item {
+            background: rgba(255,255,255,0.12);
+            border-radius: 14px;
+            padding: 16px 20px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .info-item:hover {
+            background: rgba(255,255,255,0.18);
+            transform: translateX(5px);
         }
 
         .info-label {
-            width: 28%;
-            color: #475569;
-            font-weight: 700;
-            flex-shrink: 0;
-            font-size: clamp(5px, 1.8vw, 9px);
-        }
-
-        .info-separator {
-            width: 8%;
-            text-align: center;
-            color: #475569;
+            color: rgba(255,255,255,0.7);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
             font-weight: 600;
-            font-size: clamp(5px, 1.8vw, 9px);
         }
 
         .info-value {
-            flex: 1;
-            color: #1e293b;
-            font-weight: 600;
-            font-size: clamp(5px, 1.8vw, 9px);
-            word-break: break-word;
-        }
-
-        .qr-section {
-            position: absolute;
-            bottom: 3%;
-            right: 3%;
-            text-align: center;
-        }
-
-        .qr-code {
-            width: clamp(35px, 12vw, 55px);
-            aspect-ratio: 1;
-            background: white;
-            padding: 3%;
-            border-radius: clamp(3px, 0.8vw, 5px);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-            border: 1px solid #e2e8f0;
-        }
-
-        .qr-code img {
-            width: 100%;
-            height: 100%;
-        }
-
-        .qr-label {
-            font-size: clamp(4px, 1.2vw, 6px);
-            color: #64748b;
-            margin-top: 2px;
+            color: white;
+            font-size: 16px;
             font-weight: 500;
+            word-break: break-all;
         }
 
-        /* ========================= */
-        /* ID CARD BACK - RESPONSIVE */
-        /* ========================= */
-
-        /* Back Header - BIRU */
-        .back-header {
-            background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
-            color: white;
-            text-align: center;
-            padding: 2%;
-            font-size: clamp(8px, 2.5vw, 13px);
-            font-weight: 900;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-        }
-
-        /* Janji Content */
-        .janji-content {
-            padding: 2% 4% 1%;
-            position: relative;
-            z-index: 1;
-        }
-
-        .janji-item {
-            display: flex;
-            gap: 2%;
-            margin-bottom: clamp(1px, 0.5vw, 3px);
-            line-height: 1.3;
-        }
-
-        .janji-number {
-            font-weight: 800;
-            color: #1e3a5f;
-            min-width: 5%;
-            font-size: clamp(5px, 1.6vw, 8px);
-        }
-
-        .janji-text {
-            color: #334155;
-            font-weight: 600;
-            font-size: clamp(4.5px, 1.5vw, 7.5px);
-        }
-
-        /* TTD Section */
-        .ttd-section {
-            display: flex;
-            justify-content: flex-end;
-            padding: 0 4%;
-            margin-top: 1%;
-        }
-
-        .ttd-box {
-            text-align: center;
-            width: 40%;
-        }
-
-        .ttd-title {
-            font-size: clamp(5px, 1.6vw, 8px);
-            color: #1e3a5f;
-            font-weight: 700;
-        }
-
-        .ttd-space {
-            height: clamp(10px, 4vw, 18px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .ttd-line {
-            width: 85%;
-            border-bottom: 1px solid #1e3a5f;
-        }
-
-        .ttd-name {
-            font-size: clamp(5px, 1.7vw, 9px);
-            color: #1e293b;
-            font-weight: 800;
-            margin-top: 1px;
-            line-height: 1.2;
-        }
-
-        .ttd-nip {
-            font-size: clamp(4.5px, 1.4vw, 7px);
-            color: #475569;
-            font-weight: 700;
-        }
-
-        /* Back Footer - BIRU */
-        .back-footer {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
-            padding: 1.5% 3%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .validity-text {
-            font-size: clamp(4px, 1.2vw, 6px);
-            color: white;
-            max-width: 60%;
-            line-height: 1.3;
-            font-weight: 600;
-        }
-
-        .barcode-img {
-            height: clamp(12px, 4vw, 22px);
-            border-radius: 2px;
-        }
-
-        /* ==================== */
-        /* PASSWORD SECTION     */
-        /* ==================== */
+        /* Password Section */
         .password-section {
-            background: linear-gradient(135deg, #1e3a5f 0%, #3b82f6 100%);
-            border-radius: clamp(12px, 3vw, 16px);
-            padding: clamp(15px, 5vw, 25px);
-            margin-top: clamp(15px, 4vw, 25px);
-            box-shadow: 0 10px 40px rgba(30, 58, 95, 0.4);
+            margin-top: 30px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%);
+            border-radius: 18px;
+            padding: 25px;
+            border: 2px solid rgba(255,255,255,0.25);
         }
 
         .password-header {
             display: flex;
             align-items: center;
-            gap: clamp(8px, 2vw, 12px);
-            margin-bottom: clamp(12px, 4vw, 20px);
-            color: white;
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
         .password-icon {
-            font-size: clamp(22px, 6vw, 28px);
+            font-size: 28px;
         }
 
         .password-title {
+            color: white;
             font-weight: 700;
-            font-size: clamp(14px, 4vw, 18px);
+            font-size: 18px;
         }
 
         .password-box {
             display: flex;
             align-items: center;
-            gap: clamp(6px, 2vw, 10px);
-            background: rgba(0,0,0,0.3);
-            border-radius: clamp(8px, 2vw, 12px);
-            padding: clamp(10px, 3vw, 15px) clamp(12px, 3vw, 18px);
-            flex-wrap: wrap;
+            gap: 10px;
+            background: rgba(0,0,0,0.25);
+            border-radius: 12px;
+            padding: 15px 18px;
         }
 
         .password-display {
             flex: 1;
-            min-width: 100px;
+            min-width: 0;
         }
 
         .password-value {
             color: #4ade80;
             font-family: 'Courier New', monospace;
-            font-size: clamp(16px, 4.5vw, 20px);
+            font-size: 20px;
             font-weight: 700;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             display: none;
-            word-break: break-all;
         }
 
         .password-hidden {
             color: white;
-            font-size: clamp(18px, 5vw, 24px);
-            letter-spacing: 3px;
-        }
-
-        .password-buttons {
-            display: flex;
-            gap: clamp(6px, 2vw, 10px);
+            font-size: 24px;
+            letter-spacing: 4px;
         }
 
         .password-btn {
             background: rgba(255,255,255,0.2);
             border: none;
             color: white;
-            width: clamp(38px, 10vw, 48px);
-            height: clamp(38px, 10vw, 48px);
-            border-radius: clamp(8px, 2vw, 12px);
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: clamp(18px, 5vw, 22px);
+            font-size: 20px;
+            flex-shrink: 0;
         }
 
-        .password-btn:hover, .password-btn:active {
+        .password-btn:hover {
             background: rgba(255,255,255,0.35);
             transform: scale(1.05);
         }
 
-        .copy-success {
-            color: #4ade80;
-            font-size: clamp(12px, 3vw, 14px);
-            margin-top: clamp(10px, 3vw, 15px);
-            text-align: center;
-            display: none;
+        .password-btn:active {
+            transform: scale(0.95);
         }
 
+        .copy-success {
+            color: #4ade80;
+            font-size: 14px;
+            margin-top: 15px;
+            text-align: center;
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Warning Box */
         .warning-box {
-            background: rgba(251, 191, 36, 0.15);
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.2) 0%, rgba(245, 158, 11, 0.15) 100%);
             border: 1px solid rgba(251, 191, 36, 0.4);
-            border-radius: clamp(8px, 2vw, 12px);
-            padding: clamp(10px, 3vw, 15px);
-            margin-top: clamp(12px, 4vw, 20px);
+            border-radius: 14px;
+            padding: 18px;
+            margin-top: 25px;
             display: flex;
-            gap: clamp(8px, 2vw, 12px);
+            gap: 14px;
             align-items: flex-start;
         }
 
         .warning-icon {
-            font-size: clamp(16px, 4vw, 20px);
+            font-size: 24px;
             flex-shrink: 0;
         }
 
         .warning-text {
             color: rgba(255,255,255,0.95);
-            font-size: clamp(10px, 2.8vw, 12px);
-            line-height: 1.5;
+            font-size: 13px;
+            line-height: 1.7;
         }
 
-        /* Download Button */
-        .download-section {
-            margin-top: clamp(15px, 4vw, 25px);
+        /* Card Footer */
+        .card-footer {
+            background: rgba(0,0,0,0.2);
+            padding: 20px;
             text-align: center;
         }
 
-        .btn-download {
-            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-            color: white;
-            border: none;
-            padding: clamp(12px, 3.5vw, 16px) clamp(25px, 7vw, 35px);
-            border-radius: clamp(10px, 2.5vw, 14px);
-            font-size: clamp(14px, 3.5vw, 16px);
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: clamp(6px, 2vw, 10px);
-            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
-            width: 100%;
-            max-width: 300px;
-            justify-content: center;
+        .footer-text {
+            color: rgba(255,255,255,0.6);
+            font-size: 13px;
         }
 
-        .btn-download:hover, .btn-download:active {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.5);
+        .footer-year {
+            color: rgba(255,255,255,0.4);
+            font-size: 11px;
+            margin-top: 5px;
         }
 
-        .btn-download:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* ==================== */
-        /* RESPONSIVE QUERIES   */
-        /* ==================== */
-
-        /* Extra small phones */
-        @media (max-width: 320px) {
+        /* Responsive */
+        @media (max-width: 480px) {
             body {
-                padding: 8px;
+                padding: 15px;
+            }
+
+            .card-body {
+                padding: 25px 20px;
+            }
+
+            .student-name {
+                font-size: 22px;
+            }
+
+            .info-item {
+                padding: 14px 16px;
             }
 
             .password-box {
-                flex-direction: column;
-                align-items: stretch;
+                flex-wrap: wrap;
             }
 
             .password-display {
-                text-align: center;
+                width: 100%;
                 margin-bottom: 10px;
             }
 
             .password-buttons {
-                justify-content: center;
-            }
-        }
-
-        /* Small phones */
-        @media (min-width: 321px) and (max-width: 480px) {
-            .password-box {
-                flex-wrap: nowrap;
-            }
-        }
-
-        /* Tablets */
-        @media (min-width: 481px) and (max-width: 768px) {
-            .container {
-                max-width: 450px;
-            }
-        }
-
-        /* Laptops and Desktops */
-        @media (min-width: 769px) {
-            body {
-                padding: 40px 20px;
-                align-items: center;
+                display: flex;
+                gap: 10px;
+                width: 100%;
             }
 
-            .container {
-                max-width: 500px;
-            }
-
-            .id-card, .id-card-back {
-                max-width: 420px;
-            }
-        }
-
-        /* Large screens */
-        @media (min-width: 1200px) {
-            .container {
-                max-width: 520px;
-            }
-        }
-
-        /* Landscape orientation on phones */
-        @media (max-height: 500px) and (orientation: landscape) {
-            body {
-                padding: 10px;
-                align-items: flex-start;
-            }
-
-            .page-title {
-                margin-bottom: 10px;
-            }
-
-            .page-title h1 {
-                font-size: 16px;
-            }
-
-            .card-container {
-                margin-bottom: 10px;
-            }
-
-            .id-card, .id-card-back {
-                max-width: 350px;
-            }
-
-            .password-section {
-                padding: 15px;
-                margin-top: 10px;
-            }
-
-            .download-section {
-                margin-top: 10px;
-            }
-        }
-
-        /* Print styles */
-        @media print {
-            body {
-                background: white;
-                padding: 0;
-            }
-
-            .password-section, .download-section, .page-title {
-                display: none;
-            }
-
-            .id-card, .id-card-back {
-                box-shadow: none;
-                border: 1px solid #333;
-                max-width: 85.6mm;
-                page-break-inside: avoid;
+            .password-btn {
+                flex: 1;
             }
         }
     </style>
@@ -702,185 +396,102 @@
 
         <!-- Student Data -->
         <div id="studentData" style="display: none;">
-            <div class="page-title">
-                <h1>🎓 Kartu Pelajar Digital</h1>
-                <p>SMP Negeri 9 Palu</p>
-            </div>
-
-            <!-- Card Front -->
-            <div class="card-container">
-                <div class="id-card" id="cardFront">
-                    <img src="" class="card-watermark" id="watermarkLogo" alt="">
+            <div class="main-card">
+                <div class="card-header">
+                    <div class="school-badge">
+                        <div class="school-logo">🏫</div>
+                        <span class="school-name">SMA NEGERI 1 CONTOH</span>
+                    </div>
+                </div>
+                
+                <div class="card-body">
+                    <div class="student-photo-container">
+                        <div class="student-photo" id="photoContainer">
+                            👤
+                        </div>
+                    </div>
                     
-                    <div class="card-header-kop">
-                        <div class="logo-container">
-                            <img src="" class="logo-img" alt="Logo Kota Palu" id="logoPalu">
-                        </div>
-                        <div class="kop-text">
-                            <div class="kop-line1">Pemerintah Kota Palu</div>
-                            <div class="kop-line2">Dinas Pendidikan dan Kebudayaan</div>
-                            <div class="kop-line3">SMP Negeri 9 Palu</div>
-                            <div class="kop-line4">Jl. Zebra No. 44 Palu | Telp. (0451) 482368 | E-mail: smpnegeri.9palu@gmail.com</div>
-                        </div>
-                        <div class="logo-container">
-                            <img src="" class="logo-img" alt="Logo Sekolah" id="logoSekolah">
-                        </div>
-                    </div>
-
-                    <div class="card-title-bar">Kartu Pelajar</div>
-
-                    <div class="card-body-content">
-                        <div class="photo-frame" id="photoContainer">👤</div>
-                        <div class="info-content">
-                            <div class="info-row">
-                                <span class="info-label">Nama</span>
-                                <span class="info-separator">:</span>
-                                <span class="info-value" id="studentName">-</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="info-label">NISN</span>
-                                <span class="info-separator">:</span>
-                                <span class="info-value" id="studentNISN">-</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="info-label">TTL</span>
-                                <span class="info-separator">:</span>
-                                <span class="info-value" id="studentTTL">-</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="info-label">Kelas</span>
-                                <span class="info-separator">:</span>
-                                <span class="info-value" id="studentClass">-</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="info-label">Email</span>
-                                <span class="info-separator">:</span>
-                                <span class="info-value" id="studentEmail">-</span>
-                            </div>
-                        </div>
-                        <div class="qr-section">
-                            <div class="qr-code">
-                                <img id="qrCode" src="" alt="QR Code">
-                            </div>
-                            <div class="qr-label">Scan untuk Password</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card Back -->
-            <div class="card-container">
-                <div class="id-card-back" id="cardBack">
-                    <img src="" class="card-watermark" id="watermarkLogoBack" alt="">
+                    <h1 class="student-name" id="studentName">-</h1>
                     
-                    <div class="back-header">Janji Siswa</div>
+                    <div style="text-align: center;">
+                        <span class="student-class-badge">Kelas <span id="studentClass">-</span></span>
+                    </div>
                     
-                    <div class="janji-content">
-                        <div class="janji-item">
-                            <span class="janji-number">1.</span>
-                            <span class="janji-text">Beriman dan bertaqwa kepada Allah SWT.</span>
+                    <div class="info-section">
+                        <div class="info-item">
+                            <div class="info-label">📋 NISN</div>
+                            <div class="info-value" id="studentNISN">-</div>
                         </div>
-                        <div class="janji-item">
-                            <span class="janji-number">2.</span>
-                            <span class="janji-text">Hormat dan patuh pada orangtua dan guru.</span>
+                        <div class="info-item">
+                            <div class="info-label">🎂 Tempat, Tanggal Lahir</div>
+                            <div class="info-value" id="studentTTL">-</div>
                         </div>
-                        <div class="janji-item">
-                            <span class="janji-number">3.</span>
-                            <span class="janji-text">Rajin belajar dan giat beramal sholeh.</span>
-                        </div>
-                        <div class="janji-item">
-                            <span class="janji-number">4.</span>
-                            <span class="janji-text">Menjaga nama baik diri, sekolah.</span>
-                        </div>
-                        <div class="janji-item">
-                            <span class="janji-number">5.</span>
-                            <span class="janji-text">Tidak mengotori, mencoret meja, kursi, tembok, dan fasilitas lain yang ada di Sekolah.</span>
-                        </div>
-                        <div class="janji-item">
-                            <span class="janji-number">6.</span>
-                            <span class="janji-text">Sanggup mematuhi tata tertib sekolah dan sanggup menerima sanksi bila melanggar.</span>
+                        <div class="info-item">
+                            <div class="info-label">📧 Email</div>
+                            <div class="info-value" id="studentEmail">-</div>
                         </div>
                     </div>
 
-                    <!-- TTD Kepala Sekolah -->
-                    <div class="ttd-section">
-                        <div class="ttd-box">
-                            <div class="ttd-title">Kepala SMP Negeri 9 Palu</div>
-                            <div class="ttd-space">
-                                <div class="ttd-line"></div>
+                    <div class="password-section">
+                        <div class="password-header">
+                            <span class="password-icon">🔐</span>
+                            <span class="password-title">Password Akun</span>
+                        </div>
+                        <div class="password-box">
+                            <div class="password-display">
+                                <span class="password-value" id="passwordValue">-</span>
+                                <span class="password-hidden" id="passwordHidden">••••••••</span>
                             </div>
-                            <div class="ttd-name">Dra. Harlina, M.Si</div>
-                            <div class="ttd-nip">NIP. 196510101995022001</div>
+                            <button class="password-btn" id="toggleBtn" onclick="togglePassword()" title="Lihat Password">
+                                👁️
+                            </button>
+                            <button class="password-btn" onclick="copyPassword()" title="Salin Password">
+                                📋
+                            </button>
                         </div>
+                        <p class="copy-success" id="copySuccess">✅ Password berhasil disalin!</p>
                     </div>
 
-                    <div class="back-footer">
-                        <div class="validity-text">
-                            *Kartu ini berlaku selama masih menjadi siswa SMP Negeri 9 Palu
-                        </div>
-                        <img src="" class="barcode-img" id="barcodeImg" alt="Barcode">
+                    <div class="warning-box">
+                        <span class="warning-icon">⚠️</span>
+                        <span class="warning-text">
+                            <strong>RAHASIA!</strong> Jangan bagikan password kepada siapapun. 
+                            Segera ganti password setelah login pertama untuk keamanan akun Anda.
+                        </span>
                     </div>
                 </div>
-            </div>
 
-            <!-- Password Section -->
-            <div class="password-section">
-                <div class="password-header">
-                    <span class="password-icon">🔐</span>
-                    <span class="password-title">Password Akun</span>
+                <div class="card-footer">
+                    <p class="footer-text">📇 Kartu Pelajar Digital</p>
+                    <p class="footer-year">Tahun Ajaran 2024/2025</p>
                 </div>
-                <div class="password-box">
-                    <div class="password-display">
-                        <span class="password-value" id="passwordValue">-</span>
-                        <span class="password-hidden" id="passwordHidden">••••••••</span>
-                    </div>
-                    <div class="password-buttons">
-                        <button class="password-btn" id="toggleBtn" onclick="togglePassword()" title="Lihat Password">👁️</button>
-                        <button class="password-btn" onclick="copyPassword()" title="Salin Password">📋</button>
-                    </div>
-                </div>
-                <p class="copy-success" id="copySuccess">✅ Password berhasil disalin!</p>
-
-                <div class="warning-box">
-                    <span class="warning-icon">⚠️</span>
-                    <span class="warning-text">
-                        <strong>RAHASIA!</strong> Jangan bagikan password kepada siapapun. 
-                        Segera ganti password setelah login pertama.
-                    </span>
-                </div>
-            </div>
-
-            <!-- Download Section -->
-            <div class="download-section">
-                <button class="btn-download" onclick="downloadCard()">📥 Download Kartu Pelajar</button>
             </div>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    
     <script>
         // =============================================
-        // KONFIGURASI - GANTI DENGAN URL ANDA
+        // KONFIGURASI - GANTI DENGAN URL API ANDA
         // =============================================
-        const API_URL = 'https://script.google.com/macros/s/AKfycbwi1ikRotMYRgWruBZka8Siq1VkllpY3tpbxjlL7v36Hl08bk7NRHN6-rfsmi3BsrxF/exec';
-        
-        const LOGO_SEKOLAH_URL = 'https://exsora.github.io/kartu-pelajar/logo-sekolah.png';
-        const LOGO_PALU_URL = 'https://exsora.github.io/kartu-pelajar/logo-palu.png';
-        const BARCODE_URL = 'https://exsora.github.io/kartu-pelajar/barcode.png';
+        const API_URL = 'GANTI_DENGAN_URL_API_ANDA';
         
         // =============================================
+        // JANGAN UBAH KODE DI BAWAH INI
+        // =============================================
+        
         let studentPassword = '';
         let isPasswordVisible = false;
-        let studentData = null;
 
+        // Ambil token dari URL
         function getTokenFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get('token');
         }
 
+        // Load data siswa
         async function loadStudentData() {
             const token = getTokenFromURL();
+            
             if (!token) {
                 showError('Token tidak ditemukan. Silakan scan ulang QR Code pada kartu pelajar Anda.');
                 return;
@@ -888,58 +499,55 @@
 
             try {
                 const response = await fetch(`${API_URL}?action=getData&token=${encodeURIComponent(token)}`);
+                
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                
                 const result = await response.json();
 
                 if (result.success && result.data) {
-                    studentData = result.data;
-                    displayStudentData(result.data, token);
+                    displayStudentData(result.data);
                 } else {
-                    showError(result.message || 'Data tidak ditemukan.');
+                    showError(result.message || 'Data tidak ditemukan. Token mungkin tidak valid.');
                 }
             } catch (error) {
                 console.error('Error:', error);
-                showError('Gagal memuat data. Periksa koneksi internet Anda.');
+                showError('Gagal memuat data. Periksa koneksi internet Anda dan coba lagi.');
             }
         }
 
-        function displayStudentData(data, token) {
+        // Tampilkan data siswa
+        function displayStudentData(data) {
             document.getElementById('loadingState').style.display = 'none';
             document.getElementById('studentData').style.display = 'block';
 
             document.getElementById('studentName').textContent = data.nama || '-';
+            document.getElementById('studentClass').textContent = data.kelas || '-';
             document.getElementById('studentNISN').textContent = data.nisn || '-';
             document.getElementById('studentTTL').textContent = data.ttl || '-';
-            document.getElementById('studentClass').textContent = data.kelas || '-';
             document.getElementById('studentEmail').textContent = data.email || '-';
             
+            // Password
             studentPassword = data.password || '';
-            document.getElementById('passwordValue').textContent = studentPassword || 'Tidak tersedia';
-            if (!studentPassword) document.getElementById('passwordHidden').textContent = 'N/A';
+            document.getElementById('passwordValue').textContent = studentPassword;
 
+            // Foto (jika ada)
             if (data.foto && data.foto.trim() !== '') {
                 document.getElementById('photoContainer').innerHTML = 
-                    `<img src="${data.foto}" alt="Foto" onerror="this.parentElement.innerHTML='👤'">`;
+                    `<img src="${data.foto}" alt="Foto ${data.nama}" onerror="this.parentElement.innerHTML='👤'">`;
             }
-
-            const currentURL = window.location.href;
-            document.getElementById('qrCode').src = 
-                `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(currentURL)}`;
-
-            document.getElementById('logoSekolah').src = LOGO_SEKOLAH_URL;
-            document.getElementById('logoPalu').src = LOGO_PALU_URL;
-            document.getElementById('watermarkLogo').src = LOGO_SEKOLAH_URL;
-            document.getElementById('watermarkLogoBack').src = LOGO_SEKOLAH_URL;
-            document.getElementById('barcodeImg').src = BARCODE_URL;
         }
 
+        // Tampilkan error
         function showError(message) {
             document.getElementById('loadingState').style.display = 'none';
             document.getElementById('errorState').style.display = 'block';
             document.getElementById('errorMessage').textContent = message;
         }
 
+        // Toggle password visibility
         function togglePassword() {
-            if (!studentPassword) { alert('Password tidak tersedia!'); return; }
             isPasswordVisible = !isPasswordVisible;
             const passwordValue = document.getElementById('passwordValue');
             const passwordHidden = document.getElementById('passwordHidden');
@@ -948,115 +556,43 @@
             if (isPasswordVisible) {
                 passwordValue.style.display = 'block';
                 passwordHidden.style.display = 'none';
-                toggleBtn.innerHTML = '🙈';
+                toggleBtn.textContent = '🙈';
+                toggleBtn.title = 'Sembunyikan Password';
             } else {
                 passwordValue.style.display = 'none';
                 passwordHidden.style.display = 'block';
-                toggleBtn.innerHTML = '👁️';
+                toggleBtn.textContent = '👁️';
+                toggleBtn.title = 'Lihat Password';
             }
         }
 
+        // Copy password
         async function copyPassword() {
-            if (!studentPassword) { alert('Password tidak tersedia!'); return; }
             try {
                 await navigator.clipboard.writeText(studentPassword);
-                showCopySuccess();
+                const successMsg = document.getElementById('copySuccess');
+                successMsg.style.display = 'block';
+                setTimeout(() => {
+                    successMsg.style.display = 'none';
+                }, 2500);
             } catch (err) {
                 // Fallback for older browsers
                 const textArea = document.createElement('textarea');
                 textArea.value = studentPassword;
-                textArea.style.position = 'fixed';
-                textArea.style.left = '-9999px';
-                textArea.style.top = '-9999px';
                 document.body.appendChild(textArea);
-                textArea.focus();
                 textArea.select();
-                try {
-                    document.execCommand('copy');
-                    showCopySuccess();
-                } catch (e) {
-                    alert('Gagal menyalin. Password: ' + studentPassword);
-                }
+                document.execCommand('copy');
                 document.body.removeChild(textArea);
-            }
-        }
-
-        function showCopySuccess() {
-            const msg = document.getElementById('copySuccess');
-            msg.style.display = 'block';
-            setTimeout(() => msg.style.display = 'none', 2500);
-        }
-
-        async function downloadCard() {
-            const btn = document.querySelector('.btn-download');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '⏳ Mengunduh...';
-            btn.disabled = true;
-
-            try {
-                const front = document.getElementById('cardFront');
-                const back = document.getElementById('cardBack');
-
-                // Temporarily set fixed size for better quality
-                const originalFrontWidth = front.style.width;
-                const originalBackWidth = back.style.width;
                 
-                front.style.width = '420px';
-                back.style.width = '420px';
-
-                const canvasFront = await html2canvas(front, { 
-                    scale: 3, 
-                    useCORS: true, 
-                    backgroundColor: '#fff',
-                    logging: false
-                });
-                const canvasBack = await html2canvas(back, { 
-                    scale: 3, 
-                    useCORS: true, 
-                    backgroundColor: '#fff',
-                    logging: false
-                });
-
-                // Restore original width
-                front.style.width = originalFrontWidth;
-                back.style.width = originalBackWidth;
-
-                const combined = document.createElement('canvas');
-                combined.width = Math.max(canvasFront.width, canvasBack.width);
-                combined.height = canvasFront.height + canvasBack.height + 60;
-
-                const ctx = combined.getContext('2d');
-                ctx.fillStyle = '#ffffff';
-                ctx.fillRect(0, 0, combined.width, combined.height);
-                ctx.drawImage(canvasFront, (combined.width - canvasFront.width) / 2, 0);
-                ctx.drawImage(canvasBack, (combined.width - canvasBack.width) / 2, canvasFront.height + 60);
-
-                const link = document.createElement('a');
-                const nama = studentData?.nama?.replace(/\s+/g, '_') || 'siswa';
-                link.download = `Kartu_Pelajar_${nama}.png`;
-                link.href = combined.toDataURL('image/png', 1.0);
-                link.click();
-
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            } catch (error) {
-                console.error(error);
-                alert('Gagal mengunduh kartu. Coba lagi.');
-                btn.innerHTML = originalText;
-                btn.disabled = false;
+                const successMsg = document.getElementById('copySuccess');
+                successMsg.style.display = 'block';
+                setTimeout(() => {
+                    successMsg.style.display = 'none';
+                }, 2500);
             }
         }
 
-        // Prevent zoom on double tap for iOS
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', function(event) {
-            const now = (new Date()).getTime();
-            if (now - lastTouchEnd <= 300) {
-                event.preventDefault();
-            }
-            lastTouchEnd = now;
-        }, false);
-
+        // Load data when page loads
         document.addEventListener('DOMContentLoaded', loadStudentData);
     </script>
 </body>
