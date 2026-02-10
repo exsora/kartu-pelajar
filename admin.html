@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Kartu Pelajar Generator</title>
+    <title>Admin - SMP Negeri 9 Palu</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
     <style>
         * {
@@ -20,7 +20,7 @@
 
         /* Navbar */
         .navbar {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: linear-gradient(135deg, #1e5128 0%, #2d6a4f 100%);
             padding: 15px 30px;
             color: white;
             display: flex;
@@ -30,7 +30,7 @@
         }
 
         .navbar h1 {
-            font-size: 22px;
+            font-size: 20px;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -41,7 +41,6 @@
             opacity: 0.9;
         }
 
-        /* Main Content */
         .main-content {
             padding: 30px;
             max-width: 1400px;
@@ -62,7 +61,6 @@
             text-align: center;
             color: #333;
             margin-bottom: 30px;
-            font-size: 24px;
         }
 
         .login-icon {
@@ -88,12 +86,11 @@
             border: 2px solid #e0e0e0;
             border-radius: 12px;
             font-size: 16px;
-            transition: border-color 0.3s;
         }
 
         .form-group input:focus {
             outline: none;
-            border-color: #4facfe;
+            border-color: #1e5128;
         }
 
         /* Buttons */
@@ -101,7 +98,7 @@
             padding: 14px 28px;
             border: none;
             border-radius: 12px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
@@ -111,7 +108,7 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            background: linear-gradient(135deg, #1e5128 0%, #2d6a4f 100%);
             color: white;
             width: 100%;
             justify-content: center;
@@ -119,7 +116,7 @@
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+            box-shadow: 0 8px 25px rgba(30, 81, 40, 0.4);
         }
 
         .btn-success {
@@ -127,9 +124,9 @@
             color: white;
         }
 
-        .btn-success:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(56, 239, 125, 0.4);
+        .btn-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
         }
 
         .btn-warning {
@@ -137,8 +134,8 @@
             color: white;
         }
 
-        .btn-info {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .btn-download {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             color: white;
         }
 
@@ -160,9 +157,6 @@
             color: #333;
             margin-bottom: 20px;
             font-size: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
         .button-group {
@@ -195,16 +189,15 @@
         .stat-value {
             font-size: 36px;
             font-weight: 700;
-            color: #333;
+            color: #1e5128;
         }
 
         .stat-label {
             color: #666;
             font-size: 14px;
-            margin-top: 5px;
         }
 
-        /* Cards Grid */
+        /* Cards Section */
         .cards-section {
             background: white;
             border-radius: 20px;
@@ -215,163 +208,249 @@
         .cards-section h2 {
             color: #333;
             margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 30px;
         }
 
-        /* Print Card */
-        .print-card {
-            background: white;
+        /* Single Student Card Container */
+        .student-card-wrapper {
+            background: #f8f9fa;
             border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
-            border: 1px solid #e0e0e0;
+            padding: 20px;
+            position: relative;
         }
 
-        .print-card-header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            padding: 18px 20px;
+        .student-card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+
+        /* ID Card Styles - Print Ready */
+        .id-card-print {
+            width: 340px;
+            height: 214px;
+            margin: 0 auto;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(180deg, #ffffff 0%, #f5f5f5 100%);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            font-family: Arial, sans-serif;
+        }
+
+        .card-watermark-print {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50%;
+            opacity: 0.08;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .card-header-print {
+            background: linear-gradient(135deg, #1e5128 0%, #2d6a4f 100%);
+            padding: 6px 10px;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 6px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-print {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+            background: white;
+            border-radius: 50%;
+            padding: 2px;
+        }
+
+        .kop-print {
+            flex: 1;
+            text-align: center;
             color: white;
         }
 
-        .print-logo {
+        .kop-print .line1 { font-size: 6px; font-weight: 600; }
+        .kop-print .line2 { font-size: 5px; }
+        .kop-print .line3 { font-size: 8px; font-weight: 700; margin: 1px 0; }
+        .kop-print .line4 { font-size: 4px; opacity: 0.9; }
+
+        .title-bar-print {
+            background: #ffd700;
+            color: #1a1a2e;
+            text-align: center;
+            padding: 2px;
+            font-size: 7px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+
+        .card-body-print {
+            padding: 8px 10px;
+            display: flex;
+            gap: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .photo-print {
             width: 55px;
-            height: 55px;
-            background: white;
-            border-radius: 10px;
+            height: 70px;
+            background: #f0f0f0;
+            border: 1.5px solid #1e5128;
+            border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
+            font-size: 24px;
+            color: #999;
             flex-shrink: 0;
+            overflow: hidden;
         }
 
-        .print-school-info h3 {
-            font-size: 16px;
+        .photo-print img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .info-print {
+            flex: 1;
+            font-size: 7px;
+        }
+
+        .info-row-print {
+            display: flex;
+            margin-bottom: 2px;
+            line-height: 1.3;
+        }
+
+        .info-label-print {
+            width: 45px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .info-sep-print {
+            width: 8px;
+            text-align: center;
+        }
+
+        .info-val-print {
+            flex: 1;
+            color: #1a1a2e;
+            font-weight: 500;
+        }
+
+        .qr-section-print {
+            position: absolute;
+            bottom: 6px;
+            right: 8px;
+            text-align: center;
+        }
+
+        .qr-print {
+            width: 38px;
+            height: 38px;
+            background: white;
+            padding: 2px;
+            border-radius: 3px;
+        }
+
+        .qr-print img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .qr-text-print {
+            font-size: 4px;
+            color: #666;
+            margin-top: 1px;
+        }
+
+        /* Card Back Print */
+        .id-card-back-print {
+            width: 340px;
+            height: 214px;
+            margin: 10px auto 0;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(180deg, #ffffff 0%, #f8f8f8 100%);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            font-family: Arial, sans-serif;
+        }
+
+        .back-header-print {
+            background: linear-gradient(135deg, #1e5128 0%, #2d6a4f 100%);
+            color: white;
+            text-align: center;
+            padding: 6px;
+            font-size: 9px;
             font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .janji-print {
+            padding: 8px 12px;
+            font-size: 5.5px;
+            line-height: 1.4;
+            position: relative;
+            z-index: 1;
+        }
+
+        .janji-item-print {
+            display: flex;
+            gap: 4px;
             margin-bottom: 3px;
         }
 
-        .print-school-info p {
-            font-size: 11px;
-            opacity: 0.9;
+        .janji-num-print {
+            font-weight: 700;
+            color: #1e5128;
+            min-width: 8px;
         }
 
-        .print-card-body {
-            padding: 20px;
-            display: flex;
-            gap: 20px;
-        }
-
-        .print-photo {
-            width: 100px;
-            height: 130px;
-            background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
-            border: 2px dashed #ccc;
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #999;
-            font-size: 11px;
-            text-align: center;
-            flex-shrink: 0;
-        }
-
-        .print-photo-icon {
-            font-size: 30px;
-            margin-bottom: 5px;
-        }
-
-        .print-info {
-            flex: 1;
-        }
-
-        .print-info-row {
-            margin-bottom: 10px;
-        }
-
-        .print-info-label {
-            font-size: 10px;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 600;
-        }
-
-        .print-info-value {
-            font-size: 14px;
+        .janji-txt-print {
             color: #333;
-            font-weight: 600;
-            margin-top: 2px;
         }
 
-        .print-card-footer {
-            background: #f8f9fa;
-            padding: 18px 20px;
+        .back-footer-print {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #1e5128 0%, #2d6a4f 100%);
+            padding: 4px 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-top: 1px solid #eee;
         }
 
-        .print-qr {
-            text-align: center;
+        .validity-print {
+            font-size: 4px;
+            color: white;
+            max-width: 55%;
+            line-height: 1.2;
         }
 
-        .print-qr img {
-            width: 85px;
-            height: 85px;
-            border-radius: 8px;
-        }
-
-        .print-qr-text {
-            font-size: 9px;
-            color: #666;
-            margin-top: 6px;
-        }
-
-        .print-valid {
-            text-align: right;
-        }
-
-        .print-valid-title {
-            font-size: 13px;
-            color: #333;
-            font-weight: 700;
-        }
-
-        .print-valid-year {
-            font-size: 11px;
-            color: #666;
-            margin-top: 3px;
-        }
-
-        .print-valid-date {
-            font-size: 12px;
-            color: #1e3c72;
-            font-weight: 600;
-            margin-top: 5px;
-        }
-
-        .print-note {
-            background: linear-gradient(135deg, #fff3cd 0%, #ffeeba 100%);
-            padding: 12px 15px;
-            font-size: 11px;
-            color: #856404;
-            text-align: center;
-            border-top: 1px solid #ffc107;
+        .barcode-print {
+            height: 16px;
         }
 
         /* Message Box */
@@ -385,25 +464,15 @@
         }
 
         .message-success {
-            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            background: #d4edda;
             border: 1px solid #28a745;
             color: #155724;
         }
 
         .message-error {
-            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            background: #f8d7da;
             border: 1px solid #dc3545;
             color: #721c24;
-        }
-
-        .message-info {
-            background: linear-gradient(135deg, #cce5ff 0%, #b8daff 100%);
-            border: 1px solid #007bff;
-            color: #004085;
-        }
-
-        .message-icon {
-            font-size: 28px;
         }
 
         /* Loading Overlay */
@@ -431,7 +500,7 @@
             width: 60px;
             height: 60px;
             border: 5px solid #e0e0e0;
-            border-top-color: #4facfe;
+            border-top-color: #1e5128;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin: 0 auto 20px;
@@ -443,32 +512,53 @@
 
         /* Print Styles */
         @media print {
-            body {
-                background: white;
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
 
-            .navbar, .control-panel, .stats-grid, .cards-section > h2, .message-box, .login-panel {
+            body {
+                background: white !important;
+                margin: 0;
+                padding: 0;
+            }
+
+            .navbar, .control-panel, .stats-grid, 
+            .cards-section > h2, .message-box, 
+            .login-panel, .student-card-actions,
+            .btn, button {
                 display: none !important;
             }
 
             .main-content {
-                padding: 0;
+                padding: 10mm;
+                max-width: none;
             }
 
             .cards-section {
-                box-shadow: none;
-                padding: 0;
+                box-shadow: none !important;
+                padding: 0 !important;
+                background: transparent !important;
             }
 
             .cards-grid {
+                display: grid;
                 grid-template-columns: repeat(2, 1fr);
+                gap: 10mm;
             }
 
-            .print-card {
-                break-inside: avoid;
+            .student-card-wrapper {
+                background: transparent !important;
+                padding: 0 !important;
                 page-break-inside: avoid;
-                box-shadow: none;
-                border: 2px solid #333;
+                break-inside: avoid;
+            }
+
+            .id-card-print, .id-card-back-print {
+                box-shadow: none !important;
+                border: 1px solid #333;
+                width: 85.6mm !important;
+                height: 53.98mm !important;
             }
         }
 
@@ -476,16 +566,7 @@
         @media (max-width: 768px) {
             .navbar {
                 flex-direction: column;
-                text-align: center;
                 gap: 10px;
-            }
-
-            .main-content {
-                padding: 20px;
-            }
-
-            .cards-grid {
-                grid-template-columns: 1fr;
             }
 
             .button-group {
@@ -495,6 +576,10 @@
             .btn {
                 width: 100%;
                 justify-content: center;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -510,31 +595,24 @@
 
     <!-- Navbar -->
     <nav class="navbar">
-        <h1>⚙️ Admin Panel - Kartu Pelajar</h1>
+        <h1>⚙️ Admin Panel - SMP Negeri 9 Palu</h1>
         <span class="navbar-info" id="loginStatus">Belum Login</span>
     </nav>
 
-    <!-- Main Content -->
     <div class="main-content">
         <!-- Login Panel -->
         <div class="login-panel" id="loginPanel">
             <div class="login-icon">🔐</div>
             <h2>Login Admin</h2>
             <div class="form-group">
-                <label for="adminPassword">Password Admin</label>
-                <input type="password" id="adminPassword" placeholder="Masukkan password admin..." onkeypress="if(event.key==='Enter') login()">
+                <label>Password Admin</label>
+                <input type="password" id="adminPassword" placeholder="Masukkan password..." onkeypress="if(event.key==='Enter') login()">
             </div>
-            <button class="btn btn-primary" onclick="login()">
-                🚀 Login
-            </button>
-            <p style="text-align: center; margin-top: 20px; color: #999; font-size: 13px;">
-                Hubungi administrator jika lupa password
-            </p>
+            <button class="btn btn-primary" onclick="login()">🚀 Login</button>
         </div>
 
-        <!-- Admin Dashboard (hidden by default) -->
+        <!-- Dashboard -->
         <div id="adminDashboard" style="display: none;">
-            <!-- Message Box -->
             <div id="messageBox" style="display: none;"></div>
 
             <!-- Stats -->
@@ -560,55 +638,51 @@
             <div class="control-panel">
                 <h2>🎛️ Kontrol Panel</h2>
                 <div class="button-group">
-                    <button class="btn btn-success" onclick="generateTokens()">
-                        🔑 Generate Token
-                    </button>
-                    <button class="btn btn-info" onclick="loadStudents()">
-                        🔄 Refresh Data
-                    </button>
-                    <button class="btn btn-warning" onclick="printCards()">
-                        🖨️ Cetak Kartu
-                    </button>
-                    <button class="btn btn-secondary" onclick="logout()">
-                        🚪 Logout
-                    </button>
+                    <button class="btn btn-success" onclick="generateTokens()">🔑 Generate Token</button>
+                    <button class="btn btn-info" onclick="loadStudents()">🔄 Refresh Data</button>
+                    <button class="btn btn-download" onclick="downloadAllCards()">📥 Download Semua</button>
+                    <button class="btn btn-warning" onclick="printCards()">🖨️ Cetak Kartu</button>
+                    <button class="btn btn-secondary" onclick="logout()">🚪 Logout</button>
                 </div>
             </div>
 
-            <!-- Cards Section -->
+            <!-- Cards -->
             <div class="cards-section">
-                <h2>🎴 Preview Kartu Pelajar</h2>
+                <h2>🎴 Kartu Pelajar (Depan & Belakang)</h2>
                 <div class="cards-grid" id="cardsContainer">
                     <p style="color: #999; text-align: center; padding: 40px;">
-                        Klik "Refresh Data" untuk memuat data siswa
+                        Klik "Refresh Data" untuk memuat kartu
                     </p>
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
     <script>
         // =============================================
-        // KONFIGURASI - GANTI DENGAN URL ANDA
+        // KONFIGURASI
         // =============================================
-        const API_URL = 'https://script.google.com/macros/s/AKfycbwi1ikRotMYRgWruBZka8Siq1VkllpY3tpbxjlL7v36Hl08bk7NRHN6-rfsmi3BsrxF/exec';
-        const WEB_URL = 'https://exsora.github.io/kartu-pelajar'; // contoh: https://username.github.io/kartu-pelajar
-        const SCHOOL_NAME = 'SMP NEGERI 9 Palu';
-        const SCHOOL_ADDRESS = 'Jl. Zebra No. 44';
-        const VALID_UNTIL = '31 Desember 2027';
-        const SCHOOL_YEAR = 'Tahun Ajaran 2025/2026';
+        const API_URL = 'https://script.google.com/macros/s/AKfycbwi1ikRotMYRgWruBZka8Siq1VkllpY3tp4Xfv36Hl08bk7NRHN6-rfsmi3BsrxF/exec';
+        const WEB_URL = 'https://exsora.github.io/kartu-pelajar';
         
+        // Logo URLs - GANTI DENGAN URL LOGO ANDA
+        const LOGO_SEKOLAH = 'https://via.placeholder.com/70x70/1e5128/ffffff?text=LOGO';
+        const LOGO_PALU = 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Lambang_Kota_Palu.png/220px-Lambang_Kota_Palu.png';
+        const BARCODE_IMG = 'https://via.placeholder.com/100x30/ffffff/000000?text=BARCODE';
+
         // =============================================
-        // JANGAN UBAH KODE DI BAWAH INI
+        // VARIABLES
         // =============================================
-        
         let adminPassword = '';
         let studentsData = [];
 
-        // Login
+        // =============================================
+        // LOGIN FUNCTIONS
+        // =============================================
         async function login() {
             const password = document.getElementById('adminPassword').value;
-            
             if (!password) {
                 showMessage('error', 'Password tidak boleh kosong!');
                 return;
@@ -617,10 +691,8 @@
             showLoading('Memverifikasi...');
 
             try {
-                // Test dengan memanggil API
                 const response = await fetch(`${API_URL}?action=getAllStudents&adminPass=${encodeURIComponent(password)}`);
                 const result = await response.json();
-
                 hideLoading();
 
                 if (result.success) {
@@ -632,19 +704,17 @@
                     studentsData = result.data || [];
                     updateStats();
                     renderCards();
-                    
-                    showMessage('success', `Berhasil login! Ditemukan ${result.count} data siswa.`);
+                    showMessage('success', `Berhasil! Ditemukan ${result.count} siswa.`);
                 } else {
                     showMessage('error', result.message || 'Password salah!');
                 }
             } catch (error) {
                 hideLoading();
-                showMessage('error', 'Gagal terhubung ke server. Periksa koneksi internet dan URL API.');
+                showMessage('error', 'Gagal terhubung ke server.');
                 console.error(error);
             }
         }
 
-        // Logout
         function logout() {
             adminPassword = '';
             studentsData = [];
@@ -654,192 +724,281 @@
             document.getElementById('adminPassword').value = '';
         }
 
-        // Generate Tokens
+        // =============================================
+        // DATA FUNCTIONS
+        // =============================================
         async function generateTokens() {
             showLoading('Generating tokens...');
-
             try {
                 const response = await fetch(`${API_URL}?action=generateTokens&adminPass=${encodeURIComponent(adminPassword)}`);
                 const result = await response.json();
-
                 hideLoading();
 
                 if (result.success) {
                     showMessage('success', result.message);
-                    loadStudents(); // Refresh data
+                    loadStudents();
                 } else {
                     showMessage('error', result.message);
                 }
             } catch (error) {
                 hideLoading();
-                showMessage('error', 'Gagal generate token: ' + error.message);
+                showMessage('error', 'Gagal generate token.');
             }
         }
 
-        // Load Students
         async function loadStudents() {
-            showLoading('Memuat data siswa...');
-
+            showLoading('Memuat data...');
             try {
                 const response = await fetch(`${API_URL}?action=getAllStudents&adminPass=${encodeURIComponent(adminPassword)}`);
                 const result = await response.json();
-
                 hideLoading();
 
                 if (result.success) {
                     studentsData = result.data || [];
                     updateStats();
                     renderCards();
-                    showMessage('success', `Data berhasil dimuat! Total ${result.count} siswa.`);
+                    showMessage('success', `${result.count} siswa dimuat.`);
                 } else {
                     showMessage('error', result.message);
                 }
             } catch (error) {
                 hideLoading();
-                showMessage('error', 'Gagal memuat data: ' + error.message);
+                showMessage('error', 'Gagal memuat data.');
             }
         }
 
-        // Update Stats
         function updateStats() {
             const total = studentsData.length;
             const withToken = studentsData.filter(s => s.token && s.token.trim() !== '').length;
-            const withoutToken = total - withToken;
-
             document.getElementById('totalStudents').textContent = total;
             document.getElementById('withToken').textContent = withToken;
-            document.getElementById('withoutToken').textContent = withoutToken;
+            document.getElementById('withoutToken').textContent = total - withToken;
         }
 
-        // Render Cards
+        // =============================================
+        // RENDER CARDS
+        // =============================================
         function renderCards() {
             const container = document.getElementById('cardsContainer');
 
             if (studentsData.length === 0) {
-                container.innerHTML = '<p style="color: #999; text-align: center; padding: 40px;">Tidak ada data siswa</p>';
+                container.innerHTML = '<p style="color:#999;text-align:center;padding:40px;">Tidak ada data</p>';
                 return;
             }
 
-            container.innerHTML = studentsData.map(student => createCardHTML(student)).join('');
+            container.innerHTML = studentsData.map((s, i) => createCardHTML(s, i)).join('');
         }
 
-        // Create Card HTML
-        function createCardHTML(student) {
+        function createCardHTML(student, index) {
             const hasToken = student.token && student.token.trim() !== '';
             const qrURL = hasToken ? `${WEB_URL}/index.html?token=${student.token}` : '';
-            const qrImageURL = hasToken 
-                ? `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrURL)}`
+            const qrImage = hasToken 
+                ? `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(qrURL)}`
                 : '';
 
             return `
-                <div class="print-card">
-                    <div class="print-card-header">
-                        <div class="print-logo">🏫</div>
-                        <div class="print-school-info">
-                            <h3>${SCHOOL_NAME}</h3>
-                            <p>${SCHOOL_ADDRESS}</p>
+                <div class="student-card-wrapper">
+                    <!-- KARTU DEPAN -->
+                    <div class="id-card-print" id="cardFront${index}">
+                        <img src="${LOGO_SEKOLAH}" class="card-watermark-print" alt="">
+                        
+                        <div class="card-header-print">
+                            <img src="${LOGO_PALU}" class="logo-print" alt="Logo Palu">
+                            <div class="kop-print">
+                                <div class="line1">PEMERINTAH KOTA PALU</div>
+                                <div class="line2">DINAS PENDIDIKAN DAN KEBUDAYAAN</div>
+                                <div class="line3">SMP NEGERI 9 PALU</div>
+                                <div class="line4">Jl. Zebra No. 44 Palu Telp. (0451) 482368 | smpnegeri.9palu@gmail.com</div>
+                            </div>
+                            <img src="${LOGO_SEKOLAH}" class="logo-print" alt="Logo Sekolah">
+                        </div>
+                        
+                        <div class="title-bar-print">KARTU PELAJAR</div>
+                        
+                        <div class="card-body-print">
+                            <div class="photo-print">
+                                ${student.foto ? `<img src="${student.foto}" onerror="this.parentElement.innerHTML='👤'">` : '👤'}
+                            </div>
+                            <div class="info-print">
+                                <div class="info-row-print">
+                                    <span class="info-label-print">Nama</span>
+                                    <span class="info-sep-print">:</span>
+                                    <span class="info-val-print">${student.nama || '-'}</span>
+                                </div>
+                                <div class="info-row-print">
+                                    <span class="info-label-print">NISN</span>
+                                    <span class="info-sep-print">:</span>
+                                    <span class="info-val-print">${student.nisn || '-'}</span>
+                                </div>
+                                <div class="info-row-print">
+                                    <span class="info-label-print">TTL</span>
+                                    <span class="info-sep-print">:</span>
+                                    <span class="info-val-print">${student.ttl || '-'}</span>
+                                </div>
+                                <div class="info-row-print">
+                                    <span class="info-label-print">Kelas</span>
+                                    <span class="info-sep-print">:</span>
+                                    <span class="info-val-print">${student.kelas || '-'}</span>
+                                </div>
+                                <div class="info-row-print">
+                                    <span class="info-label-print">Email</span>
+                                    <span class="info-sep-print">:</span>
+                                    <span class="info-val-print" style="font-size:6px;">${student.email || '-'}</span>
+                                </div>
+                            </div>
+                            ${hasToken ? `
+                            <div class="qr-section-print">
+                                <div class="qr-print">
+                                    <img src="${qrImage}" alt="QR">
+                                </div>
+                                <div class="qr-text-print">Scan Password</div>
+                            </div>
+                            ` : ''}
                         </div>
                     </div>
-                    <div class="print-card-body">
-                        <div class="print-photo">
-                            ${student.foto ? `<img src="${student.foto}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;" onerror="this.parentElement.innerHTML='<div class=\\'print-photo-icon\\'>📷</div>Pas Foto<br>3x4'">` : '<div class="print-photo-icon">📷</div>Pas Foto<br>3x4'}
+
+                    <!-- KARTU BELAKANG -->
+                    <div class="id-card-back-print" id="cardBack${index}">
+                        <img src="${LOGO_SEKOLAH}" class="card-watermark-print" alt="">
+                        
+                        <div class="back-header-print">JANJI SISWA</div>
+                        
+                        <div class="janji-print">
+                            <div class="janji-item-print">
+                                <span class="janji-num-print">1.</span>
+                                <span class="janji-txt-print">Beriman dan bertaqwa kepada Allah SWT.</span>
+                            </div>
+                            <div class="janji-item-print">
+                                <span class="janji-num-print">2.</span>
+                                <span class="janji-txt-print">Hormat dan patuh pada orangtua dan guru.</span>
+                            </div>
+                            <div class="janji-item-print">
+                                <span class="janji-num-print">3.</span>
+                                <span class="janji-txt-print">Rajin belajar dan giat beramal sholeh.</span>
+                            </div>
+                            <div class="janji-item-print">
+                                <span class="janji-num-print">4.</span>
+                                <span class="janji-txt-print">Menjaga nama baik diri, sekolah.</span>
+                            </div>
+                            <div class="janji-item-print">
+                                <span class="janji-num-print">5.</span>
+                                <span class="janji-txt-print">Tidak mengotori, mencoret meja, kursi, tembok, dan fasilitas lain.</span>
+                            </div>
+                            <div class="janji-item-print">
+                                <span class="janji-num-print">6.</span>
+                                <span class="janji-txt-print">Sanggup mematuhi tata tertib dan menerima sanksi bila melanggar.</span>
+                            </div>
                         </div>
-                        <div class="print-info">
-                            <div class="print-info-row">
-                                <div class="print-info-label">Nama Lengkap</div>
-                                <div class="print-info-value">${student.nama || '-'}</div>
+                        
+                        <div class="back-footer-print">
+                            <div class="validity-print">
+                                *Kartu ini berlaku selama masih menjadi siswa SMP Negeri 9 Palu
                             </div>
-                            <div class="print-info-row">
-                                <div class="print-info-label">NISN</div>
-                                <div class="print-info-value">${student.nisn || '-'}</div>
-                            </div>
-                            <div class="print-info-row">
-                                <div class="print-info-label">Kelas</div>
-                                <div class="print-info-value">${student.kelas || '-'}</div>
-                            </div>
-                            <div class="print-info-row">
-                                <div class="print-info-label">TTL</div>
-                                <div class="print-info-value">${student.ttl || '-'}</div>
-                            </div>
-                            <div class="print-info-row">
-                                <div class="print-info-label">Email</div>
-                                <div class="print-info-value" style="font-size: 12px;">${student.email || '-'}</div>
-                            </div>
+                            <img src="${BARCODE_IMG}" class="barcode-print" alt="Barcode">
                         </div>
                     </div>
-                    <div class="print-card-footer">
-                        <div class="print-qr">
-                            ${hasToken 
-                                ? `<img src="${qrImageURL}" alt="QR Code">
-                                   <div class="print-qr-text">Scan untuk<br>lihat password</div>`
-                                : `<div style="width:85px;height:85px;background:#f0f0f0;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#999;font-size:11px;">No Token</div>
-                                   <div class="print-qr-text">Token belum<br>digenerate</div>`
-                            }
-                        </div>
-                        <div class="print-valid">
-                            <div class="print-valid-title">KARTU PELAJAR</div>
-                            <div class="print-valid-year">${SCHOOL_YEAR}</div>
-                            <div class="print-valid-date">Valid s/d ${VALID_UNTIL}</div>
-                        </div>
-                    </div>
-                    <div class="print-note">
-                        ⚠️ Scan QR Code untuk melihat password. Jaga kerahasiaan data Anda!
+
+                    <!-- Action Buttons -->
+                    <div class="student-card-actions">
+                        <button class="btn btn-download btn-sm" onclick="downloadSingleCard(${index}, '${student.nama?.replace(/'/g, "\\'")}')">
+                            📥 Download
+                        </button>
                     </div>
                 </div>
             `;
         }
 
-        // Print Cards
-        function printCards() {
-            const cardsWithToken = studentsData.filter(s => s.token && s.token.trim() !== '');
-            
-            if (cardsWithToken.length === 0) {
-                showMessage('error', 'Tidak ada kartu dengan token. Generate token terlebih dahulu!');
+        // =============================================
+        // DOWNLOAD FUNCTIONS
+        // =============================================
+        async function downloadSingleCard(index, nama) {
+            showLoading('Mengunduh kartu...');
+
+            try {
+                const front = document.getElementById(`cardFront${index}`);
+                const back = document.getElementById(`cardBack${index}`);
+
+                const canvasFront = await html2canvas(front, { scale: 3, useCORS: true, backgroundColor: '#fff' });
+                const canvasBack = await html2canvas(back, { scale: 3, useCORS: true, backgroundColor: '#fff' });
+
+                // Combine
+                const combined = document.createElement('canvas');
+                combined.width = Math.max(canvasFront.width, canvasBack.width);
+                combined.height = canvasFront.height + canvasBack.height + 30;
+
+                const ctx = combined.getContext('2d');
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, combined.width, combined.height);
+                ctx.drawImage(canvasFront, 0, 0);
+                ctx.drawImage(canvasBack, 0, canvasFront.height + 30);
+
+                const link = document.createElement('a');
+                link.download = `Kartu_${nama?.replace(/\s+/g, '_') || index}.png`;
+                link.href = combined.toDataURL('image/png');
+                link.click();
+
+                hideLoading();
+            } catch (err) {
+                hideLoading();
+                alert('Gagal mengunduh kartu.');
+                console.error(err);
+            }
+        }
+
+        async function downloadAllCards() {
+            if (studentsData.length === 0) {
+                alert('Tidak ada data untuk diunduh!');
                 return;
             }
 
+            showLoading('Mengunduh semua kartu... (0/' + studentsData.length + ')');
+
+            for (let i = 0; i < studentsData.length; i++) {
+                document.getElementById('loadingText').textContent = 
+                    `Mengunduh kartu ${i+1}/${studentsData.length}...`;
+                
+                await downloadSingleCard(i, studentsData[i].nama);
+                await new Promise(r => setTimeout(r, 500)); // Delay
+            }
+
+            hideLoading();
+            showMessage('success', `${studentsData.length} kartu berhasil diunduh!`);
+        }
+
+        function printCards() {
+            const withToken = studentsData.filter(s => s.token && s.token.trim() !== '');
+            if (withToken.length === 0) {
+                showMessage('error', 'Tidak ada kartu dengan token. Generate token dulu!');
+                return;
+            }
             window.print();
         }
 
-        // Show Loading
+        // =============================================
+        // UTILITY FUNCTIONS
+        // =============================================
         function showLoading(text) {
             document.getElementById('loadingText').textContent = text || 'Memproses...';
             document.getElementById('loadingOverlay').style.display = 'flex';
         }
 
-        // Hide Loading
         function hideLoading() {
             document.getElementById('loadingOverlay').style.display = 'none';
         }
 
-        // Show Message
-        function showMessage(type, message) {
-            const messageBox = document.getElementById('messageBox');
+        function showMessage(type, msg) {
+            const box = document.getElementById('messageBox');
             const icons = { success: '✅', error: '❌', info: 'ℹ️' };
-            
-            messageBox.className = `message-box message-${type}`;
-            messageBox.innerHTML = `
-                <span class="message-icon">${icons[type] || 'ℹ️'}</span>
-                <span>${message}</span>
-            `;
-            messageBox.style.display = 'flex';
-
-            // Auto hide after 5 seconds
-            setTimeout(() => {
-                messageBox.style.display = 'none';
-            }, 5000);
+            box.className = `message-box message-${type}`;
+            box.innerHTML = `<span style="font-size:24px;">${icons[type]}</span><span>${msg}</span>`;
+            box.style.display = 'flex';
+            setTimeout(() => box.style.display = 'none', 5000);
         }
 
-        // Check for Enter key on password field
-        document.addEventListener('DOMContentLoaded', function() {
-            const passwordField = document.getElementById('adminPassword');
-            if (passwordField) {
-                passwordField.focus();
-            }
+        // Focus password on load
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('adminPassword')?.focus();
         });
     </script>
 </body>
-
 </html>
-
-
