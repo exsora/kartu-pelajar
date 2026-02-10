@@ -1,2591 +1,1063 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perpustakaan Digital</title>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-    }
-
-    /* ==================== LOGIN PAGE ==================== */
-    .login-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .login-container::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80') center/cover no-repeat;
-      filter: brightness(0.4);
-      z-index: 0;
-    }
-
-    .login-container::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 1;
-    }
-
-    .login-box {
-      position: relative;
-      z-index: 2;
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      padding: 50px 40px;
-      border-radius: 24px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 
-                  inset 0 1px 0 rgba(255, 255, 255, 0.3);
-      width: 100%;
-      max-width: 440px;
-      animation: fadeInUp 0.6s ease-out;
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .login-header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-
-    .login-header::before {
-      content: '📚';
-      font-size: 64px;
-      display: block;
-      margin-bottom: 16px;
-      animation: float 3s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% {
-        transform: translateY(0px);
-      }
-      50% {
-        transform: translateY(-10px);
-      }
-    }
-
-    .login-header h1 {
-      color: white;
-      font-size: 32px;
-      margin-bottom: 8px;
-      font-weight: 700;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-      letter-spacing: -0.5px;
-    }
-
-    .login-header p {
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 15px;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-    }
-
-    .form-group {
-      margin-bottom: 24px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 10px;
-      color: white;
-      font-weight: 600;
-      font-size: 14px;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-      letter-spacing: 0.3px;
-    }
-
-    .form-group input {
-      width: 100%;
-      padding: 14px 20px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-radius: 12px;
-      font-size: 15px;
-      transition: all 0.3s;
-      color: white;
-      font-weight: 500;
-    }
-
-    .form-group input::placeholder {
-      color: rgba(255, 255, 255, 0.6);
-    }
-
-    .form-group input:focus {
-      outline: none;
-      border-color: rgba(255, 255, 255, 0.6);
-      background: rgba(255, 255, 255, 0.25);
-      box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1),
-                  0 8px 20px rgba(0, 0, 0, 0.2);
-      transform: translateY(-2px);
-    }
-    
-    /* MODAL FORM OVERRIDES */
-    .modal .form-group label {
-        color: #475569;
-        text-shadow: none;
-    }
-    .modal .form-group input {
-        color: #1e293b;
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        backdrop-filter: none;
-    }
-    .modal .form-group input::placeholder {
-      color: #94a3b8;
-    }
-    .modal .form-group input:focus {
-        border-color: #667eea;
-        background: white;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
-        transform: none;
-    }
-    .modal .btn-primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-    }
-    .modal .btn-primary:hover {
-        background: linear-gradient(135deg, #5a6fd8 0%, #683a92 100%);
-    }
-
-    .btn {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.3s;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-
-    .btn-primary {
-      background: rgba(255, 255, 255, 0.95);
-      color: #667eea;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .btn-primary::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.3), transparent);
-      transition: left 0.5s;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
-      background: white;
-    }
-
-    .btn-primary:hover::before {
-      left: 100%;
-    }
-
-    .btn-primary:active {
-      transform: translateY(-1px);
-    }
-
-    .btn-loading {
-        cursor: not-allowed !important;
-        background: #ccc !important;
-        box-shadow: none !important;
-        transform: none !important;
-    }
-
-    .btn-loading .btn-text {
-        visibility: hidden;
-        opacity: 0;
-    }
-
-    .btn-loading .spinner {
-        display: inline-block;
-        opacity: 1;
-    }
-
-    .spinner {
-        display: none;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 20px;
-        height: 20px;
-        border: 2px solid rgba(102, 126, 234, 0.5);
-        border-top-color: #667eea;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        opacity: 0;
-        transition: opacity 0.3s;
-    }
-
-    @keyframes spin {
-        to {
-            transform: translate(-50%, -50%) rotate(360deg);
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Data Siswa - SMP Negeri 9 Palu</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-    }
-
-    /* ==================== DASHBOARD LAYOUT ==================== */
-    .dashboard {
-      display: none;
-      min-height: 100vh;
-      background: #f1f5f9;
-    }
-
-    body.dashboard-open {
-      overflow: hidden; /* Prevent scrolling when dashboard is open */
-    }
-    
-    .wrapper {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        background: #f1f5f9;
-    }
-
-    .sidebar {
-      position: fixed;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 260px;
-      background: linear-gradient(180deg, #2c3e95 0%, #1e2b6f 100%);
-      padding: 0;
-      overflow-y: auto;
-      z-index: 1000;
-      box-shadow: 4px 0 12px rgba(0, 0, 0, 0.15);
-      transition: width 0.3s ease;
-    }
-
-    .main-header {
-      position: fixed;
-      top: 0;
-      left: 260px;
-      right: 0;
-      background: white;
-      padding: 20px;
-      z-index: 999;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      transition: left 0.3s ease;
-    }
-
-    .content-wrapper {
-      margin-left: 260px;
-      margin-top: 100px; /* Height of main-header + some padding */
-      padding: 20px;
-      transition: margin-left 0.3s ease;
-    }
-    
-    /* Collapsed state */
-    body.sidebar-collapsed .sidebar {
-      width: 80px;
-    }
-    
-    body.sidebar-collapsed .sidebar .sidebar-header h2,
-    body.sidebar-collapsed .sidebar .sidebar-header p,
-    body.sidebar-collapsed .sidebar .menu-item span:not(.material-icons),
-    body.sidebar-collapsed .sidebar .menu-label,
-    body.sidebar-collapsed .sidebar .menu-badge {
-      display: none;
-    }
-
-    body.sidebar-collapsed .sidebar .menu-item {
-      justify-content: center;
-    }
-    
-    body.sidebar-collapsed .sidebar .menu-item .material-icons {
-      margin-right: 0;
-    }
-
-    body.sidebar-collapsed .main-header {
-      left: 80px;
-    }
-    
-    body.sidebar-collapsed .content-wrapper {
-      margin-left: 80px;
-    }
-
-    .sidebar-toggle {
-        background: none;
-        border: none;
-        color: #334155;
-        cursor: pointer;
-        font-size: 24px;
-        margin-right: 16px;
-    }
-
-    .header-left {
-        display: flex;
-        align-items: center;
-    }
-
-    .top-bar-left { /* Keep for backward compatibility */
-        display: flex;
-        align-items: center;
-    }
-
-    .sidebar-header {
-      background: linear-gradient(135deg, #4154b3 0%, #2c3e95 100%);
-      color: white;
-      padding: 24px 20px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      margin-bottom: 8px;
-      text-align: center;
-    }
-
-    .sidebar-logo {
-      width: 50px;
-      height: 50px;
-      background: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 12px;
-      font-size: 28px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-
-    .sidebar-header h2 {
-      font-size: 18px;
-      margin-bottom: 4px;
-      font-weight: 700;
-      letter-spacing: 0.3px;
-    }
-
-    .sidebar-header p {
-      font-size: 12px;
-      opacity: 0.85;
-      font-weight: 400;
-    }
-
-    .menu-section {
-      padding: 0 12px;
-      margin-bottom: 8px;
-    }
-
-    .menu-label {
-      color: rgba(255, 255, 255, 0.5);
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      padding: 16px 16px 8px;
-    }
-
-    .menu-item {
-      display: flex;
-      align-items: center;
-      padding: 13px 16px;
-      color: rgba(255, 255, 255, 0.85);
-      text-decoration: none;
-      border-radius: 10px;
-      margin-bottom: 4px;
-      transition: all 0.3s;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 500;
-      position: relative;
-    }
-
-    .menu-item:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-      transform: translateX(4px);
-    }
-
-    .menu-item.active {
-      background: linear-gradient(135deg, #5b6fd8 0%, #4154b3 100%);
-      color: white;
-      box-shadow: 0 4px 12px rgba(91, 111, 216, 0.4);
-    }
-
-    .menu-item.active::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 4px;
-      height: 70%;
-      background: white;
-      border-radius: 0 4px 4px 0;
-    }
-
-    .menu-item .material-icons {
-      margin-right: 14px;
-      font-size: 22px;
-    }
-
-    .menu-badge {
-      margin-left: auto;
-      background: #ef4444;
-      color: white;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 10px;
-      min-width: 20px;
-      text-align: center;
-    }
-
-
-
-    .top-bar-left h3 {
-      color: #1e293b;
-      font-size: 26px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .top-bar-subtitle {
-      color: #64748b;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .top-bar-subtitle .material-icons {
-      font-size: 16px;
-    }
-
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      background: #f8fafc;
-      padding: 10px 16px;
-      border-radius: 12px;
-      border: 1px solid #e2e8f0;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-    
-    .user-info:hover {
-        background-color: #f1f5f9;
-    }
-
-    .user-menu-container {
-      position: relative;
-    }
-
-    .dropdown-menu {
-      display: none;
-      position: absolute;
-      top: 110%;
-      right: 0;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-      padding: 8px;
-      z-index: 1200;
-      width: 100%;
-    }
-    
-    .user-menu-container.open .dropdown-menu {
-      display: block;
-    }
-
-    .dropdown-menu .logout-btn {
-        width: 100%;
-        justify-content: center;
-    }
-
-
-    .user-avatar {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: 700;
-      font-size: 16px;
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-    }
-
-    .user-details {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .user-name {
-      font-weight: 600;
-      color: #1e293b;
-      font-size: 14px;
-    }
-
-    .user-role {
-      font-size: 12px;
-      color: #64748b;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .user-role .material-icons {
-      font-size: 14px;
-      color: #10b981;
-    }
-
-    .logout-btn {
-      padding: 10px 20px;
-      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 600;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
-    }
-
-    .logout-btn:hover {
-      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
-    }
-
-    .logout-btn .material-icons {
-      font-size: 18px;
-    }
-
-    /* ==================== STATS CARDS ==================== */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
-      margin-bottom: 24px;
-    }
-
-    .stat-card {
-      background: white;
-      padding: 24px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      transition: all 0.3s;
-    }
-
-    .stat-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-    }
-
-    .stat-icon {
-      width: 60px;
-      height: 60px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-    }
-
-    .stat-icon.blue {
-      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-      color: white;
-    }
-
-    .stat-icon.green {
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      color: white;
-    }
-
-    .stat-icon.red {
-      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-      color: white;
-    }
-
-    .stat-icon.purple {
-      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-      color: white;
-    }
-
-    .stat-icon.orange {
-      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-      color: white;
-    }
-
-    .stat-icon.teal {
-      background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
-      color: white;
-    }
-
-    .stat-icon.cyan {
-      background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
-      color: white;
-    }
-
-    .stat-icon.pink {
-      background: linear-gradient(135deg, #ec4899 0%, #d946ef 100%);
-      color: white;
-    }
-
-    .stat-info h4 {
-      color: #64748b;
-      font-size: 13px;
-      font-weight: 500;
-      margin-bottom: 4px;
-    }
-
-    .stat-info .stat-value {
-      color: #1e293b;
-      font-size: 28px;
-      font-weight: 700;
-    }
-
-    /* ==================== CONTENT CARD ==================== */
-    .content-card {
-      background: white;
-      padding: 24px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-      margin-bottom: 24px;
-    }
-
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .card-header h4 {
-      color: #1e293b;
-      font-size: 18px;
-      font-weight: 600;
-    }
-
-    .btn-add {
-      padding: 10px 20px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.3s;
-    }
-
-    .btn-add:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-    }
-
-    .table-controls {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .search-container {
-      position: relative;
-    }
-
-    .search-container input {
-      padding: 8px 12px 8px 36px;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      font-size: 14px;
-    }
-
-    .search-container .material-icons {
-      position: absolute;
-      left: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #94a3b8;
-      font-size: 20px;
-    }
-
-    .page-size-container {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 14px;
-      color: #475569;
-    }
-
-    .page-size-container select {
-      padding: 8px 12px;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      font-size: 14px;
-    }
-
-    .table-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 16px;
-      padding-top: 16px;
-      border-top: 1px solid #e2e8f0;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .pagination-info {
-      font-size: 14px;
-      color: #475569;
-    }
-
-    .pagination-controls button {
-      padding: 6px 12px;
-      border: 1px solid #e2e8f0;
-      background: white;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-left: 4px;
-      transition: background-color 0.2s;
-    }
-
-    .pagination-controls button:hover:not(:disabled) {
-      background-color: #f8fafc;
-    }
-
-    .pagination-controls button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    /* ==================== TABLE ==================== */
-    .table-container {
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    thead {
-      background: #f8fafc;
-    }
-
-    th {
-      padding: 12px;
-      text-align: left;
-      color: #475569;
-      font-weight: 600;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    td {
-      padding: 12px;
-      border-top: 1px solid #e2e8f0;
-      color: #334155;
-      font-size: 14px;
-    }
-
-    tr:hover {
-      background: #f8fafc;
-    }
-
-    /* ==================== BADGES ==================== */
-    .badge {
-      display: inline-block;
-      padding: 4px 12px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .badge.pending {
-      background: #fef3c7;
-      color: #92400e;
-    }
-
-    .badge.approved {
-      background: #d1fae5;
-      color: #065f46;
-    }
-
-    .badge.rejected {
-      background: #fee2e2;
-      color: #991b1b;
-    }
-
-    .badge.returned {
-      background: #dbeafe;
-      color: #1e40af;
-    }
-
-    /* ==================== ACTION BUTTONS ==================== */
-    .action-btn {
-      padding: 6px 12px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 12px;
-      font-weight: 500;
-      margin-right: 6px;
-      transition: all 0.3s;
-    }
-
-    .btn-approve {
-      background: #10b981;
-      color: white;
-    }
-
-    .btn-approve:hover {
-      background: #059669;
-    }
-
-    .btn-reject {
-      background: #ef4444;
-      color: white;
-    }
-
-    .btn-reject:hover {
-      background: #dc2626;
-    }
-
-    .btn-edit {
-      background: #3b82f6;
-      color: white;
-    }
-
-    .btn-edit:hover {
-      background: #2563eb;
-    }
-
-    .btn-delete {
-      background: #ef4444;
-      color: white;
-    }
-
-    .btn-delete:hover {
-      background: #dc2626;
-    }
-
-    .btn-return {
-      background: #8b5cf6;
-      color: white;
-    }
-
-    .btn-return:hover {
-      background: #7c3aed;
-    }
-
-    .btn-borrow {
-      background: #10b981;
-      color: white;
-    }
-
-    .btn-borrow:hover {
-      background: #059669;
-    }
-
-    /* ==================== MODAL ==================== */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 2000;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal-content {
-      background: white;
-      padding: 30px;
-      border-radius: 16px;
-      width: 90%;
-      max-width: 500px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      max-height: 80vh; /* Add this line */
-      overflow-y: auto; /* Add this line */
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .modal-header h3 {
-      color: #1e293b;
-      font-size: 20px;
-    }
-
-    .close-modal {
-      background: none;
-      border: none;
-      font-size: 24px;
-      cursor: pointer;
-      color: #64748b;
-    }
-
-    /* ==================== BOOKS GRID ==================== */
-    .books-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 20px;
-    }
-
-    .book-card {
-      background: white;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-      transition: all 0.3s;
-    }
-
-    .book-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-    }
-
-    .book-cover {
-      width: 100%;
-      height: 250px;
-      object-fit: cover;
-      background: #e2e8f0;
-    }
-
-    .book-info {
-      padding: 16px;
-    }
-
-    .book-info h5 {
-      color: #1e293b;
-      font-size: 16px;
-      margin-bottom: 6px;
-      font-weight: 600;
-    }
-
-    .book-info p {
-      color: #64748b;
-      font-size: 13px;
-      margin-bottom: 4px;
-    }
-
-    .book-stok {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      color: #10b981;
-      font-size: 13px;
-      font-weight: 600;
-      margin-top: 8px;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    /* ==================== LOADING ==================== */
-    .loading {
-      text-align: center;
-      padding: 40px;
-      color: #64748b;
-    }
-
-    /* ==================== RESPONSIVE ==================== */
-    .sidebar-overlay {
-      display: none;
-    }
-
-    @media (max-width: 768px) {
-      body.sidebar-mobile-active .sidebar-overlay {
-        display: block;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0,0,0,0.5);
-        z-index: 1099; /* Below sidebar but above content */
-      }
-    
-      .main-header {
-        position: static;
-        left: 0;
-        width: 100%;
-      }
-      
-      .content-wrapper {
-        margin-left: 0;
-        margin-top: 20px;
-      }
-      
-      .sidebar {
-        transform: translateX(-100%);
-        z-index: 1100; /* Ensure sidebar is on top */
-      }
-      
-      body.sidebar-mobile-active .sidebar {
-        transform: translateX(0);
-      }
-
-      body.sidebar-collapsed .sidebar {
-          transform: translateX(-100%); /* Ensure it's hidden when toggling on desktop then resizing */
-      }
-      
-      body.sidebar-collapsed .main-header, body.sidebar-collapsed .content-wrapper {
-        left: 0;
-        margin-left: 0;
-      }
-
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c1929 0%, #1a365d 50%, #234e82 100%);
+            min-height: 100vh;
+            min-height: 100dvh; /* Dynamic viewport height untuk mobile */
+            padding: clamp(10px, 3vw, 30px);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            color: white;
+            padding: clamp(30px, 8vw, 60px) clamp(15px, 4vw, 30px);
+        }
+
+        .spinner {
+            width: clamp(40px, 10vw, 60px);
+            height: clamp(40px, 10vw, 60px);
+            border: 4px solid rgba(255,255,255,0.2);
+            border-top-color: #60a5fa;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto clamp(15px, 4vw, 25px);
+        }
+
+        .loading p {
+            font-size: clamp(14px, 3.5vw, 18px);
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Error State */
+        .error-card {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            border-radius: clamp(15px, 4vw, 20px);
+            padding: clamp(30px, 8vw, 50px) clamp(20px, 5vw, 30px);
+            text-align: center;
+            color: white;
+            box-shadow: 0 15px 40px rgba(185, 28, 28, 0.4);
+        }
+
+        .error-icon {
+            font-size: clamp(50px, 15vw, 70px);
+            margin-bottom: clamp(15px, 4vw, 20px);
+        }
+
+        .error-card h2 {
+            font-size: clamp(18px, 5vw, 24px);
+            margin-bottom: 10px;
+        }
+
+        .error-card p {
+            font-size: clamp(13px, 3.5vw, 16px);
+            opacity: 0.9;
+        }
+
+        /* Page Title */
+        .page-title {
+            text-align: center;
+            color: white;
+            margin-bottom: clamp(15px, 4vw, 25px);
+        }
+
+        .page-title h1 {
+            font-size: clamp(18px, 5vw, 24px);
+            margin-bottom: 5px;
+        }
+
+        .page-title p {
+            opacity: 0.8;
+            font-size: clamp(12px, 3vw, 14px);
+        }
+
+        /* Card Container */
+        .card-container {
+            margin-bottom: clamp(15px, 4vw, 25px);
+            width: 100%;
+        }
+
+        /* ==================== */
+        /* ID CARD - RESPONSIVE */
+        /* ==================== */
+        .id-card, .id-card-back {
+            width: 100%;
+            max-width: 420px;
+            aspect-ratio: 85.6 / 53.98; /* Rasio kartu ID standar */
+            margin: 0 auto;
+            border-radius: clamp(8px, 2vw, 12px);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+        }
+
+        /* Watermark */
+        .card-watermark {
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 55%;
+            opacity: 0.06;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Header Kop - BIRU */
+        .card-header-kop {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+            padding: 2.5% 3%;
+            display: flex;
+            align-items: center;
+            gap: 2%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-img {
+            width: 10%;
+            min-width: 30px;
+            max-width: 45px;
+            aspect-ratio: 1;
+            object-fit: contain;
+        }
+
+        .kop-text {
+            flex: 1;
+            text-align: center;
+            color: white;
+        }
+
+        .kop-text .kop-line1 {
+            font-size: clamp(6px, 2.2vw, 10px);
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .kop-text .kop-line2 {
+            font-size: clamp(5px, 1.8vw, 8px);
+            font-weight: 600;
+            margin-top: 1px;
+            text-transform: uppercase;
+        }
+
+        .kop-text .kop-line3 {
+            font-size: clamp(8px, 2.8vw, 13px);
+            font-weight: 900;
+            margin: 1px 0;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .kop-text .kop-line4 {
+            font-size: clamp(4px, 1.3vw, 6px);
+            opacity: 0.95;
+            letter-spacing: 0.2px;
+            font-weight: 500;
+        }
+
+        /* Title Bar - KUNING/GOLD */
+        .card-title-bar {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #1e3a5f;
+            text-align: center;
+            padding: 1.2%;
+            font-size: clamp(6px, 2.2vw, 10px);
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Card Body */
+        .card-body-content {
+            padding: 3% 3.5% 2.5%;
+            display: flex;
+            gap: 3%;
+            position: relative;
+            z-index: 1;
+            height: calc(100% - 28%); /* Sisa tinggi setelah header */
+        }
+
+        .photo-frame {
+            width: 22%;
+            aspect-ratio: 3/4;
+            background: linear-gradient(135deg, #e2e8f0, #f1f5f9);
+            border: 2px solid #1e3a5f;
+            border-radius: clamp(4px, 1vw, 6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(20px, 6vw, 35px);
+            color: #94a3b8;
+            flex-shrink: 0;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .info-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: clamp(2px, 0.8vw, 5px);
+        }
+
+        .info-row {
+            display: flex;
+            line-height: 1.3;
+            align-items: flex-start;
+        }
+
+        .info-label {
+            width: 28%;
+            color: #475569;
+            font-weight: 700;
+            flex-shrink: 0;
+            font-size: clamp(5px, 1.8vw, 9px);
+        }
+
+        .info-separator {
+            width: 8%;
+            text-align: center;
+            color: #475569;
+            font-weight: 600;
+            font-size: clamp(5px, 1.8vw, 9px);
+        }
+
+        .info-value {
+            flex: 1;
+            color: #1e293b;
+            font-weight: 600;
+            font-size: clamp(5px, 1.8vw, 9px);
+            word-break: break-word;
+        }
+
+        .qr-section {
+            position: absolute;
+            bottom: 3%;
+            right: 3%;
+            text-align: center;
+        }
+
+        .qr-code {
+            width: clamp(35px, 12vw, 55px);
+            aspect-ratio: 1;
+            background: white;
+            padding: 3%;
+            border-radius: clamp(3px, 0.8vw, 5px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            border: 1px solid #e2e8f0;
+        }
+
+        .qr-code img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .qr-label {
+            font-size: clamp(4px, 1.2vw, 6px);
+            color: #64748b;
+            margin-top: 2px;
+            font-weight: 500;
+        }
+
+        /* ========================= */
+        /* ID CARD BACK - RESPONSIVE */
+        /* ========================= */
+
+        /* Back Header - BIRU */
+        .back-header {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+            color: white;
+            text-align: center;
+            padding: 2%;
+            font-size: clamp(8px, 2.5vw, 13px);
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        /* Janji Content */
+        .janji-content {
+            padding: 2% 4% 1%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .janji-item {
+            display: flex;
+            gap: 2%;
+            margin-bottom: clamp(1px, 0.5vw, 3px);
+            line-height: 1.3;
+        }
+
+        .janji-number {
+            font-weight: 800;
+            color: #1e3a5f;
+            min-width: 5%;
+            font-size: clamp(5px, 1.6vw, 8px);
+        }
+
+        .janji-text {
+            color: #334155;
+            font-weight: 600;
+            font-size: clamp(4.5px, 1.5vw, 7.5px);
+        }
+
+        /* TTD Section */
+        .ttd-section {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 4%;
+            margin-top: 1%;
+        }
+
+        .ttd-box {
+            text-align: center;
+            width: 40%;
+        }
+
+        .ttd-title {
+            font-size: clamp(5px, 1.6vw, 8px);
+            color: #1e3a5f;
+            font-weight: 700;
+        }
+
+        .ttd-space {
+            height: clamp(10px, 4vw, 18px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ttd-line {
+            width: 85%;
+            border-bottom: 1px solid #1e3a5f;
+        }
+
+        .ttd-name {
+            font-size: clamp(5px, 1.7vw, 9px);
+            color: #1e293b;
+            font-weight: 800;
+            margin-top: 1px;
+            line-height: 1.2;
+        }
+
+        .ttd-nip {
+            font-size: clamp(4.5px, 1.4vw, 7px);
+            color: #475569;
+            font-weight: 700;
+        }
+
+        /* Back Footer - BIRU */
+        .back-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+            padding: 1.5% 3%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .validity-text {
+            font-size: clamp(4px, 1.2vw, 6px);
+            color: white;
+            max-width: 60%;
+            line-height: 1.3;
+            font-weight: 600;
+        }
+
+        .barcode-img {
+            height: clamp(12px, 4vw, 22px);
+            border-radius: 2px;
+        }
+
+        /* ==================== */
+        /* PASSWORD SECTION     */
+        /* ==================== */
+        .password-section {
+            background: linear-gradient(135deg, #1e3a5f 0%, #3b82f6 100%);
+            border-radius: clamp(12px, 3vw, 16px);
+            padding: clamp(15px, 5vw, 25px);
+            margin-top: clamp(15px, 4vw, 25px);
+            box-shadow: 0 10px 40px rgba(30, 58, 95, 0.4);
+        }
+
+        .password-header {
+            display: flex;
+            align-items: center;
+            gap: clamp(8px, 2vw, 12px);
+            margin-bottom: clamp(12px, 4vw, 20px);
+            color: white;
+        }
+
+        .password-icon {
+            font-size: clamp(22px, 6vw, 28px);
+        }
+
+        .password-title {
+            font-weight: 700;
+            font-size: clamp(14px, 4vw, 18px);
+        }
+
+        .password-box {
+            display: flex;
+            align-items: center;
+            gap: clamp(6px, 2vw, 10px);
+            background: rgba(0,0,0,0.3);
+            border-radius: clamp(8px, 2vw, 12px);
+            padding: clamp(10px, 3vw, 15px) clamp(12px, 3vw, 18px);
+            flex-wrap: wrap;
+        }
+
+        .password-display {
+            flex: 1;
+            min-width: 100px;
+        }
+
+        .password-value {
+            color: #4ade80;
+            font-family: 'Courier New', monospace;
+            font-size: clamp(16px, 4.5vw, 20px);
+            font-weight: 700;
+            letter-spacing: 2px;
+            display: none;
+            word-break: break-all;
+        }
+
+        .password-hidden {
+            color: white;
+            font-size: clamp(18px, 5vw, 24px);
+            letter-spacing: 3px;
+        }
+
+        .password-buttons {
+            display: flex;
+            gap: clamp(6px, 2vw, 10px);
+        }
+
+        .password-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: clamp(38px, 10vw, 48px);
+            height: clamp(38px, 10vw, 48px);
+            border-radius: clamp(8px, 2vw, 12px);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(18px, 5vw, 22px);
+        }
+
+        .password-btn:hover, .password-btn:active {
+            background: rgba(255,255,255,0.35);
+            transform: scale(1.05);
+        }
+
+        .copy-success {
+            color: #4ade80;
+            font-size: clamp(12px, 3vw, 14px);
+            margin-top: clamp(10px, 3vw, 15px);
+            text-align: center;
+            display: none;
+        }
+
+        .warning-box {
+            background: rgba(251, 191, 36, 0.15);
+            border: 1px solid rgba(251, 191, 36, 0.4);
+            border-radius: clamp(8px, 2vw, 12px);
+            padding: clamp(10px, 3vw, 15px);
+            margin-top: clamp(12px, 4vw, 20px);
+            display: flex;
+            gap: clamp(8px, 2vw, 12px);
+            align-items: flex-start;
+        }
+
+        .warning-icon {
+            font-size: clamp(16px, 4vw, 20px);
+            flex-shrink: 0;
+        }
+
+        .warning-text {
+            color: rgba(255,255,255,0.95);
+            font-size: clamp(10px, 2.8vw, 12px);
+            line-height: 1.5;
+        }
+
+        /* Download Button */
+        .download-section {
+            margin-top: clamp(15px, 4vw, 25px);
+            text-align: center;
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: white;
+            border: none;
+            padding: clamp(12px, 3.5vw, 16px) clamp(25px, 7vw, 35px);
+            border-radius: clamp(10px, 2.5vw, 14px);
+            font-size: clamp(14px, 3.5vw, 16px);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: clamp(6px, 2vw, 10px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+            width: 100%;
+            max-width: 300px;
+            justify-content: center;
+        }
+
+        .btn-download:hover, .btn-download:active {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.5);
+        }
+
+        .btn-download:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ==================== */
+        /* RESPONSIVE QUERIES   */
+        /* ==================== */
+
+        /* Extra small phones */
+        @media (max-width: 320px) {
+            body {
+                padding: 8px;
+            }
+
+            .password-box {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .password-display {
+                text-align: center;
+                margin-bottom: 10px;
+            }
+
+            .password-buttons {
+                justify-content: center;
+            }
+        }
+
+        /* Small phones */
+        @media (min-width: 321px) and (max-width: 480px) {
+            .password-box {
+                flex-wrap: nowrap;
+            }
+        }
+
+        /* Tablets */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .container {
+                max-width: 450px;
+            }
+        }
+
+        /* Laptops and Desktops */
+        @media (min-width: 769px) {
+            body {
+                padding: 40px 20px;
+                align-items: center;
+            }
+
+            .container {
+                max-width: 500px;
+            }
+
+            .id-card, .id-card-back {
+                max-width: 420px;
+            }
+        }
+
+        /* Large screens */
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 520px;
+            }
+        }
+
+        /* Landscape orientation on phones */
+        @media (max-height: 500px) and (orientation: landscape) {
+            body {
+                padding: 10px;
+                align-items: flex-start;
+            }
+
+            .page-title {
+                margin-bottom: 10px;
+            }
+
+            .page-title h1 {
+                font-size: 16px;
+            }
+
+            .card-container {
+                margin-bottom: 10px;
+            }
+
+            .id-card, .id-card-back {
+                max-width: 350px;
+            }
+
+            .password-section {
+                padding: 15px;
+                margin-top: 10px;
+            }
+
+            .download-section {
+                margin-top: 10px;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .password-section, .download-section, .page-title {
+                display: none;
+            }
+
+            .id-card, .id-card-back {
+                box-shadow: none;
+                border: 1px solid #333;
+                max-width: 85.6mm;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- ==================== LOGIN PAGE ==================== -->
-  <div id="loginPage" class="login-container">
-    <div class="login-box">
-      <div class="login-header">
-        <h1>Perpustakaan Digital</h1>
-        <p>Silakan masuk untuk melanjutkan</p>
-      </div>
-      <form id="loginForm">
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" id="emailInput" required placeholder="nama@email.com">
+    <div class="container">
+        <!-- Loading State -->
+        <div id="loadingState" class="loading">
+            <div class="spinner"></div>
+            <p>Memuat data siswa...</p>
         </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="passwordInput" required placeholder="Masukkan password">
+
+        <!-- Error State -->
+        <div id="errorState" class="error-card" style="display: none;">
+            <div class="error-icon">🚫</div>
+            <h2>Akses Ditolak</h2>
+            <p id="errorMessage">Token tidak valid atau data tidak ditemukan.</p>
         </div>
-        <button type="submit" class="btn btn-primary">
-          <span class="btn-text">Masuk</span>
-          <span class="spinner"></span>
-        </button>
-      </form>
+
+        <!-- Student Data -->
+        <div id="studentData" style="display: none;">
+            <div class="page-title">
+                <h1>🎓 Kartu Pelajar Digital</h1>
+                <p>SMP Negeri 9 Palu</p>
+            </div>
+
+            <!-- Card Front -->
+            <div class="card-container">
+                <div class="id-card" id="cardFront">
+                    <img src="" class="card-watermark" id="watermarkLogo" alt="">
+                    
+                    <div class="card-header-kop">
+                        <div class="logo-container">
+                            <img src="" class="logo-img" alt="Logo Kota Palu" id="logoPalu">
+                        </div>
+                        <div class="kop-text">
+                            <div class="kop-line1">Pemerintah Kota Palu</div>
+                            <div class="kop-line2">Dinas Pendidikan dan Kebudayaan</div>
+                            <div class="kop-line3">SMP Negeri 9 Palu</div>
+                            <div class="kop-line4">Jl. Zebra No. 44 Palu | Telp. (0451) 482368 | E-mail: smpnegeri.9palu@gmail.com</div>
+                        </div>
+                        <div class="logo-container">
+                            <img src="" class="logo-img" alt="Logo Sekolah" id="logoSekolah">
+                        </div>
+                    </div>
+
+                    <div class="card-title-bar">Kartu Pelajar</div>
+
+                    <div class="card-body-content">
+                        <div class="photo-frame" id="photoContainer">👤</div>
+                        <div class="info-content">
+                            <div class="info-row">
+                                <span class="info-label">Nama</span>
+                                <span class="info-separator">:</span>
+                                <span class="info-value" id="studentName">-</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">NISN</span>
+                                <span class="info-separator">:</span>
+                                <span class="info-value" id="studentNISN">-</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">TTL</span>
+                                <span class="info-separator">:</span>
+                                <span class="info-value" id="studentTTL">-</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Kelas</span>
+                                <span class="info-separator">:</span>
+                                <span class="info-value" id="studentClass">-</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Email</span>
+                                <span class="info-separator">:</span>
+                                <span class="info-value" id="studentEmail">-</span>
+                            </div>
+                        </div>
+                        <div class="qr-section">
+                            <div class="qr-code">
+                                <img id="qrCode" src="" alt="QR Code">
+                            </div>
+                            <div class="qr-label">Scan untuk Password</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Back -->
+            <div class="card-container">
+                <div class="id-card-back" id="cardBack">
+                    <img src="" class="card-watermark" id="watermarkLogoBack" alt="">
+                    
+                    <div class="back-header">Janji Siswa</div>
+                    
+                    <div class="janji-content">
+                        <div class="janji-item">
+                            <span class="janji-number">1.</span>
+                            <span class="janji-text">Beriman dan bertaqwa kepada Allah SWT.</span>
+                        </div>
+                        <div class="janji-item">
+                            <span class="janji-number">2.</span>
+                            <span class="janji-text">Hormat dan patuh pada orangtua dan guru.</span>
+                        </div>
+                        <div class="janji-item">
+                            <span class="janji-number">3.</span>
+                            <span class="janji-text">Rajin belajar dan giat beramal sholeh.</span>
+                        </div>
+                        <div class="janji-item">
+                            <span class="janji-number">4.</span>
+                            <span class="janji-text">Menjaga nama baik diri, sekolah.</span>
+                        </div>
+                        <div class="janji-item">
+                            <span class="janji-number">5.</span>
+                            <span class="janji-text">Tidak mengotori, mencoret meja, kursi, tembok, dan fasilitas lain yang ada di Sekolah.</span>
+                        </div>
+                        <div class="janji-item">
+                            <span class="janji-number">6.</span>
+                            <span class="janji-text">Sanggup mematuhi tata tertib sekolah dan sanggup menerima sanksi bila melanggar.</span>
+                        </div>
+                    </div>
+
+                    <!-- TTD Kepala Sekolah -->
+                    <div class="ttd-section">
+                        <div class="ttd-box">
+                            <div class="ttd-title">Kepala SMP Negeri 9 Palu</div>
+                            <div class="ttd-space">
+                                <div class="ttd-line"></div>
+                            </div>
+                            <div class="ttd-name">Dra. Harlina, M.Si</div>
+                            <div class="ttd-nip">NIP. 196510101995022001</div>
+                        </div>
+                    </div>
+
+                    <div class="back-footer">
+                        <div class="validity-text">
+                            *Kartu ini berlaku selama masih menjadi siswa SMP Negeri 9 Palu
+                        </div>
+                        <img src="" class="barcode-img" id="barcodeImg" alt="Barcode">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Password Section -->
+            <div class="password-section">
+                <div class="password-header">
+                    <span class="password-icon">🔐</span>
+                    <span class="password-title">Password Akun</span>
+                </div>
+                <div class="password-box">
+                    <div class="password-display">
+                        <span class="password-value" id="passwordValue">-</span>
+                        <span class="password-hidden" id="passwordHidden">••••••••</span>
+                    </div>
+                    <div class="password-buttons">
+                        <button class="password-btn" id="toggleBtn" onclick="togglePassword()" title="Lihat Password">👁️</button>
+                        <button class="password-btn" onclick="copyPassword()" title="Salin Password">📋</button>
+                    </div>
+                </div>
+                <p class="copy-success" id="copySuccess">✅ Password berhasil disalin!</p>
+
+                <div class="warning-box">
+                    <span class="warning-icon">⚠️</span>
+                    <span class="warning-text">
+                        <strong>RAHASIA!</strong> Jangan bagikan password kepada siapapun. 
+                        Amankan password setelah login pertama.
+                    </span>
+                </div>
+            </div>
+
+            <!-- Download Section -->
+            <div class="download-section">
+                <button class="btn-download" onclick="downloadCard()">📥 Download Kartu Pelajar</button>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <!-- ==================== ADMIN DASHBOARD ==================== -->
-  <div id="adminDashboard" class="dashboard">
-    <div class="wrapper">
-      <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
-      <div class="sidebar">
-        <div class="sidebar-header">
-          <div class="sidebar-logo">📚</div>
-          <h2>Perpustakaan Digital</h2>
-          <p>Admin Panel</p>
-        </div>
-        <div class="menu-section">
-          <div class="menu-label">Menu Utama</div>
-          <div class="menu-item active" onclick="showSection('dashboard')">
-            <span class="material-icons">dashboard</span>
-            <span>Dashboard</span>
-          </div>
-          <div class="menu-item" onclick="showSection('borrowRequests')">
-            <span class="material-icons">pending_actions</span>
-            <span>Peminjaman Pending</span>
-            <span class="menu-badge" id="pendingBadge">0</span>
-          </div>
-          <div class="menu-item" onclick="showSection('allBorrows')">
-            <span class="material-icons">history</span>
-            <span>Riwayat Peminjaman</span>
-          </div>
-        </div>
-        <div class="menu-section">
-          <div class="menu-label">Kelola Data</div>
-          <div class="menu-item" onclick="showSection('masterBooks')">
-            <span class="material-icons">menu_book</span>
-            <span>Master Buku</span>
-          </div>
-          <div class="menu-item" onclick="showSection('masterStudents')">
-            <span class="material-icons">people</span>
-            <span>Master Siswa</span>
-          </div>
-        </div>
-      </div>
-
-      <header class="main-header">
-        <div class="header-left">
-          <button class="sidebar-toggle" onclick="toggleSidebar()">
-            <span class="material-icons">menu</span>
-          </button>
-          <div class="top-bar-left">
-            <h3 id="pageTitle">Dashboard</h3>
-          </div>
-        </div>
-        <div class="user-menu-container">
-          <div class="user-info" onclick="toggleUserMenu()">
-            <div class="user-avatar" id="adminAvatar">A</div>
-            <div class="user-details">
-              <span class="user-name" id="adminName">Administrator</span>
-              <span class="user-role">
-                <span class="material-icons">verified</span>
-                Admin
-              </span>
-            </div>
-          </div>
-          <div class="dropdown-menu" id="adminUserMenu">
-            <button class="logout-btn" onclick="logout()">
-              <span class="material-icons">logout</span>
-              <span>Keluar</span>
-            </button>
-          </div>
-        </div>
-      </header>
-
-      <main class="content-wrapper">
-        <!-- Dashboard Stats -->
-        <div id="dashboardSection">
-          <div class="stats-grid">
-            <div class="stat-card">
-              <div class="stat-icon blue">
-                <span class="material-icons">menu_book</span>
-              </div>
-              <div class="stat-info">
-                <h4>Total Judul Buku</h4>
-                <div class="stat-value" id="totalBooks">0</div>
-              </div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon cyan">
-                <span class="material-icons">inventory_2</span>
-              </div>
-              <div class="stat-info">
-                <h4>Total Stok Buku</h4>
-                <div class="stat-value" id="totalStock">0</div>
-              </div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon orange">
-                <span class="material-icons">groups</span>
-              </div>
-              <div class="stat-info">
-                <h4>Total Siswa</h4>
-                <div class="stat-value" id="totalStudents">0</div>
-              </div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon red">
-                <span class="material-icons">pending</span>
-              </div>
-              <div class="stat-info">
-                <h4>Peminjaman Pending</h4>
-                <div class="stat-value" id="pendingBorrows">0</div>
-              </div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon purple">
-                <span class="material-icons">assignment_turned_in</span>
-              </div>
-              <div class="stat-info">
-                <h4>Menunggu Pengembalian</h4>
-                <div class="stat-value" id="waitingReturn">0</div>
-              </div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon green">
-                <span class="material-icons">assignment_return</span>
-              </div>
-              <div class="stat-info">
-                <h4>Buku Dikembalikan</h4>
-                <div class="stat-value" id="returnedBooks">0</div>
-              </div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon pink">
-                <span class="material-icons">cancel</span>
-              </div>
-              <div class="stat-info">
-                <h4>Peminjaman Ditolak</h4>
-                <div class="stat-value" id="rejectedBorrows">0</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Borrow Requests -->
-        <div id="borrowRequestsSection" class="hidden">
-          <div class="content-card">
-            <div class="card-header">
-              <h4>Pengajuan Peminjaman</h4>
-              <div class="table-controls">
-                <div class="search-container">
-                  <span class="material-icons">search</span>
-                  <input type="text" id="borrowRequestsSearch" placeholder="Cari...">
-                </div>
-                <div class="page-size-container">
-                  <span>Tampilkan:</span>
-                  <select id="borrowRequestsPageSize">
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                    <option value="all">Semua</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="table-container">
-              <table id="borrowRequestsTable">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Siswa</th>
-                    <th>Buku</th>
-                    <th>Tanggal Pinjam</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
-            <div class="table-footer">
-              <div id="borrowRequestsPaginationInfo" class="pagination-info"></div>
-              <div class="pagination-controls">
-                <button id="borrowRequestsPrevPage">Sebelumnya</button>
-                <button id="borrowRequestsNextPage">Berikutnya</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- All Borrows -->
-        <div id="allBorrowsSection" class="hidden">
-          <div class="content-card">
-            <div class="card-header">
-              <h4>Riwayat Peminjaman</h4>
-              <div class="table-controls">
-                <div class="search-container">
-                  <span class="material-icons">search</span>
-                  <input type="text" id="allBorrowsSearch" placeholder="Cari...">
-                </div>
-                <div class="page-size-container">
-                  <span>Tampilkan:</span>
-                  <select id="allBorrowsPageSize">
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                    <option value="all">Semua</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="table-container">
-              <table id="allBorrowsTable">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Siswa</th>
-                    <th>Buku</th>
-                    <th>Tanggal Pinjam</th>
-                    <th>Tanggal Kembali</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
-            <div class="table-footer">
-              <div id="allBorrowsPaginationInfo" class="pagination-info"></div>
-              <div class="pagination-controls">
-                <button id="allBorrowsPrevPage">Sebelumnya</button>
-                <button id="allBorrowsNextPage">Berikutnya</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Master Books -->
-        <div id="masterBooksSection" class="hidden">
-          <div class="content-card">
-            <div class="card-header">
-              <h4>Master Buku</h4>
-               <div class="table-controls">
-                <div class="search-container">
-                  <span class="material-icons">search</span>
-                  <input type="text" id="masterBooksSearch" placeholder="Cari...">
-                </div>
-                <div class="page-size-container">
-                  <span>Tampilkan:</span>
-                  <select id="masterBooksPageSize">
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                    <option value="all">Semua</option>
-                  </select>
-                </div>
-                 <button class="btn-add" onclick="openAddBookModal()">
-                    <span class="material-icons">add</span>
-                    Tambah Buku
-                </button>
-              </div>
-            </div>
-            <div class="table-container">
-              <table id="masterBooksTable">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Judul</th>
-                    <th>Penulis</th>
-                    <th>Stok</th>
-                    <th>Aksi</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
-            <div class="table-footer">
-                <div id="masterBooksPaginationInfo" class="pagination-info"></div>
-                <div class="pagination-controls">
-                    <button id="masterBooksPrevPage">Sebelumnya</button>
-                    <button id="masterBooksNextPage">Berikutnya</button>
-                </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Master Students -->
-        <div id="masterStudentsSection" class="hidden">
-          <div class="content-card">
-            <div class="card-header">
-              <h4>Master Siswa</h4>
-              <div class="table-controls">
-                <div class="search-container">
-                  <span class="material-icons">search</span>
-                  <input type="text" id="masterStudentsSearch" placeholder="Cari...">
-                </div>
-                <div class="page-size-container">
-                  <span>Tampilkan:</span>
-                  <select id="masterStudentsPageSize">
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                    <option value="all">Semua</option>
-                  </select>
-                </div>
-                <button class="btn-add" onclick="openAddStudentModal()">
-                    <span class="material-icons">add</span>
-                    Tambah Siswa
-                </button>
-              </div>
-            </div>
-            <div class="table-container">
-              <table id="masterStudentsTable">
-                <thead>
-                  <tr>
-                    <th>Email</th>
-                    <th>Nama</th>
-                    <th>Aksi</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
-             <div class="table-footer">
-                <div id="masterStudentsPaginationInfo" class="pagination-info"></div>
-                <div class="pagination-controls">
-                    <button id="masterStudentsPrevPage">Sebelumnya</button>
-                    <button id="masterStudentsNextPage">Berikutnya</button>
-                </div>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
-  </div>
-
-  <!-- ==================== STUDENT DASHBOARD ==================== -->
-  <div id="studentDashboard" class="dashboard">
-    <div class="wrapper">
-      <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
-      <div class="sidebar">
-        <div class="sidebar-header">
-          <div class="sidebar-logo">📚</div>
-          <h2>Perpustakaan Digital</h2>
-          <p>Siswa Panel</p>
-        </div>
-        <div class="menu-section">
-          <div class="menu-label">Menu Utama</div>
-          <div class="menu-item active" onclick="showStudentSection('studentBooks')">
-            <span class="material-icons">menu_book</span>
-            <span>Daftar Buku</span>
-          </div>
-          <div class="menu-item" onclick="showStudentSection('studentBorrows')">
-            <span class="material-icons">history</span>
-            <span>Riwayat Peminjaman</span>
-          </div>
-        </div>
-      </div>
-
-      <header class="main-header">
-        <div class="header-left">
-          <button class="sidebar-toggle" onclick="toggleSidebar()">
-            <span class="material-icons">menu</span>
-          </button>
-          <div class="top-bar-left">
-            <h3 id="studentPageTitle">Daftar Buku</h3>
-          </div>
-        </div>
-        <div class="user-menu-container">
-          <div class="user-info" onclick="toggleUserMenu()">
-            <div class="user-avatar" id="studentAvatar">S</div>
-            <div class="user-details">
-              <span class="user-name" id="studentName">Siswa</span>
-              <span class="user-role">
-                <span class="material-icons">school</span>
-                Siswa
-              </span>
-            </div>
-          </div>
-          <div class="dropdown-menu" id="studentUserMenu">
-            <button class="logout-btn" onclick="logout()">
-              <span class="material-icons">logout</span>
-              <span>Keluar</span>
-            </button>
-          </div>
-        </div>
-      </header>
-
-      <main class="content-wrapper">
-        <!-- Student Books -->
-        <div id="studentBooksSection">
-          <div class="content-card">
-            <div class="card-header">
-              <h4>Daftar Buku Tersedia</h4>
-            </div>
-            <div class="books-grid" id="studentBooksGrid"></div>
-          </div>
-        </div>
-
-        <!-- Student Borrows -->
-        <div id="studentBorrowsSection" class="hidden">
-          <div class="content-card">
-            <div class="card-header">
-              <h4>Riwayat Peminjaman Saya</h4>
-            </div>
-            <div class="table-container">
-              <table id="studentBorrowsTable">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Buku</th>
-                    <th>Tanggal Pinjam</th>
-                    <th>Tanggal Kembali</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
-  </div>
-
-  <!-- ==================== MODALS ==================== -->
-  <!-- Add/Edit Book Modal -->
-  <div id="bookModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 id="bookModalTitle">Tambah Buku</h3>
-        <button class="close-modal" onclick="closeModal('bookModal')">&times;</button>
-      </div>
-<form id="bookForm">
-  <input type="hidden" id="bookId">
-  <input type="hidden" id="currentBookUrl"> 
-  
-  <div class="form-group">
-    <label>Judul Buku</label>
-    <input type="text" id="bookJudul" required>
-  </div>
-  <div class="form-group">
-    <label>Penulis</label>
-    <input type="text" id="bookPenulis" required>
-  </div>
-  <div class="form-group">
-    <label>Stok</label>
-    <input type="number" id="bookStok" required min="0">
-  </div>
-  
-  <div class="form-group">
-    <label>Cover Buku (Upload Gambar)</label>
-    <input type="file" id="bookCoverFile" accept="image/*">
-    <div style="margin-top: 5px; font-size: 12px; color: #64748b;">
-       Atau masukkan URL manual (opsional):
-    </div>
-    <input type="text" id="bookCoverUrlInput" placeholder="https://...">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
-    <div id="imagePreviewContainer" style="margin-top: 10px; display: none;">
-        <p style="font-size: 12px; margin-bottom: 5px;">Preview:</p>
-        <img id="imagePreview" src="" style="max-width: 100px; max-height: 150px; border-radius: 8px; border: 1px solid #ddd;">
-    </div>
-  </div>
+    <script>
+        // =============================================
+        // KONFIGURASI - GANTI DENGAN URL ANDA
+        // =============================================
+        const API_URL = 'https://script.google.com/macros/s/AKfycbwi1ikRotMYRgWruBZka8Siq1VkllpY3tpbxjlL7v36Hl08bk7NRHN6-rfsmi3BsrxF/exec';
+        
+        const LOGO_SEKOLAH_URL = 'https://exsora.github.io/kartu-pelajar/logo-sekolah.png';
+        const LOGO_PALU_URL = 'https://exsora.github.io/kartu-pelajar/logo-palu.png';
+        const BARCODE_URL = 'https://exsora.github.io/kartu-pelajar/barcode.png';
+        
+        // =============================================
+        let studentPassword = '';
+        let isPasswordVisible = false;
+        let studentData = null;
 
-  <button type="submit" class="btn btn-primary">Simpan</button>
-</form>
-    </div>
-  </div>
-
-  <!-- Add/Edit Student Modal -->
-  <div id="studentModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 id="studentModalTitle">Tambah Siswa</h3>
-        <button class="close-modal" onclick="closeModal('studentModal')">&times;</button>
-      </div>
-      <form id="studentForm">
-        <input type="hidden" id="studentEmailOld">
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" id="studentEmail" required>
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="studentPassword" required>
-        </div>
-        <div class="form-group">
-          <label>Nama Lengkap</label>
-          <input type="text" id="studentNama" required>
-        </div>
-<button type="submit" class="btn btn-primary">
-          <span class="btn-text">Simpan</span>
-          <span class="spinner"></span>
-        </button>
-      </form>
-    </div>
-  </div>
-
-<script>
-    // ==================== GLOBAL VARIABLES ====================
-    let currentUser = null;
-
-    // ==================== UTILITY FUNCTIONS ====================
-    function toggleUserMenu() {
-      const menuContainer = event.currentTarget.closest('.user-menu-container');
-      if (menuContainer) {
-        menuContainer.classList.toggle('open');
-      }
-    }
-
-    window.addEventListener('click', function(e) {
-      document.querySelectorAll('.user-menu-container.open').forEach(function(menu) {
-        if (!menu.contains(e.target)) {
-          menu.classList.remove('open');
+        function getTokenFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('token');
         }
-      });
-    });
 
-    function updateCurrentDate() {
-      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      const date = new Date().toLocaleDateString('id-ID', options);
-      const dateElement = document.getElementById('currentDate'); // Pastikan ID ini ada di HTML header jika ingin tampil
-      // Opsional: Tampilkan tanggal di elemen lain jika ada
-    }
+        async function loadStudentData() {
+            const token = getTokenFromURL();
+            if (!token) {
+                showError('Token tidak ditemukan. Silakan scan ulang QR Code pada kartu pelajar Anda.');
+                return;
+            }
 
-    function toggleSidebar() {
-      if (window.innerWidth <= 768) {
-        document.body.classList.toggle('sidebar-mobile-active');
-      } else {
-        document.body.classList.toggle('sidebar-collapsed');
-      }
-    }
+            try {
+                const response = await fetch(`${API_URL}?action=getData&token=${encodeURIComponent(token)}`);
+                const result = await response.json();
 
-    function showResultAlert(result) {
-        Swal.fire({
-            title: result.success ? 'Berhasil' : 'Gagal',
-            text: result.message,
-            icon: result.success ? 'success' : 'error',
-            timer: result.success ? 1500 : 3000,
-            showConfirmButton: false,
-        });
-    }
-
-    function closeModal(modalId) {
-      document.getElementById(modalId).style.display = 'none';
-    }
-
-    // Close modal when clicking outside
-    window.onclick = function(event) {
-      if (event.target.classList.contains('modal')) {
-        event.target.style.display = 'none';
-      }
-    }
-
-    // ==================== IMAGE UPLOAD UTILITIES ====================
-    // Fungsi mengubah File menjadi Base64 String
-    function getBase64(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-          // Ambil string setelah tanda koma (hapus prefix data:image/...)
-          resolve(reader.result.split(',')[1]);
-        };
-        reader.onerror = error => reject(error);
-      });
-    }
-
-    // Event listener untuk preview gambar saat file dipilih
-    const fileInput = document.getElementById('bookCoverFile');
-    if(fileInput){
-        fileInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            const previewContainer = document.getElementById('imagePreviewContainer');
-            const previewImage = document.getElementById('imagePreview');
-            
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    previewImage.src = e.target.result;
-                    previewContainer.style.display = 'block';
+                if (result.success && result.data) {
+                    studentData = result.data;
+                    displayStudentData(result.data, token);
+                } else {
+                    showError(result.message || 'Data tidak ditemukan.');
                 }
-                reader.readAsDataURL(file);
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Gagal memuat data. Periksa koneksi internet Anda.');
             }
-        });
-    }
-
-    // ==================== SESSION MANAGEMENT ====================
-    function checkSession() {
-      const storedUser = sessionStorage.getItem('currentUser');
-      if (storedUser) {
-        currentUser = JSON.parse(storedUser);
-        document.getElementById('loginPage').style.display = 'none';
-        
-        if (currentUser.role === 'Admin') {
-          document.getElementById('adminDashboard').style.display = 'block';
-          document.getElementById('adminName').textContent = currentUser.nama;
-          document.getElementById('adminAvatar').textContent = currentUser.nama.charAt(0).toUpperCase();
-          updateCurrentDate();
-          loadAdminDashboard();
-        } else {
-          document.getElementById('studentDashboard').style.display = 'block';
-          document.getElementById('studentName').textContent = currentUser.nama;
-          document.getElementById('studentAvatar').textContent = currentUser.nama.charAt(0).toUpperCase();
-          updateCurrentDate();
-          loadStudentDashboard();
         }
-      }
-    }
 
-    document.addEventListener('DOMContentLoaded', checkSession);
+        function displayStudentData(data, token) {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('studentData').style.display = 'block';
 
-    // ==================== LOGIN & LOGOUT ====================
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const email = document.getElementById('emailInput').value;
-      const password = document.getElementById('passwordInput').value;
-      const loginButton = this.querySelector('button[type="submit"]');
+            document.getElementById('studentName').textContent = data.nama || '-';
+            document.getElementById('studentNISN').textContent = data.nisn || '-';
+            document.getElementById('studentTTL').textContent = data.ttl || '-';
+            document.getElementById('studentClass').textContent = data.kelas || '-';
+            document.getElementById('studentEmail').textContent = data.email || '-';
+            
+            studentPassword = data.password || '';
+            document.getElementById('passwordValue').textContent = studentPassword || 'Tidak tersedia';
+            if (!studentPassword) document.getElementById('passwordHidden').textContent = 'N/A';
 
-      loginButton.disabled = true;
-      loginButton.classList.add('btn-loading');
+            if (data.foto && data.foto.trim() !== '') {
+                document.getElementById('photoContainer').innerHTML = 
+                    `<img src="${data.foto}" alt="Foto" onerror="this.parentElement.innerHTML='👤'">`;
+            }
 
-      const handleLoginResponse = (result) => {
-        loginButton.disabled = false;
-        loginButton.classList.remove('btn-loading');
+            const currentURL = window.location.href;
+            document.getElementById('qrCode').src = 
+                `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(currentURL)}`;
 
-        if (result && result.success) {
-          sessionStorage.setItem('currentUser', JSON.stringify(result.user));
-          currentUser = result.user;
-          document.getElementById('loginPage').style.display = 'none';
-          
-          if (result.user.role === 'Admin') {
-            document.getElementById('adminDashboard').style.display = 'block';
-            document.getElementById('adminName').textContent = result.user.nama;
-            document.getElementById('adminAvatar').textContent = result.user.nama.charAt(0).toUpperCase();
-            loadAdminDashboard();
-          } else {
-            document.getElementById('studentDashboard').style.display = 'block';
-            document.getElementById('studentName').textContent = result.user.nama;
-            document.getElementById('studentAvatar').textContent = result.user.nama.charAt(0).toUpperCase();
-            loadStudentDashboard();
-          }
-        } else {
-          Swal.fire({
-            title: 'Gagal Masuk',
-            text: result.message || 'Terjadi kesalahan.',
-            icon: 'error'
-          });
+            document.getElementById('logoSekolah').src = LOGO_SEKOLAH_URL;
+            document.getElementById('logoPalu').src = LOGO_PALU_URL;
+            document.getElementById('watermarkLogo').src = LOGO_SEKOLAH_URL;
+            document.getElementById('watermarkLogoBack').src = LOGO_SEKOLAH_URL;
+            document.getElementById('barcodeImg').src = BARCODE_URL;
         }
-      };
-      
-      const handleLoginError = (err) => {
-        loginButton.disabled = false;
-        loginButton.classList.remove('btn-loading');
-        Swal.fire({
-            title: 'Error',
-            text: 'Koneksi bermasalah: ' + err,
-            icon: 'error'
-        });
-      };
 
-      google.script.run
-        .withSuccessHandler(handleLoginResponse)
-        .withFailureHandler(handleLoginError)
-        .login(email, password);
-    });
+        function showError(message) {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('errorState').style.display = 'block';
+            document.getElementById('errorMessage').textContent = message;
+        }
 
-    function logout() {
-      sessionStorage.removeItem('currentUser');
-      currentUser = null;
-      document.getElementById('loginPage').style.display = 'flex';
-      document.getElementById('adminDashboard').style.display = 'none';
-      document.getElementById('studentDashboard').style.display = 'none';
-      document.getElementById('emailInput').value = '';
-      document.getElementById('passwordInput').value = '';
-    }
+        function togglePassword() {
+            if (!studentPassword) { alert('Password tidak tersedia!'); return; }
+            isPasswordVisible = !isPasswordVisible;
+            const passwordValue = document.getElementById('passwordValue');
+            const passwordHidden = document.getElementById('passwordHidden');
+            const toggleBtn = document.getElementById('toggleBtn');
+            
+            if (isPasswordVisible) {
+                passwordValue.style.display = 'block';
+                passwordHidden.style.display = 'none';
+                toggleBtn.innerHTML = '🙈';
+            } else {
+                passwordValue.style.display = 'none';
+                passwordHidden.style.display = 'block';
+                toggleBtn.innerHTML = '👁️';
+            }
+        }
 
-    // ==================== ADMIN DASHBOARD LOGIC ====================
-    function loadAdminDashboard() {
-      loadStatistics();
-      loadBorrowRequests();
-      loadAllBorrows();
-      loadMasterBooks();
-      loadMasterStudents();
-    }
-
-    function showSection(section) {
-      // Hide all sections
-      document.querySelectorAll('.content-wrapper > div').forEach(div => div.classList.add('hidden'));
-      
-      // Remove active class from menu
-      document.querySelectorAll('#adminDashboard .menu-item').forEach(item => item.classList.remove('active'));
-      
-      // Show selected section & Activate menu
-      // Note: Mapping manual based on order or ID logic
-      const menuItems = document.querySelectorAll('#adminDashboard .menu-item');
-      
-      if (section === 'dashboard') {
-        document.getElementById('dashboardSection').classList.remove('hidden');
-        document.getElementById('pageTitle').textContent = 'Dashboard';
-        menuItems[0].classList.add('active');
-        loadStatistics();
-      } else if (section === 'borrowRequests') {
-        document.getElementById('borrowRequestsSection').classList.remove('hidden');
-        document.getElementById('pageTitle').textContent = 'Peminjaman Pending';
-        menuItems[1].classList.add('active');
-        loadBorrowRequests();
-      } else if (section === 'allBorrows') {
-        document.getElementById('allBorrowsSection').classList.remove('hidden');
-        document.getElementById('pageTitle').textContent = 'Riwayat Peminjaman';
-        menuItems[2].classList.add('active');
-        loadAllBorrows();
-      } else if (section === 'masterBooks') {
-        document.getElementById('masterBooksSection').classList.remove('hidden');
-        document.getElementById('pageTitle').textContent = 'Master Buku';
-        menuItems[3].classList.add('active');
-        loadMasterBooks();
-      } else if (section === 'masterStudents') {
-        document.getElementById('masterStudentsSection').classList.remove('hidden');
-        document.getElementById('pageTitle').textContent = 'Master Siswa';
-        menuItems[4].classList.add('active');
-        loadMasterStudents();
-      }
-    }
-
-    function loadStatistics() {
-      google.script.run.withSuccessHandler(function(stats) {
-          document.getElementById('totalBooks').textContent = stats.totalBooks;
-          document.getElementById('totalStock').textContent = stats.totalStok;
-          document.getElementById('totalStudents').textContent = stats.totalStudents;
-          document.getElementById('pendingBorrows').textContent = stats.pending;
-          document.getElementById('waitingReturn').textContent = stats.waitingReturn;
-          document.getElementById('returnedBooks').textContent = stats.returned;
-          document.getElementById('rejectedBorrows').textContent = stats.rejected;
-          
-          const badge = document.getElementById('pendingBadge');
-          if (badge) {
-            badge.textContent = stats.pending;
-            badge.style.display = stats.pending > 0 ? 'block' : 'none';
-          }
-      }).getStatistics();
-    }
-
-    // ==================== BORROW REQUESTS TABLE ====================
-    let pendingBorrowsData = [];
-    let borrowRequestsCurrentPage = 1;
-    let borrowRequestsPageSize = 10;
-    let borrowRequestsSearchQuery = '';
-
-    function loadBorrowRequests() {
-      google.script.run.withSuccessHandler(function(history) {
-          pendingBorrowsData = history.filter(h => h.status === 'Pending');
-          borrowRequestsCurrentPage = 1;
-          renderBorrowRequestsTable();
-      }).getBorrowHistory(currentUser.email, currentUser.role);
-    }
-
-    function renderBorrowRequestsTable() {
-      const query = borrowRequestsSearchQuery.toLowerCase();
-      const filteredData = pendingBorrowsData.filter(item => {
-        return item.id.toLowerCase().includes(query) ||
-               item.siswa.toLowerCase().includes(query) ||
-               item.judulBuku.toLowerCase().includes(query);
-      });
-
-      const totalItems = filteredData.length;
-      const pageSize = borrowRequestsPageSize === 'all' ? totalItems : parseInt(borrowRequestsPageSize);
-      const totalPages = Math.ceil(totalItems / pageSize);
-      const start = (borrowRequestsCurrentPage - 1) * pageSize;
-      const end = start + pageSize;
-      const paginatedData = filteredData.slice(start, end);
-
-      const tbody = document.querySelector('#borrowRequestsTable tbody');
-      tbody.innerHTML = '';
-
-      if (paginatedData.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 40px;">Tidak ada data</td></tr>';
-      } else {
-        paginatedData.forEach(item => {
-          const row = tbody.insertRow();
-          row.innerHTML = `
-            <td>${item.id}</td>
-            <td>${item.siswa}</td>
-            <td>${item.judulBuku}</td>
-            <td>${item.tanggalPinjam}</td>
-            <td><span class="badge pending">Pending</span></td>
-            <td>
-              <button class="action-btn btn-approve" onclick="approveBorrow('${item.id}')"><span class="material-icons" style="font-size:14px">check</span></button>
-              <button class="action-btn btn-reject" onclick="rejectBorrow('${item.id}')"><span class="material-icons" style="font-size:14px">close</span></button>
-            </td>
-          `;
-        });
-      }
-      
-      // Pagination Controls
-      document.getElementById('borrowRequestsPaginationInfo').textContent = `Menampilkan ${totalItems > 0 ? start + 1 : 0}-${Math.min(end, totalItems)} dari ${totalItems}`;
-      document.getElementById('borrowRequestsPrevPage').disabled = borrowRequestsCurrentPage === 1;
-      document.getElementById('borrowRequestsNextPage').disabled = borrowRequestsCurrentPage === totalPages || totalItems === 0;
-    }
-
-    // Event Listeners for Borrow Request Table
-    document.getElementById('borrowRequestsSearch').addEventListener('input', (e) => { borrowRequestsSearchQuery = e.target.value; borrowRequestsCurrentPage = 1; renderBorrowRequestsTable(); });
-    document.getElementById('borrowRequestsPageSize').addEventListener('change', (e) => { borrowRequestsPageSize = e.target.value; borrowRequestsCurrentPage = 1; renderBorrowRequestsTable(); });
-    document.getElementById('borrowRequestsPrevPage').addEventListener('click', () => { if(borrowRequestsCurrentPage > 1) { borrowRequestsCurrentPage--; renderBorrowRequestsTable(); }});
-    document.getElementById('borrowRequestsNextPage').addEventListener('click', () => { borrowRequestsCurrentPage++; renderBorrowRequestsTable(); });
-
-    // ==================== ALL BORROWS TABLE ====================
-    let allBorrowsData = [];
-    let allBorrowsCurrentPage = 1;
-    let allBorrowsPageSize = 10;
-    let allBorrowsSearchQuery = '';
-
-    function loadAllBorrows() {
-        google.script.run.withSuccessHandler(function(history) {
-            allBorrowsData = history;
-            allBorrowsCurrentPage = 1;
-            renderAllBorrowsTable();
-        }).getBorrowHistory(currentUser.email, currentUser.role);
-    }
-
-    function renderAllBorrowsTable() {
-        const query = allBorrowsSearchQuery.toLowerCase();
-        const filteredData = allBorrowsData.filter(item => {
-            return item.id.toLowerCase().includes(query) || item.siswa.toLowerCase().includes(query) || item.judulBuku.toLowerCase().includes(query) || item.status.toLowerCase().includes(query);
-        });
-        
-        const totalItems = filteredData.length;
-        const pageSize = allBorrowsPageSize === 'all' ? totalItems : parseInt(allBorrowsPageSize);
-        const totalPages = Math.ceil(totalItems / pageSize);
-        const start = (allBorrowsCurrentPage - 1) * pageSize;
-        const end = start + pageSize;
-        const paginatedData = filteredData.slice(start, end);
-
-        const tbody = document.querySelector('#allBorrowsTable tbody');
-        tbody.innerHTML = '';
-
-        if (paginatedData.length === 0) {
-             tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 40px;">Tidak ada data</td></tr>';
-        } else {
-            paginatedData.forEach(item => {
-                const row = tbody.insertRow();
-                let statusBadge = `<span class="badge ${item.status.toLowerCase()}">${item.status}</span>`;
-                let actionBtn = '';
-                if (item.status === 'Approved') {
-                    actionBtn = `<button class="action-btn btn-return" onclick="returnBook('${item.id}')">Kembalikan</button>`;
+        async function copyPassword() {
+            if (!studentPassword) { alert('Password tidak tersedia!'); return; }
+            try {
+                await navigator.clipboard.writeText(studentPassword);
+                showCopySuccess();
+            } catch (err) {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = studentPassword;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-9999px';
+                textArea.style.top = '-9999px';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showCopySuccess();
+                } catch (e) {
+                    alert('Gagal menyalin. Password: ' + studentPassword);
                 }
-                row.innerHTML = `<td>${item.id}</td><td>${item.siswa}</td><td>${item.judulBuku}</td><td>${item.tanggalPinjam}</td><td>${item.tanggalKembali || '-'}</td><td>${statusBadge}</td><td>${actionBtn}</td>`;
-            });
-        }
-        
-        document.getElementById('allBorrowsPaginationInfo').textContent = `Menampilkan ${totalItems > 0 ? start + 1 : 0}-${Math.min(end, totalItems)} dari ${totalItems}`;
-        document.getElementById('allBorrowsPrevPage').disabled = allBorrowsCurrentPage === 1;
-        document.getElementById('allBorrowsNextPage').disabled = allBorrowsCurrentPage === totalPages || totalItems === 0;
-    }
-    
-    // Event Listeners for All Borrows
-    document.getElementById('allBorrowsSearch').addEventListener('input', (e) => { allBorrowsSearchQuery = e.target.value; allBorrowsCurrentPage = 1; renderAllBorrowsTable(); });
-    document.getElementById('allBorrowsPageSize').addEventListener('change', (e) => { allBorrowsPageSize = e.target.value; allBorrowsCurrentPage = 1; renderAllBorrowsTable(); });
-    document.getElementById('allBorrowsPrevPage').addEventListener('click', () => { if(allBorrowsCurrentPage > 1) { allBorrowsCurrentPage--; renderAllBorrowsTable(); }});
-    document.getElementById('allBorrowsNextPage').addEventListener('click', () => { allBorrowsCurrentPage++; renderAllBorrowsTable(); });
-
-
-    // ==================== MASTER BOOKS LOGIC (WITH UPLOAD) ====================
-    let masterBooksData = [];
-    let masterBooksCurrentPage = 1;
-    let masterBooksPageSize = 10;
-    let masterBooksSearchQuery = '';
-
-    function loadMasterBooks() {
-      google.script.run.withSuccessHandler(function(books) {
-          masterBooksData = books;
-          masterBooksCurrentPage = 1;
-          renderMasterBooksTable();
-      }).getBooks();
-    }
-
-    function renderMasterBooksTable() {
-        const query = masterBooksSearchQuery.toLowerCase();
-        const filteredData = masterBooksData.filter(item => {
-            return item.id.toLowerCase().includes(query) || item.judul.toLowerCase().includes(query) || item.penulis.toLowerCase().includes(query);
-        });
-
-        const totalItems = filteredData.length;
-        const pageSize = masterBooksPageSize === 'all' ? totalItems : parseInt(masterBooksPageSize);
-        const totalPages = Math.ceil(totalItems / pageSize);
-        const start = (masterBooksCurrentPage - 1) * pageSize;
-        const end = start + pageSize;
-        const paginatedData = filteredData.slice(start, end);
-
-        const tbody = document.querySelector('#masterBooksTable tbody');
-        tbody.innerHTML = '';
-
-        if (paginatedData.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 40px;">Tidak ada data</td></tr>';
-        } else {
-            paginatedData.forEach(book => {
-                const row = tbody.insertRow();
-                row.innerHTML = `
-                    <td>${book.id}</td>
-                    <td>${book.judul}</td>
-                    <td>${book.penulis}</td>
-                    <td>${book.stok}</td>
-                    <td>
-                        <button class="action-btn btn-edit" onclick="openEditBookModal('${book.id}')">Edit</button>
-                        <button class="action-btn btn-delete" onclick="deleteBook('${book.id}')">Hapus</button>
-                    </td>
-                `;
-            });
-        }
-        
-        document.getElementById('masterBooksPaginationInfo').textContent = `Menampilkan ${totalItems > 0 ? start + 1 : 0}-${Math.min(end, totalItems)} dari ${totalItems}`;
-        document.getElementById('masterBooksPrevPage').disabled = masterBooksCurrentPage === 1;
-        document.getElementById('masterBooksNextPage').disabled = masterBooksCurrentPage === totalPages || totalItems === 0;
-    }
-
-    // Event Listeners for Master Books
-    document.getElementById('masterBooksSearch').addEventListener('input', (e) => { masterBooksSearchQuery = e.target.value; masterBooksCurrentPage = 1; renderMasterBooksTable(); });
-    document.getElementById('masterBooksPageSize').addEventListener('change', (e) => { masterBooksPageSize = e.target.value; masterBooksCurrentPage = 1; renderMasterBooksTable(); });
-    document.getElementById('masterBooksPrevPage').addEventListener('click', () => { if(masterBooksCurrentPage > 1) { masterBooksCurrentPage--; renderMasterBooksTable(); }});
-    document.getElementById('masterBooksNextPage').addEventListener('click', () => { masterBooksCurrentPage++; renderMasterBooksTable(); });
-
-
-    function openAddBookModal() {
-        document.getElementById('bookForm').reset();
-        document.getElementById('bookId').value = '';
-        document.getElementById('bookModalTitle').textContent = 'Tambah Buku';
-        document.getElementById('imagePreviewContainer').style.display = 'none';
-        document.getElementById('imagePreview').src = '';
-        document.getElementById('bookModal').style.display = 'flex';
-    }
-
-    function openEditBookModal(id) {
-        const book = masterBooksData.find(b => b.id === id);
-        if (book) {
-            document.getElementById('bookId').value = book.id;
-            document.getElementById('bookJudul').value = book.judul;
-            document.getElementById('bookPenulis').value = book.penulis;
-            document.getElementById('bookStok').value = book.stok;
-            document.getElementById('currentBookUrl').value = book.coverURL;
-            document.getElementById('bookCoverUrlInput').value = book.coverURL;
-            
-            const previewContainer = document.getElementById('imagePreviewContainer');
-            const previewImage = document.getElementById('imagePreview');
-            if (book.coverURL) {
-              previewImage.src = book.coverURL;
-              previewContainer.style.display = 'block';
-            } else {
-              previewContainer.style.display = 'none';
+                document.body.removeChild(textArea);
             }
-
-            document.getElementById('bookModalTitle').textContent = 'Edit Buku';
-            document.getElementById('bookModal').style.display = 'flex';
         }
-    }
 
-    function deleteBook(id) {
-        Swal.fire({
-            title: 'Anda yakin?',
-            text: "Data buku akan dihapus permanen!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Ya, hapus!',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                google.script.run.withSuccessHandler(function(res) {
-                    showResultAlert(res);
-                    if(res.success) {
-                        loadMasterBooks();
-                    }
-                }).deleteBook(id);
+        function showCopySuccess() {
+            const msg = document.getElementById('copySuccess');
+            msg.style.display = 'block';
+            setTimeout(() => msg.style.display = 'none', 2500);
+        }
+
+        async function downloadCard() {
+            const btn = document.querySelector('.btn-download');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ Mengunduh...';
+            btn.disabled = true;
+
+            try {
+                const front = document.getElementById('cardFront');
+                const back = document.getElementById('cardBack');
+
+                // Temporarily set fixed size for better quality
+                const originalFrontWidth = front.style.width;
+                const originalBackWidth = back.style.width;
+                
+                front.style.width = '420px';
+                back.style.width = '420px';
+
+                const canvasFront = await html2canvas(front, { 
+                    scale: 3, 
+                    useCORS: true, 
+                    backgroundColor: '#fff',
+                    logging: false
+                });
+                const canvasBack = await html2canvas(back, { 
+                    scale: 3, 
+                    useCORS: true, 
+                    backgroundColor: '#fff',
+                    logging: false
+                });
+
+                // Restore original width
+                front.style.width = originalFrontWidth;
+                back.style.width = originalBackWidth;
+
+                const combined = document.createElement('canvas');
+                combined.width = Math.max(canvasFront.width, canvasBack.width);
+                combined.height = canvasFront.height + canvasBack.height + 60;
+
+                const ctx = combined.getContext('2d');
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, combined.width, combined.height);
+                ctx.drawImage(canvasFront, (combined.width - canvasFront.width) / 2, 0);
+                ctx.drawImage(canvasBack, (combined.width - canvasBack.width) / 2, canvasFront.height + 60);
+
+                const link = document.createElement('a');
+                const nama = studentData?.nama?.replace(/\s+/g, '_') || 'siswa';
+                link.download = `Kartu_Pelajar_${nama}.png`;
+                link.href = combined.toDataURL('image/png', 1.0);
+                link.click();
+
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            } catch (error) {
+                console.error(error);
+                alert('Gagal mengunduh kartu. Coba lagi.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
             }
-        });
-    }
-
-    document.getElementById('bookForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const id = document.getElementById('bookId').value;
-        const judul = document.getElementById('bookJudul').value;
-        const penulis = document.getElementById('bookPenulis').value;
-        const stok = document.getElementById('bookStok').value;
-        const coverUrlInput = document.getElementById('bookCoverUrlInput').value;
-        const coverFile = document.getElementById('bookCoverFile').files[0];
-
-        let fileData = null;
-        if (coverFile) {
-          const base64Data = await getBase64(coverFile);
-          fileData = {
-            fileName: coverFile.name,
-            mimeType: coverFile.type,
-            data: base64Data
-          };
-        }
-        
-        let coverURL = document.getElementById('currentBookUrl').value;
-        if(coverUrlInput !== coverURL) {
-            coverURL = coverUrlInput;
         }
 
-        const handler = function(res) {
-            showResultAlert(res);
-            if(res.success) {
-                closeModal('bookModal');
-                loadMasterBooks();
-                loadStatistics();
+        // Prevent zoom on double tap for iOS
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
             }
-        };
+            lastTouchEnd = now;
+        }, false);
 
-        if (id) {
-            google.script.run.withSuccessHandler(handler).updateBook(id, judul, penulis, stok, coverURL, fileData);
-        } else {
-            google.script.run.withSuccessHandler(handler).addBook(judul, penulis, stok, coverURL, fileData);
-        }
-    });
-
-
-    function loadMasterBooks() {
-      google.script.run.withSuccessHandler(function(books) {
-          masterBooksData = books;
-          masterBooksCurrentPage = 1;
-          renderMasterBooksTable();
-      }).getBooks();
-    }
-
-    function renderMasterBooksTable() {
-        const query = masterBooksSearchQuery.toLowerCase();
-        const filteredData = masterBooksData.filter(item => item.judul.toLowerCase().includes(query) || item.penulis.toLowerCase().includes(query));
-        
-        const totalItems = filteredData.length;
-        const pageSize = masterBooksPageSize === 'all' ? totalItems : parseInt(masterBooksPageSize);
-        const totalPages = Math.ceil(totalItems / pageSize);
-        const start = (masterBooksCurrentPage - 1) * pageSize;
-        const end = start + pageSize;
-        const paginatedData = filteredData.slice(start, end);
-        
-        const tbody = document.querySelector('#masterBooksTable tbody');
-        tbody.innerHTML = '';
-        
-        if(paginatedData.length === 0){
-             tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 40px;">Tidak ada data</td></tr>';
-        } else {
-            paginatedData.forEach(book => {
-                const row = tbody.insertRow();
-                row.innerHTML = `
-                    <td>${book.id}</td>
-                    <td>${book.judul}</td>
-                    <td>${book.penulis}</td>
-                    <td>${book.stok}</td>
-                    <td>
-                        <button class="action-btn btn-edit" onclick='editBook(${JSON.stringify(book)})'>Edit</button>
-                        <button class="action-btn btn-delete" onclick="deleteBook('${book.id}')">Hapus</button>
-                    </td>
-                `;
-            });
-        }
-        document.getElementById('masterBooksPaginationInfo').textContent = `Menampilkan ${totalItems > 0 ? start + 1 : 0}-${Math.min(end, totalItems)} dari ${totalItems}`;
-        document.getElementById('masterBooksPrevPage').disabled = masterBooksCurrentPage === 1;
-        document.getElementById('masterBooksNextPage').disabled = masterBooksCurrentPage === totalPages || totalItems === 0;
-    }
-
-    // Event Listeners Master Books
-    document.getElementById('masterBooksSearch').addEventListener('input', (e) => { masterBooksSearchQuery = e.target.value; masterBooksCurrentPage = 1; renderMasterBooksTable(); });
-    document.getElementById('masterBooksPageSize').addEventListener('change', (e) => { masterBooksPageSize = e.target.value; masterBooksCurrentPage = 1; renderMasterBooksTable(); });
-    document.getElementById('masterBooksPrevPage').addEventListener('click', () => { if(masterBooksCurrentPage > 1) { masterBooksCurrentPage--; renderMasterBooksTable(); }});
-    document.getElementById('masterBooksNextPage').addEventListener('click', () => { if(masterBooksCurrentPage * parseInt(masterBooksPageSize) < masterBooksData.length) { masterBooksCurrentPage++; renderMasterBooksTable(); }});
-
-    // --- BOOK MODAL & FORM SUBMIT ---
-    function openAddBookModal() {
-      document.getElementById('bookForm').reset();
-      document.getElementById('bookModalTitle').textContent = 'Tambah Buku';
-      document.getElementById('bookId').value = '';
-      document.getElementById('currentBookUrl').value = '';
-      
-      // Reset Preview
-      document.getElementById('imagePreviewContainer').style.display = 'none';
-      document.getElementById('imagePreview').src = '';
-      
-      document.getElementById('bookModal').style.display = 'flex';
-    }
-
-    function editBook(book) {
-      document.getElementById('bookModalTitle').textContent = 'Edit Buku';
-      document.getElementById('bookId').value = book.id;
-      document.getElementById('bookJudul').value = book.judul;
-      document.getElementById('bookPenulis').value = book.penulis;
-      document.getElementById('bookStok').value = book.stok;
-      
-      // Reset file input
-      document.getElementById('bookCoverFile').value = '';
-
-      // Handle URL & Preview
-      const urlInput = document.getElementById('bookCoverUrlInput');
-      const currentUrlHidden = document.getElementById('currentBookUrl');
-      const previewContainer = document.getElementById('imagePreviewContainer');
-      const previewImage = document.getElementById('imagePreview');
-
-      if (book.coverURL && book.coverURL !== 'null' && book.coverURL !== '') {
-        urlInput.value = book.coverURL;
-        currentUrlHidden.value = book.coverURL;
-        previewImage.src = book.coverURL;
-        previewContainer.style.display = 'block';
-      } else {
-        urlInput.value = '';
-        currentUrlHidden.value = '';
-        previewContainer.style.display = 'none';
-      }
-
-      document.getElementById('bookModal').style.display = 'flex';
-    }
-
-    // SUBMIT BUKU (ASYNC UPLOAD)
-    document.getElementById('bookForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      
-      const bookId = document.getElementById('bookId').value;
-      const judul = document.getElementById('bookJudul').value;
-      const penulis = document.getElementById('bookPenulis').value;
-      const stok = parseInt(document.getElementById('bookStok').value);
-      
-      const manualUrl = document.getElementById('bookCoverUrlInput').value;
-      const oldUrl = document.getElementById('currentBookUrl').value;
-      // Prioritaskan URL manual jika diisi, jika tidak gunakan URL lama
-      const coverURL = manualUrl || oldUrl;
-
-      const fileInput = document.getElementById('bookCoverFile');
-      let fileData = null;
-
-      const submitButton = this.querySelector('button[type="submit"]');
-      submitButton.disabled = true;
-      submitButton.classList.add('btn-loading');
-
-      try {
-          // Proses File Upload jika ada
-          if (fileInput.files.length > 0) {
-              const file = fileInput.files[0];
-              // Batasi ukuran file (misal 2MB) agar tidak timeout
-              if (file.size > 2 * 1024 * 1024) {
-                  throw new Error("Ukuran gambar terlalu besar (Maks 2MB)");
-              }
-              
-              const base64 = await getBase64(file);
-              fileData = {
-                  data: base64,
-                  mimeType: file.type,
-                  fileName: file.name
-              };
-          }
-
-          const handleResponse = (result) => {
-            submitButton.disabled = false;
-            submitButton.classList.remove('btn-loading');
-            if (result.success) {
-              Swal.fire('Berhasil!', result.message, 'success');
-              closeModal('bookModal');
-              loadMasterBooks();
-            } else {
-              Swal.fire('Gagal!', result.message, 'error');
-            }
-          };
-
-          const handleError = (err) => {
-            submitButton.disabled = false;
-            submitButton.classList.remove('btn-loading');
-            Swal.fire('Error!', 'Terjadi kesalahan: ' + err.message, 'error');
-          };
-
-          // Panggil Fungsi Google Apps Script
-          if (bookId) {
-              // Update: Kirim data termasuk fileData
-              google.script.run
-                .withSuccessHandler(handleResponse)
-                .withFailureHandler(handleError)
-                .updateBook(bookId, judul, penulis, stok, coverURL, fileData);
-          } else {
-              // Add: Kirim data termasuk fileData
-              google.script.run
-                .withSuccessHandler(handleResponse)
-                .withFailureHandler(handleError)
-                .addBook(judul, penulis, stok, coverURL, fileData);
-          }
-
-      } catch (error) {
-          submitButton.disabled = false;
-          submitButton.classList.remove('btn-loading');
-          Swal.fire('Error Upload!', error.message, 'error');
-      }
-    });
-
-    function deleteBook(id) {
-        Swal.fire({
-            title: 'Hapus Buku?',
-            text: "Data tidak bisa dikembalikan!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            confirmButtonText: 'Hapus'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                google.script.run.withSuccessHandler(function(res){
-                    showResultAlert(res);
-                    if(res.success) loadMasterBooks();
-                }).deleteBook(id);
-            }
-        });
-    }
-
-    // ==================== MASTER STUDENTS LOGIC ====================
-    let masterStudentsData = [];
-    let masterStudentsCurrentPage = 1;
-    let masterStudentsPageSize = 10;
-    let masterStudentsSearchQuery = '';
-
-    function loadMasterStudents() {
-      google.script.run.withSuccessHandler(function(students) {
-          masterStudentsData = students;
-          masterStudentsCurrentPage = 1;
-          renderMasterStudentsTable();
-      }).getStudents();
-    }
-
-    function renderMasterStudentsTable() {
-        const query = masterStudentsSearchQuery.toLowerCase();
-        const filteredData = masterStudentsData.filter(item => item.email.toLowerCase().includes(query) || item.nama.toLowerCase().includes(query));
-        
-        const totalItems = filteredData.length;
-        const pageSize = masterStudentsPageSize === 'all' ? totalItems : parseInt(masterStudentsPageSize);
-        const totalPages = Math.ceil(totalItems / pageSize);
-        const start = (masterStudentsCurrentPage - 1) * pageSize;
-        const end = start + pageSize;
-        const paginatedData = filteredData.slice(start, end);
-        
-        const tbody = document.querySelector('#masterStudentsTable tbody');
-        tbody.innerHTML = '';
-        
-        if(paginatedData.length === 0){
-             tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; padding: 40px;">Tidak ada data</td></tr>';
-        } else {
-            paginatedData.forEach(student => {
-                const row = tbody.insertRow();
-                row.innerHTML = `
-                    <td>${student.email}</td>
-                    <td>${student.nama}</td>
-                    <td>
-                        <button class="action-btn btn-edit" onclick='editStudent(${JSON.stringify(student)})'>Edit</button>
-                        <button class="action-btn btn-delete" onclick="deleteStudent('${student.email}')">Hapus</button>
-                    </td>
-                `;
-            });
-        }
-        document.getElementById('masterStudentsPaginationInfo').textContent = `Menampilkan ${totalItems > 0 ? start + 1 : 0}-${Math.min(end, totalItems)} dari ${totalItems}`;
-        document.getElementById('masterStudentsPrevPage').disabled = masterStudentsCurrentPage === 1;
-        document.getElementById('masterStudentsNextPage').disabled = masterStudentsCurrentPage === totalPages || totalItems === 0;
-    }
-    
-    // Event Listeners Master Students
-    document.getElementById('masterStudentsSearch').addEventListener('input', (e) => { masterStudentsSearchQuery = e.target.value; masterStudentsCurrentPage = 1; renderMasterStudentsTable(); });
-    document.getElementById('masterStudentsPageSize').addEventListener('change', (e) => { masterStudentsPageSize = e.target.value; masterStudentsCurrentPage = 1; renderMasterStudentsTable(); });
-    document.getElementById('masterStudentsPrevPage').addEventListener('click', () => { if(masterStudentsCurrentPage > 1) { masterStudentsCurrentPage--; renderMasterStudentsTable(); }});
-    document.getElementById('masterStudentsNextPage').addEventListener('click', () => { masterStudentsCurrentPage++; renderMasterStudentsTable(); });
-
-    function openAddStudentModal() {
-      document.getElementById('studentModalTitle').textContent = 'Tambah Siswa';
-      document.getElementById('studentEmailOld').value = '';
-      document.getElementById('studentEmail').value = '';
-      document.getElementById('studentPassword').value = '';
-      document.getElementById('studentNama').value = '';
-      document.getElementById('studentModal').style.display = 'flex';
-    }
-
-    function editStudent(student) {
-      document.getElementById('studentModalTitle').textContent = 'Edit Siswa';
-      document.getElementById('studentEmailOld').value = student.email;
-      document.getElementById('studentEmail').value = student.email;
-      document.getElementById('studentPassword').value = '';
-      document.getElementById('studentPassword').required = false;
-      document.getElementById('studentNama').value = student.nama;
-      document.getElementById('studentModal').style.display = 'flex';
-    }
-
-    document.getElementById('studentForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const oldEmail = document.getElementById('studentEmailOld').value;
-      const email = document.getElementById('studentEmail').value;
-      const password = document.getElementById('studentPassword').value;
-      const nama = document.getElementById('studentNama').value;
-      const submitButton = this.querySelector('button[type="submit"]');
-
-      submitButton.disabled = true;
-      submitButton.classList.add('btn-loading');
-      
-      const handler = (result) => {
-          submitButton.disabled = false;
-          submitButton.classList.remove('btn-loading');
-          showResultAlert(result);
-          if(result.success) { closeModal('studentModal'); loadMasterStudents(); }
-      };
-
-      if (oldEmail) {
-        google.script.run.withSuccessHandler(handler).updateStudent(oldEmail, email, password, nama);
-      } else {
-        google.script.run.withSuccessHandler(handler).addStudent(email, password, nama);
-      }
-    });
-
-    function deleteStudent(email) {
-        Swal.fire({
-            title: 'Hapus Siswa?',
-            text: "Data tidak bisa dikembalikan!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            confirmButtonText: 'Hapus'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                google.script.run.withSuccessHandler(function(res){
-                    showResultAlert(res);
-                    if(res.success) loadMasterStudents();
-                }).deleteStudent(email);
-            }
-        });
-    }
-
-    // ==================== APPROVE / REJECT / RETURN LOGIC ====================
-    function approveBorrow(borrowId) {
-      Swal.fire({ title: 'Setujui?', text: "Stok buku akan berkurang.", icon: 'question', showCancelButton: true, confirmButtonText: 'Ya' }).then((result) => {
-        if (result.isConfirmed) {
-          google.script.run.withSuccessHandler(function(res) {
-              showResultAlert(res);
-              if (res.success) { loadBorrowRequests(); loadAllBorrows(); loadStatistics(); }
-            }).approveBorrow(borrowId);
-        }
-      });
-    }
-
-    function rejectBorrow(borrowId) {
-      Swal.fire({ title: 'Tolak?', icon: 'warning', showCancelButton: true, confirmButtonText: 'Ya', confirmButtonColor: '#d33' }).then((result) => {
-        if (result.isConfirmed) {
-          google.script.run.withSuccessHandler(function(res) {
-              showResultAlert(res);
-              if (res.success) { loadBorrowRequests(); loadAllBorrows(); loadStatistics(); }
-            }).rejectBorrow(borrowId);
-        }
-      });
-    }
-
-    function returnBook(borrowId) {
-      Swal.fire({ title: 'Buku Kembali?', text: "Stok akan bertambah.", icon: 'question', showCancelButton: true, confirmButtonText: 'Ya' }).then((result) => {
-        if (result.isConfirmed) {
-          google.script.run.withSuccessHandler(function(res) {
-              showResultAlert(res);
-              if (res.success) { loadAllBorrows(); loadStatistics(); }
-            }).returnBook(borrowId);
-        }
-      });
-    }
-
-    // ==================== STUDENT DASHBOARD LOGIC ====================
-    function loadStudentDashboard() {
-      loadStudentBooks();
-      loadStudentBorrows();
-    }
-
-    function showStudentSection(section) {
-      document.getElementById('studentBooksSection').classList.add('hidden');
-      document.getElementById('studentBorrowsSection').classList.add('hidden');
-      
-      document.querySelectorAll('#studentDashboard .menu-item').forEach(item => item.classList.remove('active'));
-      
-      const menuItems = document.querySelectorAll('#studentDashboard .menu-item');
-
-      if (section === 'studentBooks') {
-        document.getElementById('studentBooksSection').classList.remove('hidden');
-        document.getElementById('studentPageTitle').textContent = 'Daftar Buku';
-        menuItems[0].classList.add('active');
-        loadStudentBooks();
-      } else if (section === 'studentBorrows') {
-        document.getElementById('studentBorrowsSection').classList.remove('hidden');
-        document.getElementById('studentPageTitle').textContent = 'Riwayat Peminjaman';
-        menuItems[1].classList.add('active');
-        loadStudentBorrows();
-      }
-    }
-
-    function loadStudentBooks() {
-      google.script.run.withSuccessHandler(function(books) {
-          const grid = document.getElementById('studentBooksGrid');
-          grid.innerHTML = '';
-          
-          if (books.length === 0) {
-            grid.innerHTML = '<p style="text-align: center; padding: 40px; grid-column: 1/-1;">Belum ada buku tersedia</p>';
-            return;
-          }
-          
-          books.forEach(book => {
-            const card = document.createElement('div');
-            card.className = 'book-card';
-            // Gunakan placeholder jika coverURL kosong/null
-            const imgUrl = (book.coverURL && book.coverURL !== 'null') ? book.coverURL : 'https://via.placeholder.com/200x300/667eea/ffffff?text=Buku';
-            
-            card.innerHTML = `
-              <img src="${imgUrl}" alt="${book.judul}" class="book-cover">
-              <div class="book-info">
-                <h5>${book.judul}</h5>
-                <p>Penulis: ${book.penulis}</p>
-                <div class="book-stok">
-                  <span class="material-icons" style="font-size: 16px;">inventory_2</span>
-                  Stok: ${book.stok}
-                </div>
-                <button class="action-btn btn-borrow" onclick="borrowBookStudent('${book.id}')" ${book.stok <= 0 ? 'disabled' : ''} style="margin-top: 12px; width: 100%;">
-                  ${book.stok > 0 ? 'Pinjam Buku' : 'Stok Habis'}
-                </button>
-              </div>
-            `;
-            grid.appendChild(card);
-          });
-      }).getBooks();
-    }
-
-    function loadStudentBorrows() {
-      google.script.run.withSuccessHandler(function(history) {
-          const tbody = document.querySelector('#studentBorrowsTable tbody');
-          tbody.innerHTML = '';
-          
-          if (history.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 40px;">Belum ada riwayat</td></tr>';
-            return;
-          }
-          
-          history.forEach(item => {
-            const row = tbody.insertRow();
-            let statusBadge = `<span class="badge ${item.status.toLowerCase()}">${item.status}</span>`;
-            
-            row.innerHTML = `
-              <td>${item.id}</td>
-              <td>${item.judulBuku}</td>
-              <td>${item.tanggalPinjam}</td>
-              <td>${item.tanggalKembali || '-'}</td>
-              <td>${statusBadge}</td>
-            `;
-          });
-      }).getBorrowHistory(currentUser.email, currentUser.role);
-    }
-
-    function borrowBookStudent(bukuId) {
-      Swal.fire({ title: 'Pinjam Buku?', icon: 'question', showCancelButton: true, confirmButtonText: 'Ya' }).then((result) => {
-        if (result.isConfirmed) {
-          google.script.run.withSuccessHandler(function(res) {
-              showResultAlert(res);
-              if (res.success) { loadStudentBooks(); loadStudentBorrows(); }
-            }).borrowBook(currentUser.email, bukuId);
-        }
-      });
-    }
-  </script>
+        document.addEventListener('DOMContentLoaded', loadStudentData);
+    </script>
 </body>
 </html>
