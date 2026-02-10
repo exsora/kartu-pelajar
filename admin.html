@@ -41,7 +41,6 @@
             margin: 0 auto;
         }
 
-        /* Login Panel */
         .login-panel {
             max-width: 420px;
             margin: 60px auto;
@@ -125,7 +124,6 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.2);
         }
 
-        /* Control Panel */
         .control-panel {
             background: white;
             border-radius: 20px;
@@ -146,7 +144,6 @@
             gap: 15px;
         }
 
-        /* Stats */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -166,7 +163,6 @@
         .stat-value { font-size: 40px; font-weight: 800; color: #1e3a5f; }
         .stat-label { color: #64748b; font-size: 14px; margin-top: 5px; }
 
-        /* Cards Section */
         .cards-section {
             background: white;
             border-radius: 20px;
@@ -205,7 +201,6 @@
 
         /* ================================ */
         /* ID CARD PRINT - FRONT           */
-        /* FONT HEADER LEBIH BESAR         */
         /* ================================ */
         .id-card-print {
             width: 380px;
@@ -252,7 +247,6 @@
             color: white;
         }
 
-        /* FONT HEADER LEBIH BESAR */
         .kop-print .line1 { 
             font-size: 9px; 
             font-weight: 800; 
@@ -380,7 +374,7 @@
 
         /* ================================ */
         /* ID CARD PRINT - BACK            */
-        /* FONT TTD LEBIH BESAR            */
+        /* NIP & TTD POSISI DIPERBAIKI     */
         /* ================================ */
         .id-card-back-print {
             width: 380px;
@@ -399,44 +393,46 @@
             background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
             color: white;
             text-align: center;
-            padding: 7px;
-            font-size: 12px;
+            padding: 5px;
+            font-size: 10px;
             font-weight: 900;
-            letter-spacing: 2.5px;
+            letter-spacing: 2px;
             text-transform: uppercase;
         }
 
+        /* Janji Content - LEBIH COMPACT */
         .janji-print {
-            padding: 6px 14px 4px;
+            padding: 4px 12px 2px;
             position: relative;
             z-index: 1;
         }
 
         .janji-item-print {
             display: flex;
-            gap: 5px;
-            margin-bottom: 3px;
-            line-height: 1.35;
+            gap: 4px;
+            margin-bottom: 1.5px;
+            line-height: 1.2;
         }
 
         .janji-num-print {
             font-weight: 800;
             color: #1e3a5f;
-            min-width: 14px;
-            font-size: 8px;
+            min-width: 12px;
+            font-size: 6.5px;
         }
 
         .janji-txt-print {
             color: #334155;
             font-weight: 600;
-            font-size: 7.5px;
+            font-size: 6px;
         }
 
-        /* TTD Section - FONT LEBIH BESAR */
+        /* TTD Section - POSISI LEBIH ATAS */
         .ttd-section-print {
             display: flex;
             justify-content: flex-end;
-            padding: 2px 13px;
+            padding: 0 12px;
+            margin-top: 2px;
         }
 
         .ttd-box-print {
@@ -445,59 +441,62 @@
         }
 
         .ttd-title-print {
-            font-size: 8px;
+            font-size: 7px;
             color: #1e3a5f;
             font-weight: 700;
         }
 
         .ttd-space-print {
-            height: 20px;
+            height: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .ttd-line-print {
-            width: 75%;
+            width: 80%;
             border-bottom: 1px solid #1e3a5f;
         }
 
         .ttd-name-print {
-            font-size: 8px;
+            font-size: 7.5px;
             color: #1e293b;
             font-weight: 800;
-            margin-top: 2px;
+            margin-top: 1px;
+            line-height: 1.2;
         }
 
         .ttd-nip-print {
-            font-size: 6px;
-            color: #475569;
-            font-weight: 600;
+            font-size: 6.5px;
+            color: #1e293b;
+            font-weight: 700;
+            margin-top: 1px;
+            padding-bottom: 2px;
         }
 
-        /* Back Footer - BIRU */
+        /* Back Footer - BIRU - LEBIH TIPIS */
         .back-footer-print {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
             background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
-            padding: 5px 10px;
+            padding: 3px 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .validity-print {
-            font-size: 5.5px;
+            font-size: 4.5px;
             color: white;
             max-width: 58%;
-            line-height: 1.35;
+            line-height: 1.25;
             font-weight: 600;
         }
 
         .barcode-print {
-            height: 20px;
+            height: 14px;
             border-radius: 2px;
         }
 
@@ -646,9 +645,11 @@
         const LOGO_PALU = 'https://exsora.github.io/kartu-pelajar/logo-palu.png';
         const BARCODE_IMG = 'https://exsora.github.io/kartu-pelajar/barcode.png';
 
-        // Info Kepala Sekolah - GANTI SESUAI DATA ASLI
+        // =============================================
+        // INFO KEPALA SEKOLAH - GANTI SESUAI DATA ASLI
+        // =============================================
         const KEPALA_SEKOLAH = 'Drs. Harlina,M.Si';
-        const NIP_KEPALA = 'NIP. 19651010199502 2 001';
+        const NIP_KEPALA = 'NIP. 19651010 199502 2 001';
 
         let adminPassword = '';
         let studentsData = [];
@@ -793,12 +794,14 @@
                         </div>
                     </div>
 
-                    <!-- KARTU BELAKANG -->
+                    <!-- KARTU BELAKANG - LAYOUT DIPERBAIKI -->
                     <div class="id-card-back-print" id="cardBack${index}">
                         <img src="${LOGO_SEKOLAH}" class="card-watermark-print" alt="">
                         
+                        <!-- Header BIRU -->
                         <div class="back-header-print">Janji Siswa</div>
                         
+                        <!-- Janji Content - COMPACT -->
                         <div class="janji-print">
                             <div class="janji-item-print"><span class="janji-num-print">1.</span><span class="janji-txt-print">Beriman dan bertaqwa kepada Allah SWT.</span></div>
                             <div class="janji-item-print"><span class="janji-num-print">2.</span><span class="janji-txt-print">Hormat dan patuh pada orangtua dan guru.</span></div>
@@ -808,7 +811,7 @@
                             <div class="janji-item-print"><span class="janji-num-print">6.</span><span class="janji-txt-print">Sanggup mematuhi tata tertib dan menerima sanksi bila melanggar.</span></div>
                         </div>
                         
-                        <!-- TTD Kepala Sekolah - FONT LEBIH BESAR -->
+                        <!-- TTD Kepala Sekolah - POSISI LEBIH ATAS -->
                         <div class="ttd-section-print">
                             <div class="ttd-box-print">
                                 <div class="ttd-title-print">Kepala SMP Negeri 9 Palu</div>
@@ -820,6 +823,7 @@
                             </div>
                         </div>
                         
+                        <!-- Footer BIRU - LEBIH TIPIS -->
                         <div class="back-footer-print">
                             <div class="validity-print">*Kartu ini berlaku selama masih menjadi siswa SMP Negeri 9 Palu</div>
                             <img src="${BARCODE_IMG}" class="barcode-print" alt="">
@@ -892,5 +896,3 @@
     </script>
 </body>
 </html>
-
-
